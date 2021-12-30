@@ -46,12 +46,12 @@ public class TaskSchedule {
         //只会在新任务列表数量比缓存的列表数量多的时候才认为出现了新的任务.
         if (pageResult.getRowCount() > GlobalVariable.taskCaches.getRowCount()) {
             //检查是否有新的任务
-            Collection<Task> diffObj = CollUtil.disjunction(pageResult.getResults(), GlobalVariable.taskCaches.getResults());
+            Collection<Task> diffedObjs = CollUtil.disjunction(pageResult.getResults(), GlobalVariable.taskCaches.getResults());
             //执行q群推送...
-            if (CollUtil.isNotEmpty(diffObj)) {
+            if (CollUtil.isNotEmpty(diffedObjs)) {
                 for (Long group : properties.getMiraiBotConfig().getGroups()) {
                     try {
-                        miraiService.sendGroupMessage(group, buildMessage(diffObj));
+                        miraiService.sendGroupMessage(group, buildMessage(diffedObjs));
                     } catch (NoGroupFoundException e) {
                         e.printStackTrace();
                     }
