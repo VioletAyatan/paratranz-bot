@@ -1,5 +1,8 @@
 package com.para.tranzai.tools;
 
+import com.para.tranzai.para.entity.Page;
+import com.para.tranzai.para.entity.PageResult;
+import com.para.tranzai.para.entity.Task;
 import com.para.tranzai.para.server.ParaService;
 import com.para.tranzai.properties.TranzaiProperties;
 import org.jetbrains.annotations.NotNull;
@@ -21,6 +24,11 @@ public class Initializer implements ApplicationListener<ApplicationReadyEvent> {
     @Override
     public void onApplicationEvent(@NotNull ApplicationReadyEvent event) {
         //初始化一些必要参数...
-        GlobalVariable.taskCaches = paraService.listTasks(properties.getProjectId()).getResults();
+        GlobalVariable.taskCaches = getAllTaskList();
+    }
+
+    private PageResult<Task> getAllTaskList() {
+        Integer rowCount = paraService.listTasks(new Page(1, 1), properties.getProjectId()).getRowCount();
+        return paraService.listTasks(new Page(1, rowCount), properties.getProjectId());
     }
 }

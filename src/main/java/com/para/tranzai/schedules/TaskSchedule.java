@@ -4,6 +4,8 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.para.tranzai.mirai.exception.NoGroupFoundException;
 import com.para.tranzai.mirai.server.MiraiService;
+import com.para.tranzai.para.entity.Page;
+import com.para.tranzai.para.entity.PageResult;
 import com.para.tranzai.para.entity.Task;
 import com.para.tranzai.para.server.ParaService;
 import com.para.tranzai.properties.TranzaiProperties;
@@ -17,7 +19,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
-import java.util.List;
 
 @Slf4j
 @Component
@@ -40,11 +41,13 @@ public class TaskSchedule {
      */
     @Scheduled(cron = "0 0/5 * * * ? ")
     public void schedulingTask() {
-        List<Task> taskList = paraService.listTasks(properties.getProjectId()).getResults();
-        Collection<Task> diffObj = CollUtil.disjunction(taskList, GlobalVariable.taskCaches);
-        //一种情况，如果
-        if (taskList.size() < GlobalVariable.taskCaches.size()) {
-
+        Integer rowCount = paraService.listTasks(new Page(1, 1), properties.getProjectId()).getRowCount();
+        PageResult<Task> pageResult = paraService.listTasks(new Page(1, rowCount), properties.getProjectId());
+        //只会在新任务列表数量比缓存的列表数量多的时候才认为出现了新的任务.
+        if (pageResult.getRowCount() > GlobalVariable.taskCaches.getRowCount()) {
+            //检查是否有新的任务
+            Collection<Task> diffObj = CollUtil.disjunction(pageResult.getResults(), GlobalVariable.taskCaches.getResults());
+            //执行q群推送...
             if (CollUtil.isNotEmpty(diffObj)) {
                 for (Long group : properties.getMiraiBotConfig().getGroups()) {
                     try {
@@ -55,7 +58,6 @@ public class TaskSchedule {
                 }
             }
         }
-//        }
     }
 
     private MessageChain buildMessage(Collection<Task> diffObj) {
