@@ -1,4 +1,4 @@
-import com.para.tranzai.Application;
+import com.para.tranzai.TranzaiApplication;
 import com.para.tranzai.para.entity.PageResult;
 import com.para.tranzai.para.server.ParaService;
 import com.para.tranzai.properties.TranzaiProperties;
@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest(classes = Application.class)
+@SpringBootTest(classes = TranzaiApplication.class)
 public class TestBean {
 
     @Autowired
