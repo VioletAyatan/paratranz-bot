@@ -1,4 +1,4 @@
-package com.para.tranzai.para.entity;
+package com.para.tranzai.para.entity.data;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
