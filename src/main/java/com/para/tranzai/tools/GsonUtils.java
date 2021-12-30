@@ -1,7 +1,6 @@
 package com.para.tranzai.tools;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.google.gson.*;
 
 import java.lang.reflect.Type;
 
@@ -32,5 +31,13 @@ public class GsonUtils {
 
     public static String toJson(Object obj, Type typeof) {
         return gson.toJson(obj, typeof);
+    }
+
+    public static JsonElement parseToJsonElement(String jsonStr) {
+        return JsonParser.parseString(jsonStr);
+    }
+
+    public static JsonElement parseToJsonElement(Object obj) {
+        return gson.toJsonTree(obj);
     }
 }
