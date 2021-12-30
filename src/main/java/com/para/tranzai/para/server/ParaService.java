@@ -2,6 +2,7 @@ package com.para.tranzai.para.server;
 
 import com.para.tranzai.constant.GameEnum;
 import com.para.tranzai.para.entity.*;
+import com.para.tranzai.para.entity.data.*;
 import org.springframework.lang.Nullable;
 
 import java.util.List;

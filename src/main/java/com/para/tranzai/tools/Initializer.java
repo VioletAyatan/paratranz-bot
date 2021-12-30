@@ -2,7 +2,7 @@ package com.para.tranzai.tools;
 
 import com.para.tranzai.para.entity.Page;
 import com.para.tranzai.para.entity.PageResult;
-import com.para.tranzai.para.entity.Task;
+import com.para.tranzai.para.entity.data.Task;
 import com.para.tranzai.para.server.ParaService;
 import com.para.tranzai.properties.TranzaiProperties;
 import org.jetbrains.annotations.NotNull;
