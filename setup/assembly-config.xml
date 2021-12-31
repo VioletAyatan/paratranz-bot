@@ -7,4 +7,31 @@
     </formats>
 
     <includeBaseDirectory>true</includeBaseDirectory>
+
+    <fileSets>
+        <fileSet>
+            <directory>src/main/resources</directory>
+            <includes>
+                <include>application-dev.yml</include>
+            </includes>
+            <outputDirectory>config</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>setup/scripts</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>start.sh</include>
+                <include>stop.sh</include>
+                <include>start.bat</include>
+                <include>stop.bat</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>target</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>tranzai.jar</include>
+            </includes>
+        </fileSet>
+    </fileSets>
 </assembly>
