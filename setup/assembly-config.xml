@@ -19,6 +19,7 @@
         <fileSet>
             <directory>setup/scripts</directory>
             <outputDirectory>/</outputDirectory>
+            <filtered>true</filtered>
             <includes>
                 <include>start.sh</include>
                 <include>stop.sh</include>
