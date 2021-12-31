@@ -4,8 +4,8 @@ dateTime=$(date +%Y%m%d%H%M%S)
 
 logFile=/opt/tranzai/logs
 
-if [ -e /opt/tranzai/log.out ]; then
-  mv log.out $logFile/log.out."$dateTime"
+if [ -e /opt/tranzai/log.file ]; then
+  mv log.file $logFile/log.file."$dateTime"
 fi
 
-nohup java -Xms500m -Xmx500m -Xmn250m -Xss256k -server -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005 -jar /opt/tranzai/tranzai.jar >log.out &
+nohup java -jar tranzai.jar > log.file 2>&1 &
