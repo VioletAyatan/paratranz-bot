@@ -20,14 +20,33 @@ public class GsonUtils {
                 .create();
     }
 
+    /**
+     * 从json字符串反序列化为java对象，此方法支持对带泛型的类进行反序列化操作.
+     * @param json json字符串
+     * @param type 指定的泛型类型，你可以使用{@link com.google.gson.reflect.TypeToken}获取类型。
+     * <p>例如：你需要获取{@code Collection<Foo>}的类型。你可以使用：</p>
+     * <pre>
+     *     Type typeOfT = new TypeToken&lt;Collection&lt;Foo&gt;&gt;(){}.getType();
+     * </pre> 来获取指定泛型类型。
+     */
     public static Object fromJson(String json, Type type) {
         return gson.fromJson(json, type);
     }
 
+    /**
+     * 从json字符串反序列化为java对象。
+     * @param json json字符串
+     * @param target 反序列化的目标对象
+     * @param <T> 所需对象的类型
+     */
     public static <T> T fromJson(String json, Class<T> target) {
         return gson.fromJson(json, target);
     }
 
+    /**
+     * 将java对象转换为json字符串
+     * @param obj java对象
+     */
     public static String toJson(Object obj) {
         return gson.toJson(obj);
     }
@@ -36,6 +55,10 @@ public class GsonUtils {
         return gson.toJson(obj, typeof);
     }
 
+    /**
+     * 判断是否是json字符串
+     * @param str 字符串
+     */
     public static boolean isJsonStr(String str) {
         try {
             JsonParser.parseString(str);
@@ -43,10 +66,5 @@ public class GsonUtils {
         } catch (JsonSyntaxException e) {
             return false;
         }
-    }
-
-    public static void main(String[] args) {
-        boolean jsonStr = isJsonStr("123123");
-        System.out.println("jsonStr = " + jsonStr);
     }
 }
