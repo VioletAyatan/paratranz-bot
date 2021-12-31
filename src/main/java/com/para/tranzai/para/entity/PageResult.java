@@ -13,9 +13,24 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class PageResult<T> {
+    /**
+     * 当前所在页
+     */
     private Integer page = 0;
+    /**
+     * 总共有多少页
+     */
     private Integer pageCount = 0;
+    /**
+     * 一页包含的内容数量
+     */
     private Integer pageSize = 0;
+    /**
+     * 真正的相应内容
+     */
     private List<T> results = new ArrayList<>();
+    /**
+     * 内容总数量
+     */
     private Integer rowCount = 0;
 }
