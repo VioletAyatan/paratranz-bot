@@ -6,6 +6,10 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * paraTranz返回的数据，如果有分页的情况下会使用此对象包裹.
+ * @param <T> 泛型.
+ */
 @Data
 @NoArgsConstructor
 public class PageResult<T> {

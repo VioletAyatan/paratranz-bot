@@ -3,6 +3,10 @@ package com.para.tranzai.para.entity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * 分页参数类
+ * 用于在调用paraTranzApi时传递分页参数使用.
+ */
 @Data
 @NoArgsConstructor
 public class Page {
