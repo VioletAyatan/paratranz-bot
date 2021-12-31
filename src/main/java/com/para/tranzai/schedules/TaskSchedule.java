@@ -46,29 +46,26 @@ public class TaskSchedule {
     /**
      * 定时遍历指定项目项目任务列表并给指定群组推送.
      */
-    @Scheduled(cron = "0 0/5 * * * ? ")
+    @Scheduled(cron = "0 0/1 * * * ? ")
     public void schedulingTask() {
         Integer rowCount = paraService.listTasks(new Page(1, 1), properties.getProjectId()).getRowCount();
         PageResult<Task> newTaskList = paraService.listTasks(new Page(1, rowCount), properties.getProjectId());
-        //只会在新任务列表数量比缓存的列表数量多的时候才认为出现了新的任务.
-        if (newTaskList.getRowCount() > GlobalVariable.taskCaches.getRowCount()) {
-            //检查是否有新的任务
-            List<Task> diffedObjs = CollUtil.disjunction(newTaskList.getResults(), GlobalVariable.taskCaches.getResults())
-                    .stream()
-                    //检查，创建时间在5分钟内的任务才视为新发布的任务.
-                    .filter(item -> DateUtil.parse(item.getCreatedAt()).isAfter(DateTime.now().offset(DateField.MINUTE, 5)))
-                    .collect(Collectors.toUnmodifiableList());
-            //执行q群推送...
-            if (CollUtil.isNotEmpty(diffedObjs)) {
-                for (Long id : properties.getMiraiBotConfig().getGroups()) {
-                    try {
-                        Group group = bot.getGroup(id);
-                        if (group != null) {
-                            group.sendMessage(buildMessage(group, diffedObjs));
-                        }
-                    } catch (NoGroupFoundException e) {
-                        e.printStackTrace();
+        //检查是否有新的任务
+        List<Task> diffedObjs = CollUtil.disjunction(newTaskList.getResults(), GlobalVariable.taskCaches.getResults())
+                .stream()
+                //时间检查，创建时间在5分钟内的任务才视为新发布的任务.
+                .filter(item -> DateUtil.parse(item.getCreatedAt()).isAfter(DateTime.now().offset(DateField.MINUTE, 5)))
+                .collect(Collectors.toUnmodifiableList());
+        //执行q群推送...
+        if (CollUtil.isNotEmpty(diffedObjs)) {
+            for (Long id : properties.getMiraiBotConfig().getGroups()) {
+                try {
+                    Group group = bot.getGroup(id);
+                    if (group != null) {
+                        group.sendMessage(buildMessage(group, diffedObjs));
                     }
+                } catch (NoGroupFoundException e) {
+                    e.printStackTrace();
                 }
             }
         }

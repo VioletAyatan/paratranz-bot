@@ -2,9 +2,8 @@ package com.para.tranzai.tools;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-import com.para.tranzai.para.entity.PageResult;
-import com.para.tranzai.para.entity.data.Issue;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 
 import java.lang.reflect.Type;
 
@@ -37,8 +36,17 @@ public class GsonUtils {
         return gson.toJson(obj, typeof);
     }
 
+    public static boolean isJsonStr(String str) {
+        try {
+            JsonParser.parseString(str);
+            return true;
+        } catch (JsonSyntaxException e) {
+            return false;
+        }
+    }
+
     public static void main(String[] args) {
-        Type type = new TypeToken<PageResult<Issue>>() {
-        }.getType();
+        boolean jsonStr = isJsonStr("123123");
+        System.out.println("jsonStr = " + jsonStr);
     }
 }

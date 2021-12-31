@@ -9,9 +9,9 @@ public class IssuePageResult<T> extends PageResult<T> {
     /**
      * 关闭的讨论数量
      */
-    private Integer closedCount;
+    private Integer closedCount = 0;
     /**
      * 打开的讨论数量
      */
-    private Integer openCount;
+    private Integer openCount = 0;
 }
