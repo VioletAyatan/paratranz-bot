@@ -1,5 +1,6 @@
 package com.para.tranzai.schedules;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.para.tranzai.para.entity.PageResult;
 import com.para.tranzai.para.entity.data.Application;
@@ -55,7 +56,7 @@ public class ApplicationSchedule {
                 .filter(item -> item.getStatus() == 0 && !isChecked.containsKey(item.getId()))
                 .collect(Collectors.toList());
         //如果待审核列表不为空，执行q群通知...
-        if (collect.isEmpty()) {
+        if (CollUtil.isNotEmpty(collect)) {
             for (Long id : properties.getMiraiBotConfig().getGroups()) {
                 Group group = bot.getGroup(id);
                 if (group != null) {
@@ -77,8 +78,9 @@ public class ApplicationSchedule {
     private MessageChain buildMessage(Group group, List<Application> collect) {
         MessageChainBuilder builder = new MessageChainBuilder();
         //如果是管理员，加入艾特全员操作.
-        if (group.getBotPermission().getLevel() == MemberPermission.ADMINISTRATOR.getLevel())
+        if (group.getBotPermission().getLevel() == MemberPermission.ADMINISTRATOR.getLevel()) {
             builder.append(AtAll.INSTANCE);
+        }
         for (Application application : collect) {
             Application.UserDTO user = application.getUser();
             builder.append(StrUtil.format("{} 申请加入项目组，请及时审核.", user.getUsername()));

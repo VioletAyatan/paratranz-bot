@@ -18,13 +18,18 @@
         </fileSet>
         <fileSet>
             <directory>setup/scripts</directory>
-            <outputDirectory>/</outputDirectory>
+            <outputDirectory>windows</outputDirectory>
             <filtered>true</filtered>
+            <includes>
+                <include>start.bat</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>setup/scripts</directory>
+            <outputDirectory>linux</outputDirectory>
             <includes>
                 <include>start.sh</include>
                 <include>stop.sh</include>
-                <include>start.bat</include>
-                <include>stop.bat</include>
             </includes>
         </fileSet>
         <fileSet>

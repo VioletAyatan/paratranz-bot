@@ -46,7 +46,7 @@ public class TaskSchedule {
     /**
      * 定时遍历指定项目项目任务列表并给指定群组推送.
      */
-    @Scheduled(cron = "0 0/1 * * * ? ")
+    @Scheduled(cron = "0 0/5 * * * ? ")
     public void schedulingTask() {
         Integer rowCount = paraService.listTasks(new Page(1, 1), properties.getProjectId()).getRowCount();
         PageResult<Task> newTaskList = paraService.listTasks(new Page(1, rowCount), properties.getProjectId());
