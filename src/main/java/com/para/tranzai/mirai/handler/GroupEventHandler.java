@@ -12,6 +12,5 @@ public class GroupEventHandler implements Consumer<GroupMessageEvent> {
 
     @Override
     public void accept(GroupMessageEvent event) {
-        System.out.println("event = " + event);
     }
 }
