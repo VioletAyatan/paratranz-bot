@@ -16,9 +16,9 @@ import net.mamoe.mirai.message.data.MessageChainBuilder;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -38,10 +38,10 @@ public class ApplicationSchedule {
     }
 
     /**
-     * 此变量用于记录当前已经推送过的申请信息.（防止重复推送）
-     * 每日零点清空.
+     * 此变量用于记录当前已经推送过的申请信息（防止重复推送）.
+     * 每日零点清空(也就意味着如果一个申请一天都没人处理，那么第二天会重新进行推送).
      */
-    private Map<Integer, Application> isChecked = new HashMap<>();
+    private Set<Integer> isChecked = new HashSet<>();
 
     /**
      * 定时任务，每隔5分钟检测一次申请列表，如果有待审核的申请则通知指定群组.
@@ -53,7 +53,7 @@ public class ApplicationSchedule {
         List<Application> collect = pageResult.getResults()
                 .stream()
                 //条件，状态0为待审核.并且不包含在已推送列表中.
-                .filter(item -> item.getStatus() == 0 && !isChecked.containsKey(item.getId()))
+                .filter(item -> item.getStatus() == 0 && !isChecked.contains(item.getId()))
                 .collect(Collectors.toList());
         //如果待审核列表不为空，执行q群通知...
         if (CollUtil.isNotEmpty(collect)) {
@@ -63,7 +63,7 @@ public class ApplicationSchedule {
                     group.sendMessage(buildMessage(group, collect));
                 }
             }
-            isChecked = collect.stream().collect(Collectors.toMap(Application::getId, application -> application));
+            isChecked = collect.stream().map(Application::getId).collect(Collectors.toSet());
         }
     }
 
