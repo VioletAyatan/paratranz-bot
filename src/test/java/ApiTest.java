@@ -17,7 +17,7 @@ public class ApiTest {
     private ParaService paraService;
 
     /**
-     * api测试.
+     * paraTranz-webapi测试.
      */
     @Test
     void apiTest() {
