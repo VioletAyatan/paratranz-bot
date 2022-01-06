@@ -32,9 +32,9 @@ jobs:
         uses: easingthemes/ssh-deploy@v2.2.11
         env:
           SOURCE: "target/tranzai.jar"
-          SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
-          REMOTE_HOST: ${{ secrets.REMOTE_SERVER__HOST }}
-          REMOTE_USER: ${{ secrets.SERVER_NAME }}
+          SSH_PRIVATE_KEY: ${{ secrets.ACCESS_KEY }}
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.HOST_USER }}
           TARGET: /opt/tranzai
 
 
