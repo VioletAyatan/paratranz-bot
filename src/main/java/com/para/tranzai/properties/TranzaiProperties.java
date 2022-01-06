@@ -3,11 +3,12 @@ package com.para.tranzai.properties;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
+
+import javax.annotation.ManagedBean;
 
 @Getter
 @Setter
-@Component
+@ManagedBean
 @ConfigurationProperties(prefix = "tranzai")
 public class TranzaiProperties {
     /**

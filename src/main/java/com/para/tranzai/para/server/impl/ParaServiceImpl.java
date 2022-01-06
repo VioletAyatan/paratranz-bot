@@ -10,11 +10,11 @@ import com.para.tranzai.para.entity.PageResult;
 import com.para.tranzai.para.entity.data.*;
 import com.para.tranzai.para.server.ParaService;
 import com.para.tranzai.tools.GsonUtils;
-import org.springframework.stereotype.Service;
 
+import javax.annotation.ManagedBean;
 import java.util.*;
 
-@Service
+@ManagedBean
 @SuppressWarnings("unchecked")
 public class ParaServiceImpl implements ParaService {
 

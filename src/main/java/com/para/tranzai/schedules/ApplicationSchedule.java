@@ -14,8 +14,8 @@ import net.mamoe.mirai.message.data.AtAll;
 import net.mamoe.mirai.message.data.MessageChain;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 
+import javax.annotation.ManagedBean;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -23,7 +23,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Slf4j
-@Component
+@ManagedBean
 public class ApplicationSchedule {
 
     private final ParaService paraService;

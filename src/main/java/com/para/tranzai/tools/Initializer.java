@@ -8,9 +8,10 @@ import com.para.tranzai.properties.TranzaiProperties;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
-import org.springframework.stereotype.Component;
 
-@Component
+import javax.annotation.ManagedBean;
+
+@ManagedBean
 public class Initializer implements ApplicationListener<ApplicationReadyEvent> {
 
     private final ParaService paraService;
