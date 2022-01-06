@@ -30,7 +30,7 @@ jobs:
       # deploy...
       - name: SSH deploy
         uses: easingthemes/ssh-deploy@v2.2.11
-        with:
+        env:
           SOURCE: "target/tranzai.jar"
           SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
           REMOTE_HOST: ${{ secrets.REMOTE_SERVER__HOST }}
