@@ -32,7 +32,7 @@ jobs:
         uses: easingthemes/ssh-deploy@v2.2.11
         with:
           SOURCE: "target/tranzai.jar"
-          SSH_PRIVATE_KEY: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC4G5GCFEFtJcJQLh1oeEVxV9BplLVym+BFdR+kkCYrdNl8IOS2eDwzFGAANihQZNCrZ27wtBezCotDFZDVa3nTAqcQr61K2H+rdQveo+nU0+V58fZfWHMFzoENLgWnFSg3R4Kx89PF6Osd6J6Rt3lplVLxQNO+3pedj6ZCa0im1r7yKn/DNlMZY/NIlyUMf4wpD91UPQNZcJuXSf+5y0Kvn+3o2Th5U8gnL+G9npEoGMYn/P4XknyUl1Q5YWfhQeEODhSPotqRt5C5Sai4MGrfHpGyTwS6Puq1kuvinO7A1eNXaTgQI+o9qgSoACpRz7GZy2MkmG2lJoU9Xma6ei/eaY8hC/Z8CvGSiFos6JUJhxveby2lQSDZPFBbiWd84PF05uUBbs0rEQMm/YDNIuR9smCI2ZpQaRFy0w3W2XaAT5uLmoSeY6vBeLIRqKT0qKlzwPB0R5jywroediUctFYqLD8L5dn5y07J2YqJIj3OEivjUp7f8v0xV5PnwnJGwW0= lichengkun@csrd.cn
+          SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
           REMOTE_HOST: 121.5.179.246
           REMOTE_USER: root
           TARGET: /opt/tranzai
