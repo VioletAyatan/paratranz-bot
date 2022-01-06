@@ -15,18 +15,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      # 设置java运行环境.
-      - name: Set up JDK 11
+      # Setup java environment...
+      - name: Setup java environment
         uses: actions/setup-java@v2
         with:
           java-version: '11'
           distribution: 'adopt'
           cache: maven
-      # 执行maven打包.
+      # Build with maven...
       - name: Build with Maven
         run: mvn -B package --file pom.xml
-      # 打印一下目录
+      # list dir..
       - run: ls target
-      # 传输文件到远程服务器并部署.
-#      - name: Transfer to service..
+      # deploy...
+      - name: SSH deploy
+        uses: easingthemes/ssh-deploy@v2.2.11
+        with:
+          SOURCE: "target/tranzai.jar"
+          SSH_PRIVATE_KEY: {{ secrets.SERVER_SSH_KEY }}
+          REMOTE_HOST: {{ secrets.REMOTE_SERVER__HOST }}
+          REMOTE_USER: {{ secrets.SERVER_NAME }}
+          TARGET: /opt/tranzai
+
 
