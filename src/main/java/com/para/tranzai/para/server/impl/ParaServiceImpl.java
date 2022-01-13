@@ -15,7 +15,6 @@ import javax.annotation.ManagedBean;
 import java.util.*;
 
 @ManagedBean
-@SuppressWarnings("unchecked")
 public class ParaServiceImpl implements ParaService {
 
     private static final String PARA_API_URL = "https://paratranz.cn/api";
@@ -62,9 +61,8 @@ public class ParaServiceImpl implements ParaService {
         params.put("project", projectId);
         String s = HttpUtil.get(HISTORY_API, params);
         if (GsonUtil.isJsonStr(s)) {
-            return GsonUtil.fromJson(s,
-                    new TypeToken<>() {
-                    });
+            return GsonUtil.fromJson(s, new TypeToken<>() {
+            });
         }
         return new PageResult<>();
     }
