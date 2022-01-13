@@ -35,7 +35,7 @@ public class ParaServiceImpl implements ParaService {
     public PageResult<Project> listProjects(Page page, GameEnum gameEnum) {
         String s = HttpUtil.get(PROJECT_API, BeanUtil.beanToMap(page, false, true));
         if (GsonUtils.isJsonStr(s)) {
-            return GsonUtils.fromJson(s, new TypeToken<PageResult<Project>>() {
+            return GsonUtils.fromJson(s, new TypeToken<>() {
             });
         }
         return new PageResult<>();
@@ -62,7 +62,7 @@ public class ParaServiceImpl implements ParaService {
         params.put("project", projectId);
         String s = HttpUtil.get(HISTORY_API, params);
         if (GsonUtils.isJsonStr(s)) {
-            return GsonUtils.fromJson(s, new TypeToken<PageResult<History>>() {
+            return GsonUtils.fromJson(s, new TypeToken<>() {
             });
         }
         return new PageResult<>();
@@ -78,7 +78,8 @@ public class ParaServiceImpl implements ParaService {
         String s = HttpUtil.get(PROJECT_API + "/" + projectId + "/announcements",
                 BeanUtil.beanToMap(page, false, true));
         if (GsonUtils.isJsonStr(s)) {
-            return GsonUtils.fromJson(s, new TypeToken<PageResult<Announcement>>() {});
+            return GsonUtils.fromJson(s, new TypeToken<>() {
+            });
         }
         return new PageResult<>();
     }
@@ -87,7 +88,8 @@ public class ParaServiceImpl implements ParaService {
     public PageResult<Task> listTasks(Page page, String projectId) {
         String str = HttpUtil.get(PROJECT_API + "/" + projectId + "/tasks", BeanUtil.beanToMap(page, false, true));
         if (GsonUtils.isJsonStr(str)) {
-            return GsonUtils.fromJson(str, new TypeToken<PageResult<Task>>() {});
+            return GsonUtils.fromJson(str, new TypeToken<>() {
+            });
         }
         return new PageResult<>();
     }
@@ -101,7 +103,8 @@ public class ParaServiceImpl implements ParaService {
     public List<File> listFiles(String projectId) {
         String str = HttpUtil.get(PROJECT_API + "/" + projectId + "/files");
         if (GsonUtils.isJsonStr(str)) {
-            return GsonUtils.fromJson(str, new TypeToken<List<File>>() {});
+            return GsonUtils.fromJson(str, new TypeToken<>() {
+            });
         }
         return Collections.emptyList();
     }
@@ -110,7 +113,8 @@ public class ParaServiceImpl implements ParaService {
     public PageResult<Terms> listTerms(Page page, String projectId) {
         String str = HttpUtil.get(PROJECT_API + "/" + projectId + "/terms", BeanUtil.beanToMap(page, false, true));
         if (GsonUtils.isJsonStr(str)) {
-            return GsonUtils.fromJson(str, new TypeToken<PageResult<Terms>>() {});
+            return GsonUtils.fromJson(str, new TypeToken<>() {
+            });
         }
         return new PageResult<>();
     }
@@ -138,7 +142,8 @@ public class ParaServiceImpl implements ParaService {
 
         String str = HttpUtil.get(ISSUE_API, params);
         if (GsonUtils.isJsonStr(str)) {
-            return GsonUtils.fromJson(str, new TypeToken<IssuePageResult<Issue>>() {});
+            return GsonUtils.fromJson(str, new TypeToken<>() {
+            });
         }
         return new IssuePageResult<>();
     }
@@ -147,7 +152,8 @@ public class ParaServiceImpl implements ParaService {
     public List<Member> getMembers(String projectId) {
         String s = HttpUtil.get(PROJECT_API + "/" + projectId + "/members");
         if (GsonUtils.isJsonStr(s)) {
-            return GsonUtils.fromJson(s, new TypeToken<List<Member>>() {});
+            return GsonUtils.fromJson(s, new TypeToken<>() {
+            });
         }
         return Collections.emptyList();
     }
@@ -158,7 +164,8 @@ public class ParaServiceImpl implements ParaService {
         Optional.ofNullable(status).ifPresent(value -> params.put("status", value));
         String s = HttpUtil.get(PROJECT_API + "/" + projectId + "/applications", params);
         if (GsonUtils.isJsonStr(s)) {
-            return GsonUtils.fromJson(s, new TypeToken<PageResult<Application>>() {});
+            return GsonUtils.fromJson(s, new TypeToken<>() {
+            });
         }
         return new PageResult<>();
     }
