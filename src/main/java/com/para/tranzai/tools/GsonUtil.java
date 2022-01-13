@@ -12,7 +12,7 @@ import java.lang.reflect.Type;
  * 一个简单的Gson序列化与反序列化工具，对gson方法做了个包装.
  * @author lichengkun
  */
-public class GsonUtils {
+public class GsonUtil {
 
     private static final Gson gson;
 

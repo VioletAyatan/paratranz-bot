@@ -9,7 +9,7 @@ import com.para.tranzai.para.entity.Page;
 import com.para.tranzai.para.entity.PageResult;
 import com.para.tranzai.para.entity.data.*;
 import com.para.tranzai.para.server.ParaService;
-import com.para.tranzai.tools.GsonUtils;
+import com.para.tranzai.tools.GsonUtil;
 
 import javax.annotation.ManagedBean;
 import java.util.*;
@@ -34,15 +34,15 @@ public class ParaServiceImpl implements ParaService {
     @Override
     public PageResult<Project> listProjects(Page page, GameEnum gameEnum) {
         String s = HttpUtil.get(PROJECT_API, BeanUtil.beanToMap(page, false, true));
-        if (GsonUtils.isJsonStr(s)) {
-            return GsonUtils.fromJson(s, new TypeToken<PageResult<Project>>() {});
+        if (GsonUtil.isJsonStr(s)) {
+            return GsonUtil.fromJson(s, new TypeToken<PageResult<Project>>() {});
         }
         return new PageResult<>();
     }
 
     @Override
     public ProjectOverview getProjectOverview(String projectId) {
-        return GsonUtils.fromJson(HttpUtil.get(PROJECT_API + "/" + projectId), ProjectOverview.class);
+        return GsonUtil.fromJson(HttpUtil.get(PROJECT_API + "/" + projectId), ProjectOverview.class);
     }
 
     @Override
@@ -60,8 +60,8 @@ public class ParaServiceImpl implements ParaService {
         }
         params.put("project", projectId);
         String s = HttpUtil.get(HISTORY_API, params);
-        if (GsonUtils.isJsonStr(s)) {
-            return GsonUtils.fromJson(s,
+        if (GsonUtil.isJsonStr(s)) {
+            return GsonUtil.fromJson(s,
                     new TypeToken<PageResult<History>>() {
                     });
         }
@@ -77,8 +77,8 @@ public class ParaServiceImpl implements ParaService {
     public PageResult<Announcement> listAnnouncements(Page page, String projectId) {
         String s = HttpUtil.get(PROJECT_API + "/" + projectId + "/announcements",
                 BeanUtil.beanToMap(page, false, true));
-        if (GsonUtils.isJsonStr(s)) {
-            return GsonUtils.fromJson(s, new TypeToken<PageResult<Announcement>>() {});
+        if (GsonUtil.isJsonStr(s)) {
+            return GsonUtil.fromJson(s, new TypeToken<PageResult<Announcement>>() {});
         }
         return new PageResult<>();
     }
@@ -86,8 +86,8 @@ public class ParaServiceImpl implements ParaService {
     @Override
     public PageResult<Task> listTasks(Page page, String projectId) {
         String str = HttpUtil.get(PROJECT_API + "/" + projectId + "/tasks", BeanUtil.beanToMap(page, false, true));
-        if (GsonUtils.isJsonStr(str)) {
-            return GsonUtils.fromJson(str, new TypeToken<PageResult<Task>>() {});
+        if (GsonUtil.isJsonStr(str)) {
+            return GsonUtil.fromJson(str, new TypeToken<PageResult<Task>>() {});
         }
         return new PageResult<>();
     }
@@ -100,8 +100,8 @@ public class ParaServiceImpl implements ParaService {
     @Override
     public List<File> listFiles(String projectId) {
         String str = HttpUtil.get(PROJECT_API + "/" + projectId + "/files");
-        if (GsonUtils.isJsonStr(str)) {
-            return GsonUtils.fromJson(str, new TypeToken<List<File>>() {});
+        if (GsonUtil.isJsonStr(str)) {
+            return GsonUtil.fromJson(str, new TypeToken<List<File>>() {});
         }
         return Collections.emptyList();
     }
@@ -109,8 +109,8 @@ public class ParaServiceImpl implements ParaService {
     @Override
     public PageResult<Terms> listTerms(Page page, String projectId) {
         String str = HttpUtil.get(PROJECT_API + "/" + projectId + "/terms", BeanUtil.beanToMap(page, false, true));
-        if (GsonUtils.isJsonStr(str)) {
-            return GsonUtils.fromJson(str, new TypeToken<PageResult<Terms>>() {});
+        if (GsonUtil.isJsonStr(str)) {
+            return GsonUtil.fromJson(str, new TypeToken<PageResult<Terms>>() {});
         }
         return new PageResult<>();
     }
@@ -137,8 +137,8 @@ public class ParaServiceImpl implements ParaService {
         params.put("status", status);
 
         String str = HttpUtil.get(ISSUE_API, params);
-        if (GsonUtils.isJsonStr(str)) {
-            return GsonUtils.fromJson(str, new TypeToken<IssuePageResult<Issue>>() {});
+        if (GsonUtil.isJsonStr(str)) {
+            return GsonUtil.fromJson(str, new TypeToken<IssuePageResult<Issue>>() {});
         }
         return new IssuePageResult<>();
     }
@@ -146,8 +146,8 @@ public class ParaServiceImpl implements ParaService {
     @Override
     public List<Member> getMembers(String projectId) {
         String s = HttpUtil.get(PROJECT_API + "/" + projectId + "/members");
-        if (GsonUtils.isJsonStr(s)) {
-            return GsonUtils.fromJson(s, new TypeToken<List<Member>>() {});
+        if (GsonUtil.isJsonStr(s)) {
+            return GsonUtil.fromJson(s, new TypeToken<List<Member>>() {});
         }
         return Collections.emptyList();
     }
@@ -157,8 +157,8 @@ public class ParaServiceImpl implements ParaService {
         Map<String, Object> params = BeanUtil.beanToMap(Optional.ofNullable(page).orElse(new Page()), false, true);
         Optional.ofNullable(status).ifPresent(value -> params.put("status", value));
         String s = HttpUtil.get(PROJECT_API + "/" + projectId + "/applications", params);
-        if (GsonUtils.isJsonStr(s)) {
-            return GsonUtils.fromJson(s, new TypeToken<PageResult<Application>>() {});
+        if (GsonUtil.isJsonStr(s)) {
+            return GsonUtil.fromJson(s, new TypeToken<PageResult<Application>>() {});
         }
         return new PageResult<>();
     }
