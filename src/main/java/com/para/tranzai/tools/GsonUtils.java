@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 
@@ -26,11 +27,11 @@ public class GsonUtils {
      * @param type 指定的泛型类型，你可以使用{@link com.google.gson.reflect.TypeToken}获取类型。
      * <p>例如：你需要获取{@code Collection<Foo>}的类型。你可以使用：</p>
      * <pre>
-     *     Type typeOfT = new TypeToken&lt;Collection&lt;Foo&gt;&gt;(){}.getType();
+     *     new TypeToken&lt;Collection&lt;Foo&gt;&gt;(){};
      * </pre> 来获取指定泛型类型。
      */
-    public static Object fromJson(String json, Type type) {
-        return gson.fromJson(json, type);
+    public static <T> T fromJson(String json, TypeToken<T> type) {
+        return gson.fromJson(json, type.getType());
     }
 
     /**
