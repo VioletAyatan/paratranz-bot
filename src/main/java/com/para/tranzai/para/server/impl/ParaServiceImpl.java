@@ -35,7 +35,8 @@ public class ParaServiceImpl implements ParaService {
     public PageResult<Project> listProjects(Page page, GameEnum gameEnum) {
         String s = HttpUtil.get(PROJECT_API, BeanUtil.beanToMap(page, false, true));
         if (GsonUtil.isJsonStr(s)) {
-            return GsonUtil.fromJson(s, new TypeToken<PageResult<Project>>() {});
+            return GsonUtil.fromJson(s, new TypeToken<>() {
+            });
         }
         return new PageResult<>();
     }
@@ -62,7 +63,7 @@ public class ParaServiceImpl implements ParaService {
         String s = HttpUtil.get(HISTORY_API, params);
         if (GsonUtil.isJsonStr(s)) {
             return GsonUtil.fromJson(s,
-                    new TypeToken<PageResult<History>>() {
+                    new TypeToken<>() {
                     });
         }
         return new PageResult<>();
@@ -78,7 +79,8 @@ public class ParaServiceImpl implements ParaService {
         String s = HttpUtil.get(PROJECT_API + "/" + projectId + "/announcements",
                 BeanUtil.beanToMap(page, false, true));
         if (GsonUtil.isJsonStr(s)) {
-            return GsonUtil.fromJson(s, new TypeToken<PageResult<Announcement>>() {});
+            return GsonUtil.fromJson(s, new TypeToken<>() {
+            });
         }
         return new PageResult<>();
     }
@@ -87,7 +89,8 @@ public class ParaServiceImpl implements ParaService {
     public PageResult<Task> listTasks(Page page, String projectId) {
         String str = HttpUtil.get(PROJECT_API + "/" + projectId + "/tasks", BeanUtil.beanToMap(page, false, true));
         if (GsonUtil.isJsonStr(str)) {
-            return GsonUtil.fromJson(str, new TypeToken<PageResult<Task>>() {});
+            return GsonUtil.fromJson(str, new TypeToken<>() {
+            });
         }
         return new PageResult<>();
     }
@@ -101,7 +104,8 @@ public class ParaServiceImpl implements ParaService {
     public List<File> listFiles(String projectId) {
         String str = HttpUtil.get(PROJECT_API + "/" + projectId + "/files");
         if (GsonUtil.isJsonStr(str)) {
-            return GsonUtil.fromJson(str, new TypeToken<List<File>>() {});
+            return GsonUtil.fromJson(str, new TypeToken<>() {
+            });
         }
         return Collections.emptyList();
     }
@@ -110,7 +114,8 @@ public class ParaServiceImpl implements ParaService {
     public PageResult<Terms> listTerms(Page page, String projectId) {
         String str = HttpUtil.get(PROJECT_API + "/" + projectId + "/terms", BeanUtil.beanToMap(page, false, true));
         if (GsonUtil.isJsonStr(str)) {
-            return GsonUtil.fromJson(str, new TypeToken<PageResult<Terms>>() {});
+            return GsonUtil.fromJson(str, new TypeToken<>() {
+            });
         }
         return new PageResult<>();
     }
@@ -138,7 +143,8 @@ public class ParaServiceImpl implements ParaService {
 
         String str = HttpUtil.get(ISSUE_API, params);
         if (GsonUtil.isJsonStr(str)) {
-            return GsonUtil.fromJson(str, new TypeToken<IssuePageResult<Issue>>() {});
+            return GsonUtil.fromJson(str, new TypeToken<>() {
+            });
         }
         return new IssuePageResult<>();
     }
@@ -147,7 +153,8 @@ public class ParaServiceImpl implements ParaService {
     public List<Member> getMembers(String projectId) {
         String s = HttpUtil.get(PROJECT_API + "/" + projectId + "/members");
         if (GsonUtil.isJsonStr(s)) {
-            return GsonUtil.fromJson(s, new TypeToken<List<Member>>() {});
+            return GsonUtil.fromJson(s, new TypeToken<>() {
+            });
         }
         return Collections.emptyList();
     }
@@ -158,7 +165,8 @@ public class ParaServiceImpl implements ParaService {
         Optional.ofNullable(status).ifPresent(value -> params.put("status", value));
         String s = HttpUtil.get(PROJECT_API + "/" + projectId + "/applications", params);
         if (GsonUtil.isJsonStr(s)) {
-            return GsonUtil.fromJson(s, new TypeToken<PageResult<Application>>() {});
+            return GsonUtil.fromJson(s, new TypeToken<>() {
+            });
         }
         return new PageResult<>();
     }
