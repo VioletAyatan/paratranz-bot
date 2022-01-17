@@ -34,7 +34,7 @@ public class TranzaiProperties {
         /**
          * 配置机器人默认转发消息到哪些群组.
          */
-        private Long[] groups;
+        private Long[] groups = new Long[0];
 
         public Long getqq() {
             return qq;

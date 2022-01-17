@@ -71,7 +71,7 @@ public class ApplicationSchedule {
      * 每日0点运行
      */
     @Scheduled(cron = "0 0 0 * * ? ")
-    public void resetIsChecked() {
+    public void resetChecked() {
         isChecked.clear();
     }
 
