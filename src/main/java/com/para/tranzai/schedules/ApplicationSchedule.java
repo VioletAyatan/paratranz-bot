@@ -30,18 +30,17 @@ public class ApplicationSchedule {
     private final TranzaiProperties properties;
 
     private final Bot bot;
+    /**
+     * 此变量用于记录当前已经推送过的申请信息（防止重复推送）.
+     * 每日零点清空(也就意味着如果一个申请一天都没人处理，那么第二天会重新进行推送).
+     */
+    private Set<Integer> isChecked = new HashSet<>();
 
     public ApplicationSchedule(ParaService paraService, TranzaiProperties properties, Bot bot) {
         this.paraService = paraService;
         this.properties = properties;
         this.bot = bot;
     }
-
-    /**
-     * 此变量用于记录当前已经推送过的申请信息（防止重复推送）.
-     * 每日零点清空(也就意味着如果一个申请一天都没人处理，那么第二天会重新进行推送).
-     */
-    private Set<Integer> isChecked = new HashSet<>();
 
     /**
      * 定时任务，每隔5分钟检测一次申请列表，如果有待审核的申请则通知指定群组.
@@ -79,14 +78,16 @@ public class ApplicationSchedule {
         MessageChainBuilder builder = new MessageChainBuilder();
         //如果是管理员，加入艾特全员操作.
         if (group.getBotPermission().getLevel() == MemberPermission.ADMINISTRATOR.getLevel()) {
-            builder.append(AtAll.INSTANCE);
+            builder.append(AtAll.INSTANCE).append("\n");
         }
         for (Application application : collect) {
             Application.UserDTO user = application.getUser();
-            builder.append(StrUtil.format("{} 申请加入项目组，请及时审核.", user.getUsername()));
-            builder.append(StrUtil.format("游戏时间 {} 小时，英语等级：{}",
-                    application.getDetail().getGameTime(), application.getDetail().getEnglish().getLevel()));
-            builder.append("\n");
+            builder.append(StrUtil.format("{} 申请加入项目组，请及时审核。\n", user.getUsername()));
+            builder.append(StrUtil.format("游戏时间 {}，英语等级：{}\n",
+                    application.getDetail().getGameTime(),
+                    application.getDetail().getEnglish().getLevel())
+            );
+            builder.append(StrUtil.format(application.getReason()));
         }
         return builder.build();
     }
