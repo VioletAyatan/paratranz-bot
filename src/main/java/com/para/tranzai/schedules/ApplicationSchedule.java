@@ -87,7 +87,9 @@ public class ApplicationSchedule {
                     application.getDetail().getGameTime(),
                     application.getDetail().getEnglish().getLevel())
             );
-            builder.append(StrUtil.format(application.getReason()));
+            if (StrUtil.isNotBlank(application.getContent())) {
+                builder.append(StrUtil.format(application.getContent()));
+            }
         }
         return builder.build();
     }
