@@ -19,17 +19,15 @@ import net.mamoe.mirai.contact.MemberPermission;
 import net.mamoe.mirai.message.data.AtAll;
 import net.mamoe.mirai.message.data.MessageChain;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.scheduling.annotation.Scheduled;
 
-import javax.annotation.ManagedBean;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
-@ManagedBean
-@DependsOn("miraiBot")
+//@ManagedBean
+//@DependsOn("miraiBot")
 public class TaskSchedule {
 
     private final TranzaiProperties properties;

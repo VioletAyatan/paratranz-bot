@@ -43,9 +43,9 @@ public class ApplicationSchedule {
     }
 
     /**
-     * 定时任务，每隔5分钟检测一次申请列表，如果有待审核的申请则通知指定群组.
+     * 定时任务，每隔2分钟检测一次申请列表，如果有待审核的申请则通知指定群组.
      */
-    @Scheduled(fixedDelay = 5, timeUnit = TimeUnit.MINUTES)
+    @Scheduled(fixedDelay = 2, timeUnit = TimeUnit.MINUTES)
     public void schedulingApplication() {
         PageResult<Application> pageResult = paraService.listApplications(properties.getProjectId());
         // 待审核列表.
