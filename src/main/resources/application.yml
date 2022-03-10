@@ -1,3 +1,10 @@
-spring:
-  profiles:
-    active: dev
+system:
+  project-id: 967
+  bot-config:
+    qq: 2329340232
+    groups: 672777697
+    password: Heikediguo123
+  module-control:
+    para-active: true
+    mirai-active: false
+
