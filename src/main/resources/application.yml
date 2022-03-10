@@ -5,6 +5,6 @@ system:
     groups: 672777697
     password: Heikediguo123
   module-control:
-    para-active: true
+    para-active: false
     mirai-active: false
 
