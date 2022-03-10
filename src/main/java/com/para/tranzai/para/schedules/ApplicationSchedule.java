@@ -5,7 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import com.para.tranzai.para.entity.PageResult;
 import com.para.tranzai.para.entity.data.Application;
 import com.para.tranzai.para.server.ParaService;
-import com.para.tranzai.properties.TranzaiProperties;
+import com.para.tranzai.properties.SystemProperties;
 import lombok.extern.slf4j.Slf4j;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.contact.Group;
@@ -15,7 +15,6 @@ import net.mamoe.mirai.message.data.MessageChain;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
 import org.springframework.scheduling.annotation.Scheduled;
 
-import javax.annotation.ManagedBean;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -23,11 +22,10 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Slf4j
-@ManagedBean
 public class ApplicationSchedule {
 
     private final ParaService paraService;
-    private final TranzaiProperties properties;
+    private final SystemProperties properties;
 
     private final Bot bot;
     /**
@@ -36,7 +34,7 @@ public class ApplicationSchedule {
      */
     private Set<Integer> isChecked = new HashSet<>();
 
-    public ApplicationSchedule(ParaService paraService, TranzaiProperties properties, Bot bot) {
+    public ApplicationSchedule(ParaService paraService, SystemProperties properties, Bot bot) {
         this.paraService = paraService;
         this.properties = properties;
         this.bot = bot;
@@ -56,7 +54,7 @@ public class ApplicationSchedule {
                 .collect(Collectors.toList());
         //如果待审核列表不为空，执行q群通知...
         if (CollUtil.isNotEmpty(collect)) {
-            for (Long id : properties.getMiraiBotConfig().getGroups()) {
+            for (Long id : properties.getBotConfig().getGroups()) {
                 Group group = bot.getGroup(id);
                 if (group != null) {
                     group.sendMessage(buildMessage(group, collect));

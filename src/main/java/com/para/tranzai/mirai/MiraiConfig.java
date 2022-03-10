@@ -3,7 +3,8 @@ package com.para.tranzai.mirai;
 import com.para.tranzai.mirai.handler.FriendEventHandler;
 import com.para.tranzai.mirai.handler.GroupEventHandler;
 import com.para.tranzai.mirai.handler.StrangerMessageHandler;
-import com.para.tranzai.properties.TranzaiProperties;
+import com.para.tranzai.properties.SystemProperties;
+import lombok.extern.slf4j.Slf4j;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.BotFactory;
 import net.mamoe.mirai.event.GlobalEventChannel;
@@ -11,29 +12,33 @@ import net.mamoe.mirai.event.events.FriendMessageEvent;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.event.events.StrangerMessageEvent;
 import net.mamoe.mirai.utils.BotConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+@Slf4j
 @Configuration
+@ConditionalOnProperty(name = "system.module-control.mirai-active", havingValue = "true")
 public class MiraiConfig {
 
     private final FriendEventHandler friendEventHandler;
     private final GroupEventHandler groupEventHandler;
     private final StrangerMessageHandler strangerMessageHandler;
 
-    private final TranzaiProperties properties;
+    private final SystemProperties properties;
 
     public MiraiConfig(FriendEventHandler friendEventHandler, GroupEventHandler groupEventHandler,
-                       StrangerMessageHandler strangerMessageHandler, TranzaiProperties properties) {
+                       StrangerMessageHandler strangerMessageHandler, SystemProperties properties) {
         this.friendEventHandler = friendEventHandler;
         this.groupEventHandler = groupEventHandler;
         this.strangerMessageHandler = strangerMessageHandler;
         this.properties = properties;
+        log.info("Mirai-module activated.");
     }
 
     @Bean
     public Bot miraiBot() {
-        Bot bot = BotFactory.INSTANCE.newBot(properties.getMiraiBotConfig().getqq(), properties.getMiraiBotConfig().getPassword(), botConfiguration());
+        Bot bot = BotFactory.INSTANCE.newBot(properties.getBotConfig().getQQ(), properties.getBotConfig().getPassword(), botConfiguration());
         bot.login();
         addEventListeners();
         return bot;

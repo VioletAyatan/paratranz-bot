@@ -10,7 +10,7 @@ import com.para.tranzai.para.entity.Page;
 import com.para.tranzai.para.entity.PageResult;
 import com.para.tranzai.para.entity.data.Task;
 import com.para.tranzai.para.server.ParaService;
-import com.para.tranzai.properties.TranzaiProperties;
+import com.para.tranzai.properties.SystemProperties;
 import com.para.tranzai.tools.GlobalVariable;
 import lombok.extern.slf4j.Slf4j;
 import net.mamoe.mirai.Bot;
@@ -26,16 +26,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
-//@ManagedBean
-//@DependsOn("miraiBot")
 public class TaskSchedule {
 
-    private final TranzaiProperties properties;
+    private final SystemProperties properties;
     private final ParaService paraService;
 
     private final Bot bot;
 
-    public TaskSchedule(TranzaiProperties properties, ParaService paraService, Bot bot) {
+    public TaskSchedule(SystemProperties properties, ParaService paraService, Bot bot) {
         this.properties = properties;
         this.paraService = paraService;
         this.bot = bot;
@@ -56,7 +54,7 @@ public class TaskSchedule {
                 .collect(Collectors.toUnmodifiableList());
         //执行q群推送...
         if (CollUtil.isNotEmpty(diffedObjs)) {
-            for (Long id : properties.getMiraiBotConfig().getGroups()) {
+            for (Long id : properties.getBotConfig().getGroups()) {
                 try {
                     Group group = bot.getGroup(id);
                     if (group != null) {
