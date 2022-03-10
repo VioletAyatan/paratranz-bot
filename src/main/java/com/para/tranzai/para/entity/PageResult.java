@@ -3,7 +3,7 @@ package com.para.tranzai.para.entity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -28,7 +28,7 @@ public class PageResult<T> {
     /**
      * 真正的相应内容
      */
-    private List<T> results = new ArrayList<>();
+    private List<T> results = Collections.emptyList();
     /**
      * 内容总数量
      */

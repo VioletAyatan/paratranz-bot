@@ -1,4 +1,4 @@
-import com.para.tranzai.constant.GameEnum;
+import com.para.tranzai.para.constant.GameEnum;
 import com.para.tranzai.para.entity.IssuePageResult;
 import com.para.tranzai.para.entity.PageResult;
 import com.para.tranzai.para.entity.data.*;

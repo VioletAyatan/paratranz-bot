@@ -3,7 +3,7 @@ package com.para.tranzai.para.server.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.http.HttpUtil;
 import com.google.gson.reflect.TypeToken;
-import com.para.tranzai.constant.GameEnum;
+import com.para.tranzai.para.constant.GameEnum;
 import com.para.tranzai.para.entity.IssuePageResult;
 import com.para.tranzai.para.entity.Page;
 import com.para.tranzai.para.entity.PageResult;

@@ -1,4 +1,4 @@
-package com.para.tranzai.schedules;
+package com.para.tranzai.para.schedules;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateField;

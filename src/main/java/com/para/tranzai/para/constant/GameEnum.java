@@ -1,4 +1,4 @@
-package com.para.tranzai.constant;
+package com.para.tranzai.para.constant;
 
 import lombok.Getter;
 

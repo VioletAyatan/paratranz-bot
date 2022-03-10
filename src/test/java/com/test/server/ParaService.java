@@ -1,6 +1,6 @@
 package com.test.server;
 
-import com.para.tranzai.constant.GameEnum;
+import com.para.tranzai.para.constant.GameEnum;
 import com.para.tranzai.para.entity.IssuePageResult;
 import com.para.tranzai.para.entity.Page;
 import com.para.tranzai.para.entity.PageResult;
