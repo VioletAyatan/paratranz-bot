@@ -3,6 +3,8 @@ package com.para.tranzai.mirai;
 import com.para.tranzai.mirai.handler.FriendEventHandler;
 import com.para.tranzai.mirai.handler.GroupEventHandler;
 import com.para.tranzai.mirai.handler.StrangerMessageHandler;
+import com.para.tranzai.mirai.server.MiraiService;
+import com.para.tranzai.mirai.server.impl.MiraiServiceImpl;
 import com.para.tranzai.properties.SystemProperties;
 import lombok.extern.slf4j.Slf4j;
 import net.mamoe.mirai.Bot;
@@ -62,6 +64,11 @@ public class MiraiConfig {
         eventChannel.subscribeAlways(FriendMessageEvent.class, friendEventHandler);
         //陌生人消息...
         eventChannel.subscribeAlways(StrangerMessageEvent.class, strangerMessageHandler);
+    }
+
+    @Bean
+    public MiraiService miraiService() {
+        return new MiraiServiceImpl(miraiBot());
     }
 
 }

@@ -10,10 +10,7 @@ import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.message.MessageReceipt;
 import net.mamoe.mirai.message.data.Message;
 
-import javax.annotation.ManagedBean;
-
 @Slf4j
-@ManagedBean
 public class MiraiServiceImpl implements MiraiService {
 
     private final Bot bot;

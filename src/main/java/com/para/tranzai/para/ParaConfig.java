@@ -20,10 +20,10 @@ public class ParaConfig {
     private final Bot bot;
 
     public ParaConfig(ParaService paraService, SystemProperties systemProperties, Bot bot) {
+        log.info("ParaTranz-module activated.");
         this.paraService = paraService;
         this.systemProperties = systemProperties;
         this.bot = bot;
-        log.info("ParaTranz-module activated.");
     }
 
 
