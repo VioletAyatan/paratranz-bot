@@ -25,7 +25,7 @@ public class SystemProperties {
 
     @Getter
     @Setter
-    public class ModuleControl {
+    public static class ModuleControl {
         /**
          * 影响系统中有关paraTranz相关服务的启停
          */
@@ -38,11 +38,11 @@ public class SystemProperties {
 
     @Getter
     @Setter
-    public class BotConfig {
+    public static class BotConfig {
         /**
          * 机器人qq号
          */
-        private Long qq;
+        private Long qqNumber;
         /**
          * 机器人qq密码
          */
@@ -51,9 +51,5 @@ public class SystemProperties {
          * 配置机器人默认转发消息到哪些群组.
          */
         private Long[] groups = new Long[0];
-
-        public Long getQQ() {
-            return qq;
-        }
     }
 }

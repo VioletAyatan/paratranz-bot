@@ -8,4 +8,4 @@ if [ -e /opt/tranzai/log.file ]; then
   mv log.file $logFile/log.file."$dateTime"
 fi
 
-nohup java -jar tranzai.jar --spring.config.location=/opt/tranzai/application.yml > log.file 2>&1 &
+nohup java -jar tranzai.jar > log.file 2>&1 &

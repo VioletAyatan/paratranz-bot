@@ -1,8 +1,8 @@
 system:
   project-id: 967
   bot-config:
-    qq: 2043285918
     groups: 672777697
+    qq-number: 2043285918
     password: Heikediguo123
   module-control:
     para-active: true
