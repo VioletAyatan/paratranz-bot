@@ -2,9 +2,9 @@ system:
   project-id: 967
   bot-config:
     qq: 2043285918
-    groups: 922182294
+    groups: 672777697
     password: Heikediguo123
   module-control:
-    para-active: false
-    mirai-active: false
+    para-active: true
+    mirai-active: true
 
