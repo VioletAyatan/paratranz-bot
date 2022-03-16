@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
+@Deprecated
 public class TaskSchedule {
 
     private final SystemProperties properties;
