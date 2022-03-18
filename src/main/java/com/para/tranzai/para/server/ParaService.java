@@ -128,7 +128,7 @@ public interface ParaService {
 
     /**
      * 查看申请人翻译
-     * @param uid 申请人id
+     * @param uid 用户id
      * @param projectId 项目id
      */
     List<Audit> checkAudit(int uid, String projectId);

@@ -5,7 +5,6 @@ import cn.hutool.core.date.DateField;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
-import com.para.tranzai.mirai.exception.NoGroupFoundException;
 import com.para.tranzai.para.entity.Page;
 import com.para.tranzai.para.entity.PageResult;
 import com.para.tranzai.para.entity.data.Task;
@@ -56,13 +55,11 @@ public class TaskSchedule {
         //执行q群推送...
         if (CollUtil.isNotEmpty(diffedObjs)) {
             for (Long id : properties.getBotConfig().getGroups()) {
-                try {
-                    Group group = bot.getGroup(id);
-                    if (group != null) {
-                        group.sendMessage(buildMessage(group, diffedObjs));
-                    }
-                } catch (NoGroupFoundException e) {
-                    e.printStackTrace();
+                Group group = bot.getGroup(id);
+                if (group != null) {
+                    group.sendMessage(buildMessage(group, diffedObjs));
+                } else {
+                    log.error("Group [{}] not found.", id);
                 }
             }
         }
