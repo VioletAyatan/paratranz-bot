@@ -40,7 +40,7 @@ public class MiraiConfig {
 
     @Bean
     public Bot miraiBot() {
-        Bot bot = BotFactory.INSTANCE.newBot(properties.getBotConfig().getQQ(), properties.getBotConfig().getPassword(), botConfiguration());
+        Bot bot = BotFactory.INSTANCE.newBot(properties.getBotConfig().getQqNumber(), properties.getBotConfig().getPassword(), botConfiguration());
         bot.login();
         addEventListeners();
         return bot;

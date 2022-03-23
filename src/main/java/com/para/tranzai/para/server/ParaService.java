@@ -1,7 +1,9 @@
 package com.para.tranzai.para.server;
 
 import com.para.tranzai.para.constant.GameEnum;
-import com.para.tranzai.para.entity.*;
+import com.para.tranzai.para.entity.IssuePageResult;
+import com.para.tranzai.para.entity.Page;
+import com.para.tranzai.para.entity.PageResult;
 import com.para.tranzai.para.entity.data.*;
 import org.springframework.lang.Nullable;
 
@@ -123,4 +125,11 @@ public interface ParaService {
      * @param projectId 项目id
      */
     PageResult<Application> listApplications(String projectId);
+
+    /**
+     * 查看申请人翻译
+     * @param uid 申请人id
+     * @param projectId 项目id
+     */
+    List<Audit> checkAudit(int uid, String projectId);
 }

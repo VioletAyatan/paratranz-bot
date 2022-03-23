@@ -1,7 +1,6 @@
 package com.para.tranzai.para;
 
 import com.para.tranzai.para.schedules.ApplicationSchedule;
-import com.para.tranzai.para.schedules.TaskSchedule;
 import com.para.tranzai.para.server.ParaService;
 import com.para.tranzai.properties.SystemProperties;
 import lombok.extern.slf4j.Slf4j;
@@ -30,10 +29,5 @@ public class ParaConfig {
     @Bean
     public ApplicationSchedule applicationSchedule() {
         return new ApplicationSchedule(paraService, systemProperties, bot);
-    }
-
-    @Bean
-    public TaskSchedule taskSchedule() {
-        return new TaskSchedule(systemProperties, paraService, bot);
     }
 }
