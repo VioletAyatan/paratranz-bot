@@ -80,7 +80,7 @@ public class ApplicationSchedule {
         }
         for (Application application : collect) {
             Application.UserDTO user = application.getUser();
-            builder.append(StrUtil.format("{} 申请加入项目组，请及时审核。\n", user.getUsername()));
+            builder.append(StrUtil.format("{} 申请加入项目组，请及时审核\n", user.getUsername()));
 //            builder.append(StrUtil.format("游戏时间 {}，英语等级：{}\n",
 //                    application.getDetail().getGameTime(),
 //                    application.getDetail().getEnglish().getLevel())
