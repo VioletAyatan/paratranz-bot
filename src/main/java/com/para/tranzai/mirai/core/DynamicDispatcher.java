@@ -2,7 +2,6 @@ package com.para.tranzai.mirai.core;
 
 import com.para.tranzai.mirai.handler.AuditHandlerMirai;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
-import net.mamoe.mirai.message.data.MessageSource;
 
 import javax.annotation.ManagedBean;
 import java.util.HashMap;
@@ -21,12 +20,12 @@ public class DynamicDispatcher implements Consumer<GroupMessageEvent> {
 
     @Override
     public void accept(GroupMessageEvent event) {
-        MessageSource source = event.getMessage().get(MessageSource.Key);
-        String message = source.toString();
-        MiraiEventHandler handler = handlers.get(IKey.create(message));
-        if (handler != null) {
-            handler.processing(message, event);
-        }
+//        MessageSource source = event.getMessage().get(MessageSource.Key);
+//        String message = source.toString();
+//        MiraiEventHandler handler = handlers.get(IKey.create(message));
+//        if (handler != null) {
+//            handler.processing(message, event);
+//        }
     }
 
 
