@@ -57,7 +57,9 @@ public class ApplicationSchedule {
             for (Long id : properties.getBotConfig().getGroups()) {
                 Group group = bot.getGroup(id);
                 if (group != null) {
-                    group.sendMessage(buildMessage(group, collect));
+                    for (Application application : collect) {
+                        group.sendMessage(buildMessage(group, application));
+                    }
                 }
             }
             isChecked = collect.stream().map(Application::getId).collect(Collectors.toSet());
@@ -72,22 +74,20 @@ public class ApplicationSchedule {
         isChecked.clear();
     }
 
-    private MessageChain buildMessage(Group group, List<Application> collect) {
+    private MessageChain buildMessage(Group group, Application application) {
         MessageChainBuilder builder = new MessageChainBuilder();
         //如果是管理员，加入艾特全员操作.
         if (group.getBotPermission().getLevel() == MemberPermission.ADMINISTRATOR.getLevel()) {
             builder.append(AtAll.INSTANCE).append("\n");
         }
-        for (Application application : collect) {
-            Application.UserDTO user = application.getUser();
-            builder.append(StrUtil.format("{} 申请加入项目组，请及时审核\n", user.getUsername()));
+        Application.UserDTO user = application.getUser();
+        builder.append(StrUtil.format("{} 申请加入项目组，请及时审核\n", user.getUsername()));
 //            builder.append(StrUtil.format("游戏时间 {}，英语等级：{}\n",
 //                    application.getDetail().getGameTime(),
 //                    application.getDetail().getEnglish().getLevel())
 //            );
-            if (StrUtil.isNotBlank(application.getContent())) {
-                builder.append(StrUtil.format(application.getContent()));
-            }
+        if (StrUtil.isNotBlank(application.getContent())) {
+            builder.append(StrUtil.format(application.getContent()));
         }
         return builder.build();
     }
