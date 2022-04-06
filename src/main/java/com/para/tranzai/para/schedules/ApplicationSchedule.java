@@ -15,6 +15,7 @@ import net.mamoe.mirai.message.data.MessageChain;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
 import org.springframework.scheduling.annotation.Scheduled;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -54,6 +55,7 @@ public class ApplicationSchedule {
                 .collect(Collectors.toList());
         //如果待审核列表不为空，执行q群通知...
         if (CollUtil.isNotEmpty(applicationList)) {
+            log.info("New application detected. send to group [{}]", Arrays.toString(properties.getBotConfig().getGroups()));
             for (Long id : properties.getBotConfig().getGroups()) {
                 Group group = bot.getGroup(id);
                 if (group != null) {
