@@ -30,7 +30,7 @@ public class MiraiConfig {
     public Bot miraiBot() {
         Bot bot = BotFactory.INSTANCE.newBot(properties.getBotConfig().getQqNumber(), properties.getBotConfig().getPassword(), botConfiguration());
         bot.login();
-        addEventListeners();
+//        addEventListeners();
         return bot;
     }
 
