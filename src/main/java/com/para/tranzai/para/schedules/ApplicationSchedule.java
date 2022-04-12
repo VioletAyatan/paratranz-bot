@@ -47,20 +47,22 @@ public class ApplicationSchedule {
     public void schedulingApplication() {
         PageResult<Application> pageResult = paraService.listApplications(properties.getProjectId());
         // 待审核列表.
-        List<Application> collect = pageResult.getResults()
+        List<Application> applicationList = pageResult.getResults()
                 .stream()
                 //条件，状态0为待审核.并且不包含在已推送列表中.
                 .filter(item -> item.getStatus() == 0 && !isChecked.contains(item.getId()))
                 .collect(Collectors.toList());
         //如果待审核列表不为空，执行q群通知...
-        if (CollUtil.isNotEmpty(collect)) {
+        if (CollUtil.isNotEmpty(applicationList)) {
             for (Long id : properties.getBotConfig().getGroups()) {
                 Group group = bot.getGroup(id);
                 if (group != null) {
-                    group.sendMessage(buildMessage(group, collect));
+                    for (Application application : applicationList) {
+                        group.sendMessage(buildMessage(group, application));
+                    }
                 }
             }
-            isChecked = collect.stream().map(Application::getId).collect(Collectors.toSet());
+            isChecked = applicationList.stream().map(Application::getId).collect(Collectors.toSet());
         }
     }
 
@@ -72,22 +74,20 @@ public class ApplicationSchedule {
         isChecked.clear();
     }
 
-    private MessageChain buildMessage(Group group, List<Application> collect) {
+    private MessageChain buildMessage(Group group, Application application) {
         MessageChainBuilder builder = new MessageChainBuilder();
         //如果是管理员，加入艾特全员操作.
         if (group.getBotPermission().getLevel() == MemberPermission.ADMINISTRATOR.getLevel()) {
             builder.append(AtAll.INSTANCE).append("\n");
         }
-        for (Application application : collect) {
-            Application.UserDTO user = application.getUser();
-            builder.append(StrUtil.format("{} 申请加入项目组，请及时审核。\n", user.getUsername()));
-            builder.append(StrUtil.format("游戏时间 {}，英语等级：{}\n",
-                    application.getDetail().getGameTime(),
-                    application.getDetail().getEnglish().getLevel())
-            );
-            if (StrUtil.isNotBlank(application.getContent())) {
-                builder.append(StrUtil.format(application.getContent()));
-            }
+        Application.UserDTO user = application.getUser();
+        builder.append(StrUtil.format("{} 申请加入项目组，请及时审核\n", user.getUsername()));
+//            builder.append(StrUtil.format("游戏时间 {}，英语等级：{}\n",
+//                    application.getDetail().getGameTime(),
+//                    application.getDetail().getEnglish().getLevel())
+//            );
+        if (StrUtil.isNotBlank(application.getContent())) {
+            builder.append(StrUtil.format(application.getContent()));
         }
         return builder.build();
     }
