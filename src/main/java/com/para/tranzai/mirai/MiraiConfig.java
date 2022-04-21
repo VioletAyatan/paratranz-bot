@@ -1,12 +1,9 @@
 package com.para.tranzai.mirai;
 
-import com.para.tranzai.mirai.core.DynamicDispatcher;
 import com.para.tranzai.properties.SystemProperties;
 import lombok.extern.slf4j.Slf4j;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.BotFactory;
-import net.mamoe.mirai.event.GlobalEventChannel;
-import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.utils.BotConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -18,11 +15,9 @@ import org.springframework.context.annotation.Configuration;
 public class MiraiConfig {
 
     private final SystemProperties properties;
-    private final DynamicDispatcher dynamicDispatcher;
 
-    public MiraiConfig(SystemProperties properties, DynamicDispatcher dynamicDispatcher) {
+    public MiraiConfig(SystemProperties properties) {
         this.properties = properties;
-        this.dynamicDispatcher = dynamicDispatcher;
         log.info("Mirai-module activated.");
     }
 
@@ -44,10 +39,5 @@ public class MiraiConfig {
         return configuration;
     }
 
-    private void addEventListeners() {
-        GlobalEventChannel eventChannel = GlobalEventChannel.INSTANCE;
-        //群聊消息...
-        eventChannel.subscribeAlways(GroupMessageEvent.class, dynamicDispatcher);
-    }
 
 }
