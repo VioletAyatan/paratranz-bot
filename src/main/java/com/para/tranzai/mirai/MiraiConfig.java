@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.BotFactory;
 import net.mamoe.mirai.utils.BotConfiguration;
+import net.mamoe.mirai.utils.LoggerAdapters;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -36,6 +37,8 @@ public class MiraiConfig {
         configuration.setShowingVerboseEventLog(false);
         configuration.setLoginCacheEnabled(true);
         configuration.setReconnectionRetryTimes(10);
+        //覆盖Mirai内置的日志系统
+        configuration.setBotLoggerSupplier(bot -> LoggerAdapters.asMiraiLogger(log));
         return configuration;
     }
 
