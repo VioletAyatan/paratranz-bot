@@ -30,22 +30,21 @@ public class MiraiConfiguration {
 
     @Bean
     public Bot miraiBot() {
-        Bot bot = BotFactory.INSTANCE.newBot(properties.getBotConfig().getQqNumber(), properties.getBotConfig().getPassword(), botConfiguration());
+        Bot bot = BotFactory.INSTANCE.newBot(
+                properties.getBotConfig().getQqNumber(),
+                properties.getBotConfig().getPassword(),
+                (config) -> {
+                    config.setAutoReconnectOnForceOffline(true);
+                    config.setProtocol(BotConfiguration.MiraiProtocol.ANDROID_PHONE);
+                    config.setShowingVerboseEventLog(false);
+                    config.setLoginCacheEnabled(true);
+                    config.setReconnectionRetryTimes(10);
+                    //覆盖Mirai内置的日志系统
+                    config.setBotLoggerSupplier(it -> LoggerAdapters.asMiraiLogger(log));
+                });
         bot.login();
         addEventListeners(bot);
         return bot;
-    }
-
-    private BotConfiguration botConfiguration() {
-        BotConfiguration configuration = new BotConfiguration();
-        configuration.setAutoReconnectOnForceOffline(true);
-        configuration.setProtocol(BotConfiguration.MiraiProtocol.ANDROID_PHONE);
-        configuration.setShowingVerboseEventLog(false);
-        configuration.setLoginCacheEnabled(true);
-        configuration.setReconnectionRetryTimes(10);
-        //覆盖Mirai内置的日志系统
-        configuration.setBotLoggerSupplier(bot -> LoggerAdapters.asMiraiLogger(log));
-        return configuration;
     }
 
     private void addEventListeners(Bot bot) {
