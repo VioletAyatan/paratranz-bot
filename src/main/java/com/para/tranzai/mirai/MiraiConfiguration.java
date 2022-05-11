@@ -16,13 +16,13 @@ import org.springframework.context.annotation.Configuration;
 
 @Slf4j
 @Configuration
-@ConditionalOnProperty(name = "system.module-control.mirai-active", havingValue = "true")
-public class MiraiConfig {
+@ConditionalOnProperty(name = "system.module-control.mirai-active", havingValue = "true", matchIfMissing = true)
+public class MiraiConfiguration {
 
     private final SystemProperties properties;
     private final GroupMessageHandler groupMessageHandler;
 
-    public MiraiConfig(SystemProperties properties, GroupMessageHandler groupMessageHandler) {
+    public MiraiConfiguration(SystemProperties properties, GroupMessageHandler groupMessageHandler) {
         this.properties = properties;
         this.groupMessageHandler = groupMessageHandler;
         log.info("Mirai-module activated.");

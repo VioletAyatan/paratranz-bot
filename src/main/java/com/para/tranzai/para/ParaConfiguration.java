@@ -11,14 +11,14 @@ import org.springframework.context.annotation.Configuration;
 
 @Slf4j
 @Configuration
-@ConditionalOnProperty(name = "system.module-control.para-active", havingValue = "true")
-public class ParaConfig {
+@ConditionalOnProperty(name = "system.module-control.para-active", havingValue = "true", matchIfMissing = true)
+public class ParaConfiguration {
 
     private final ParaService paraService;
     private final SystemProperties systemProperties;
     private final Bot bot;
 
-    public ParaConfig(ParaService paraService, SystemProperties systemProperties, Bot bot) {
+    public ParaConfiguration(ParaService paraService, SystemProperties systemProperties, Bot bot) {
         log.info("ParaTranz-module activated.");
         this.paraService = paraService;
         this.systemProperties = systemProperties;
