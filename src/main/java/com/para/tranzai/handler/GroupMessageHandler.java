@@ -1,10 +1,12 @@
 package com.para.tranzai.handler;
 
 import net.mamoe.mirai.event.events.GroupMessageEvent;
+import org.springframework.stereotype.Component;
 
 import java.util.function.Consumer;
 import java.util.regex.Pattern;
 
+@Component
 public class GroupMessageHandler implements Consumer<GroupMessageEvent> {
     /**
      * Performs this operation on the given argument.
