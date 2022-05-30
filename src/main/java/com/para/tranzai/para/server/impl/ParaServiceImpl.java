@@ -160,7 +160,7 @@ public class ParaServiceImpl implements ParaService {
     @Override
     public PageResult<Application> listApplications(Page page, String projectId, Integer status) {
         Map<String, Object> params = BeanUtil.beanToMap(Optional.ofNullable(page).orElse(new Page()), false, true);
-        Optional.ofNullable(status).ifPresent(value -> params.put("status", value));
+        params.put("status", status);
         String s = HttpUtil.get(PROJECT_API + "/" + projectId + "/applications", params);
         if (GsonUtil.isJsonStr(s)) {
             return GsonUtil.fromJson(s, new TypeToken<>() {

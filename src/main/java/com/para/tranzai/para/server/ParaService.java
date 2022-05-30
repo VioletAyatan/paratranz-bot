@@ -5,7 +5,6 @@ import com.para.tranzai.para.entity.IssuePageResult;
 import com.para.tranzai.para.entity.Page;
 import com.para.tranzai.para.entity.PageResult;
 import com.para.tranzai.para.entity.data.*;
-import org.springframework.lang.Nullable;
 
 import java.util.List;
 
@@ -19,14 +18,14 @@ public interface ParaService {
      * 按游戏列举para项目列表
      * @param gameEnum 游戏类型，为空则包含所有游戏类型.
      */
-    PageResult<Project> listProjects(@Nullable GameEnum gameEnum);
+    PageResult<Project> listProjects(GameEnum gameEnum);
 
     /**
      * 按游戏列举para项目列表
      * @param page 分页参数
      * @param gameEnum 游戏类型，为空则包含所有游戏类型.
      */
-    PageResult<Project> listProjects(@Nullable Page page, @Nullable GameEnum gameEnum);
+    PageResult<Project> listProjects(Page page, GameEnum gameEnum);
 
     /**
      * 获取项目概述
@@ -45,7 +44,7 @@ public interface ParaService {
      * @param projectId 项目id
      * @param page 分页参数
      */
-    PageResult<History> listProjectHistories(@Nullable Page page, String projectId);
+    PageResult<History> listProjectHistories(Page page, String projectId);
 
     /**
      * 获取项目公告列表
@@ -58,14 +57,14 @@ public interface ParaService {
      * @param projectId 项目id
      * @param page 分页参数
      */
-    PageResult<Announcement> listAnnouncements(@Nullable Page page, String projectId);
+    PageResult<Announcement> listAnnouncements(Page page, String projectId);
 
     /**
      * 获取项目的任务列表
      * @param page 分页参数
      * @param projectId 项目id
      */
-    PageResult<Task> listTasks(@Nullable Page page, String projectId);
+    PageResult<Task> listTasks(Page page, String projectId);
 
     /**
      * 获取项目的任务列表
@@ -84,7 +83,7 @@ public interface ParaService {
      * @param page 分页参数
      * @param projectId 项目id
      */
-    PageResult<Terms> listTerms(@Nullable Page page, String projectId);
+    PageResult<Terms> listTerms(Page page, String projectId);
 
     /**
      * 获取项目术语列表
@@ -104,7 +103,7 @@ public interface ParaService {
      * @param projectId 项目id
      * @param status 状态（0为讨论中，1为已关闭）
      */
-    IssuePageResult<Issue> listIssues(@Nullable Page page, String projectId, int status);
+    IssuePageResult<Issue> listIssues(Page page, String projectId, int status);
 
     /**
      * 获取项目成员列表
@@ -118,7 +117,7 @@ public interface ParaService {
      * @param projectId 项目id
      * @param status 状态（0待审核、1已拒绝、2已通过）
      */
-    PageResult<Application> listApplications(@Nullable Page page, String projectId, @Nullable Integer status);
+    PageResult<Application> listApplications(Page page, String projectId, Integer status);
 
     /**
      * 获取项目申请列表
