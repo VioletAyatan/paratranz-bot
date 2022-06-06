@@ -175,7 +175,7 @@ public class ParaServiceImpl implements ParaService {
     }
 
     @Override
-    public List<Audit> checkAudit(int uid, String projectId) {
+    public List<Audit> getTestContent(int uid, String projectId) {
         String s = HttpUtil.get(PROJECT_API + projectId + "/applications/" + uid + "/tests");
         if (GsonUtil.isJsonStr(s)) {
             return GsonUtil.fromJson(s, new TypeToken<>() {

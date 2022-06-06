@@ -130,5 +130,5 @@ public interface ParaService {
      * @param uid 用户id
      * @param projectId 项目id
      */
-    List<Audit> checkAudit(int uid, String projectId);
+    List<Audit> getTestContent(int uid, String projectId);
 }
