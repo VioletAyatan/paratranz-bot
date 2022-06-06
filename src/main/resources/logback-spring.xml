@@ -5,7 +5,7 @@
 
     <contextName>logback</contextName>
     <!-- 日志文件保存位置-->
-    <property name="logPath" value="log"/>
+    <property name="log.path" value="log"/>
     <!--    引用spring自带的xml配置文件-->
     <include resource="org/springframework/boot/logging/logback/base.xml"/>
 
@@ -19,8 +19,10 @@
             <pattern>${CONSOLE_LOG_PATTERN}</pattern>
         </encoder>
     </appender>
+
     <!-- 错误日志输出到文件 -->
     <appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.path}/error.log</file>
         <!-- 配置日志级别输出，只记录错误日志-->
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>ERROR</level>
@@ -32,14 +34,16 @@
             <pattern>${FILE_LOG_PATTERN}</pattern>
         </encoder>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${logPath}/%d{yyyy-MM-dd}%i.error.log</fileNamePattern>
+            <fileNamePattern>${log.path}/%d{yyyy-MM-dd}%i.error.log</fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>2MB</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
     </appender>
+
     <!-- 标准日志输出到文件 -->
     <appender name="info" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.path}/info.log</file>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>INFO</level>
         </filter>
@@ -48,7 +52,7 @@
             <pattern>${FILE_LOG_PATTERN}</pattern>
         </encoder>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${logPath}/%d{yyyy-MM-dd}%i.info.log</fileNamePattern>
+            <fileNamePattern>${log.path}/%d{yyyy-MM-dd}%i.info.log</fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>5MB</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
