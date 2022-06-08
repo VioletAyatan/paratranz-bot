@@ -84,7 +84,8 @@
                 </executions>
                 <configuration>
                     <descriptors>
-                        <descriptor>/setup/assembly-config.xml</descriptor>
+                        <descriptor>setup/windows/assembly-config.xml</descriptor>
+                        <descriptor>setup/linux/assembly-config.xml</descriptor>
                     </descriptors>
                 </configuration>
             </plugin>

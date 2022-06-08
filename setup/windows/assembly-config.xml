@@ -1,6 +1,6 @@
 <assembly xmlns="http://maven.apache.org/ASSEMBLY/2.1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.1.0 http://maven.apache.org/xsd/assembly-2.1.0.xsd">
-    <id>full</id>
+    <id>windows</id>
 
     <formats>
         <format>zip</format>
@@ -17,19 +17,11 @@
             <outputDirectory>config</outputDirectory>
         </fileSet>
         <fileSet>
-            <directory>setup/scripts</directory>
-            <outputDirectory>windows</outputDirectory>
+            <directory>setup/windows</directory>
+            <outputDirectory>/</outputDirectory>
             <filtered>true</filtered>
             <includes>
                 <include>start.bat</include>
-            </includes>
-        </fileSet>
-        <fileSet>
-            <directory>setup/scripts</directory>
-            <outputDirectory>linux</outputDirectory>
-            <includes>
-                <include>start.sh</include>
-                <include>stop.sh</include>
             </includes>
         </fileSet>
         <fileSet>
