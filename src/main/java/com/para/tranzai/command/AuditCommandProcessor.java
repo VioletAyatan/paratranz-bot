@@ -2,6 +2,7 @@ package com.para.tranzai.command;
 
 import cn.hutool.core.collection.CollUtil;
 import com.para.tranzai.command.core.AbstractCommandProcessor;
+import com.para.tranzai.command.core.CommandProcessor;
 import com.para.tranzai.para.entity.Page;
 import com.para.tranzai.para.entity.PageResult;
 import com.para.tranzai.para.entity.data.Application;
@@ -19,7 +20,7 @@ import java.util.List;
  * 群审核指令处理器
  */
 @Slf4j
-//@CommandProcessor({"/test", "/群审核"})
+@CommandProcessor({"/test", "/群审核"})
 public class AuditCommandProcessor extends AbstractCommandProcessor<GroupMessageEvent> {
 
     private final ParaService paraService;
@@ -41,6 +42,10 @@ public class AuditCommandProcessor extends AbstractCommandProcessor<GroupMessage
             //针对只有一个需要审核的人的情况.
             else {
                 Application application = results.get(0);
+                //状态0为待审核.这里做一个申请状态验证.
+                if (application.getStatus() != 0) {
+                    return;
+                }
                 //获取其测试内容
                 List<Audit> testContent = paraService.getTestContent(application.getId(), properties.getProjectId());
                 for (Audit audit : testContent) {
