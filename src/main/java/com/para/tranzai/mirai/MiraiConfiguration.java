@@ -1,30 +1,32 @@
 package com.para.tranzai.mirai;
 
-import com.para.tranzai.handler.GroupMessageHandler;
 import com.para.tranzai.properties.SystemProperties;
+import kotlin.coroutines.CoroutineContext;
 import lombok.extern.slf4j.Slf4j;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.BotFactory;
-import net.mamoe.mirai.event.EventChannel;
-import net.mamoe.mirai.event.events.BotEvent;
+import net.mamoe.mirai.event.EventHandler;
+import net.mamoe.mirai.event.SimpleListenerHost;
+import net.mamoe.mirai.event.events.FriendMessageEvent;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.utils.BotConfiguration;
 import net.mamoe.mirai.utils.LoggerAdapters;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Slf4j
 @Configuration
 @ConditionalOnProperty(name = "system.module-control.mirai-active", havingValue = "true", matchIfMissing = true)
-public class MiraiConfiguration {
+public class MiraiConfiguration implements ApplicationListener<ApplicationReadyEvent> {
 
     private final SystemProperties properties;
-    private final GroupMessageHandler groupMessageHandler;
 
-    public MiraiConfiguration(SystemProperties properties, GroupMessageHandler groupMessageHandler) {
+    public MiraiConfiguration(SystemProperties properties) {
         this.properties = properties;
-        this.groupMessageHandler = groupMessageHandler;
         log.info("Mirai-module activated.");
     }
 
@@ -42,16 +44,35 @@ public class MiraiConfiguration {
                     //覆盖Mirai内置的日志系统
                     config.setBotLoggerSupplier(it -> LoggerAdapters.asMiraiLogger(log));
                 });
-        bot.login();
         addEventListeners(bot);
         return bot;
     }
 
     private void addEventListeners(Bot bot) {
-        EventChannel<BotEvent> eventChannel = bot.getEventChannel();
-        //处理群聊消息事件...
-        eventChannel.subscribeAlways(GroupMessageEvent.class, groupMessageHandler);
+        bot.getEventChannel().registerListenerHost(new SimpleListenerHost(bot.getCoroutineContext()) {
+            @EventHandler
+            public void onGroupMessage(GroupMessageEvent event) {
+                String msg = event.getMessage().contentToString();
+                log.info("Receive Group message {}", msg);
+            }
+
+            @EventHandler
+            public void onFriendMessage(FriendMessageEvent event) {
+                log.info("Receive Friend message {}", event.getMessage().contentToString());
+            }
+
+            @Override
+            public void handleException(@NotNull CoroutineContext context, @NotNull Throwable exception) {
+                super.handleException(context, exception);
+            }
+        });
     }
 
 
+    @Override
+    public void onApplicationEvent(ApplicationReadyEvent event) {
+        event.getApplicationContext()
+                .getBean(Bot.class)
+                .login();
+    }
 }
