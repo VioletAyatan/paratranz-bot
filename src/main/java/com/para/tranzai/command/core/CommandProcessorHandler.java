@@ -29,7 +29,7 @@ public class CommandProcessorHandler implements BeanPostProcessor, ApplicationCo
      */
     private static final List<Predicate<Class<?>>> argumentValidators = List.of(
             type -> ClassUtil.isAssignable(MessageEvent.class, type),
-            type -> ClassUtil.isAssignable(MessageEvent.class, type)
+            type -> ClassUtil.isAssignable(String[].class, type)
     );
     private ApplicationContext applicationContext;
 
@@ -50,15 +50,15 @@ public class CommandProcessorHandler implements BeanPostProcessor, ApplicationCo
     }
 
     private void registerCommandProcessor(CommandProcessor annotation, Object bean) {
-
     }
 
     private void checkArgument(Object bean, String beanName) throws RuntimeException {
         if (ClassUtil.isAssignable(BiConsumer.class, bean.getClass())) {
+            //验证指令解析器参数是否正确.
             Type[] typeArguments = TypeUtil.getTypeArguments(bean.getClass());
             for (int i = 0; i < typeArguments.length; i++) {
                 if (!argumentValidators.get(i).test((Class<?>) typeArguments[i])) {
-                    throw new RuntimeException("Illegal TypeArgument [" + typeArguments[i] + "]");
+                    log.error("Bean [{}] Illegal TypeArgument [" + typeArguments[i] + "]", beanName);
                 }
             }
         } else {
