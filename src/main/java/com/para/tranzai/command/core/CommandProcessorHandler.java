@@ -9,6 +9,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 
 import java.lang.reflect.Type;
+import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Predicate;
 
@@ -19,12 +20,22 @@ import java.util.function.Predicate;
 @Slf4j
 //@Component
 public class CommandProcessorHandler implements BeanPostProcessor {
-
-    @SuppressWarnings("rawtypes")
-    private final Predicate[] predicates = new Predicate[]{
-            o -> ClassUtil.isAssignable(MessageEvent.class, (Class<?>) o),
-            o -> ClassUtil.isAssignable(String[].class, o.getClass())
-    };
+    /**
+     * 参数校验器
+     */
+    private final List<Predicate<Type>> predicates = List.of(type -> {
+                if (type instanceof Class) {
+                    return ClassUtil.isAssignable(MessageEvent.class, (Class<?>) type);
+                }
+                return false;
+            },
+            type -> {
+                if (type instanceof Class) {
+                    return ClassUtil.isAssignable(MessageEvent.class, (Class<?>) type);
+                }
+                return false;
+            }
+    );
 
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
@@ -50,7 +61,7 @@ public class CommandProcessorHandler implements BeanPostProcessor {
         if (ClassUtil.isAssignable(BiConsumer.class, bean.getClass())) {
             Type[] typeArguments = TypeUtil.getTypeArguments(bean.getClass());
             for (int i = 0; i < typeArguments.length; i++) {
-                if (!predicates[i].test(typeArguments[i])) {
+                if (!predicates.get(i).test(typeArguments[i])) {
                     throw new RuntimeException();
                 }
             }
