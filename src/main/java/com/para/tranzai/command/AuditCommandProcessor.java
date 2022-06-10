@@ -2,7 +2,6 @@ package com.para.tranzai.command;
 
 import cn.hutool.core.collection.CollUtil;
 import com.para.tranzai.command.core.AbstractCommandProcessor;
-import com.para.tranzai.command.core.CommandProcessor;
 import com.para.tranzai.para.entity.Page;
 import com.para.tranzai.para.entity.PageResult;
 import com.para.tranzai.para.entity.data.Application;
@@ -20,7 +19,7 @@ import java.util.List;
  * 群审核指令处理器
  */
 @Slf4j
-@CommandProcessor({"/test", "/群审核"})
+//@CommandProcessor({"/test", "/群审核"})
 public class AuditCommandProcessor extends AbstractCommandProcessor<GroupMessageEvent> {
 
     private final ParaService paraService;

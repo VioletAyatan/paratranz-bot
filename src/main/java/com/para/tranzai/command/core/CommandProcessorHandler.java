@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import net.mamoe.mirai.event.events.MessageEvent;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
-import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Type;
 import java.util.function.BiConsumer;
@@ -18,12 +17,12 @@ import java.util.function.Predicate;
  * @author ankol
  */
 @Slf4j
-@Component
+//@Component
 public class CommandProcessorHandler implements BeanPostProcessor {
 
     @SuppressWarnings("rawtypes")
     private final Predicate[] predicates = new Predicate[]{
-            o -> ClassUtil.isAssignable(MessageEvent.class, o.getClass()),
+            o -> ClassUtil.isAssignable(MessageEvent.class, (Class<?>) o),
             o -> ClassUtil.isAssignable(String[].class, o.getClass())
     };
 
