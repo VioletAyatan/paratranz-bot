@@ -56,6 +56,8 @@ public class AuditCommandProcessor extends AbstractCommandProcessor<GroupMessage
                     event.getGroup().sendMessage(messages);
                 }
             }
+        } else {
+            event.getGroup().sendMessage("抱歉，没找到需要审核的人员呢~");
         }
     }
 }
