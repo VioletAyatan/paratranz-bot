@@ -1,4 +1,4 @@
-package com.para.tranzai.mirai;
+package com.para.tranzai.properties;
 
 import lombok.Getter;
 import lombok.Setter;
