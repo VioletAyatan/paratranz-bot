@@ -10,6 +10,7 @@ import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -21,7 +22,7 @@ import java.util.function.Predicate;
  * @author ankol
  */
 @Slf4j
-//@Component
+@Component
 public class CommandProcessorHandler implements BeanPostProcessor, ApplicationContextAware {
 
     /**
@@ -34,13 +35,16 @@ public class CommandProcessorHandler implements BeanPostProcessor, ApplicationCo
     private ApplicationContext applicationContext;
 
     @Override
+    @SuppressWarnings("rawtypes")
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-        boolean hasAnnotation = AnnotationUtil.hasAnnotation(bean.getClass(), CommandProcessor.class);
-        if (hasAnnotation) {
+        CommandProcessor hasAnnotation = bean.getClass().getAnnotation(CommandProcessor.class);
+        if (hasAnnotation != null) {
             CommandProcessor annotation = AnnotationUtil.getAnnotation(bean.getClass(), CommandProcessor.class);
             try {
+                //检查指令处理器的参数是否正确
                 checkArgument(bean, beanName);
-                registerCommandProcessor(annotation, bean);
+                //注册指令处理器
+                CommandManger.registerCommandProcessor(annotation.value(), (AbstractCommandProcessor) bean, false);
             } catch (RuntimeException e) {
                 log.error(e.getMessage());
                 SpringApplication.exit(applicationContext);
@@ -49,8 +53,6 @@ public class CommandProcessorHandler implements BeanPostProcessor, ApplicationCo
         return bean;
     }
 
-    private void registerCommandProcessor(CommandProcessor annotation, Object bean) {
-    }
 
     private void checkArgument(Object bean, String beanName) throws RuntimeException {
         if (ClassUtil.isAssignable(BiConsumer.class, bean.getClass())) {
