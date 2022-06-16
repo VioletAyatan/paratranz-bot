@@ -1,6 +1,8 @@
 package com.para.tranzai.mirai;
 
+import com.para.tranzai.command.core.CommandManger;
 import com.para.tranzai.properties.SystemProperties;
+import com.para.tranzai.tools.Utils;
 import kotlin.coroutines.CoroutineContext;
 import lombok.extern.slf4j.Slf4j;
 import net.mamoe.mirai.Bot;
@@ -18,6 +20,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.Optional;
 
 @Slf4j
 @Configuration
@@ -53,9 +57,12 @@ public class MiraiConfiguration implements ApplicationListener<ApplicationReadyE
     private void addEventListeners(Bot bot) {
         bot.getEventChannel().registerListenerHost(new SimpleListenerHost(bot.getCoroutineContext()) {
             @EventHandler
+            @SuppressWarnings("unchecked")
             public void onGroupMessage(GroupMessageEvent event) {
                 String msg = event.getMessage().contentToString();
                 log.info("Receive Group message {}", msg);
+                Optional.ofNullable(CommandManger.getCommandProcessor(msg))
+                        .ifPresent(processor -> processor.accept(event, Utils.getArgs(msg)));
             }
 
             @EventHandler
