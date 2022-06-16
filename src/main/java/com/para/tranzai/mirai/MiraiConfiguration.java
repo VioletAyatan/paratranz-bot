@@ -9,7 +9,6 @@ import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.BotFactory;
 import net.mamoe.mirai.event.EventHandler;
 import net.mamoe.mirai.event.SimpleListenerHost;
-import net.mamoe.mirai.event.events.FriendMessageEvent;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.utils.BotConfiguration;
 import net.mamoe.mirai.utils.LoggerAdapters;
@@ -62,11 +61,6 @@ public class MiraiConfiguration implements ApplicationListener<ApplicationReadyE
                 String msg = event.getMessage().contentToString();
                 Optional.ofNullable(CommandManger.getCommandProcessor(msg))
                         .ifPresent(processor -> processor.accept(event, Utils.getArgs(msg)));
-            }
-
-            @EventHandler
-            public void onFriendMessage(FriendMessageEvent event) {
-                log.info("Receive Friend message {}", event.getMessage().contentToString());
             }
 
             @Override
