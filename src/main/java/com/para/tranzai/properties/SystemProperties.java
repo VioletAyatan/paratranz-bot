@@ -1,7 +1,5 @@
 package com.para.tranzai.properties;
 
-import com.para.tranzai.mirai.BotConfig;
-import com.para.tranzai.mirai.ModuleControl;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
