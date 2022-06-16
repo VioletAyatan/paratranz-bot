@@ -20,7 +20,7 @@ import java.util.List;
  * 群审核指令处理器
  */
 @Slf4j
-@CommandProcessor({"/test", "/群审核"})
+@CommandProcessor("/群审核")
 public class AuditCommandProcessor extends AbstractCommandProcessor<GroupMessageEvent> {
 
     private final ParaService paraService;
