@@ -1,6 +1,5 @@
 package com.para.tranzai.command;
 
-import com.para.tranzai.command.core.AbstractCommandProcessor;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 
 /**

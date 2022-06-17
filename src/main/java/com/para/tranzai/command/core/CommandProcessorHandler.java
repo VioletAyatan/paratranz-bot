@@ -3,6 +3,8 @@ package com.para.tranzai.command.core;
 import cn.hutool.core.annotation.AnnotationUtil;
 import cn.hutool.core.util.ClassUtil;
 import cn.hutool.core.util.TypeUtil;
+import com.para.tranzai.command.AbstractCommandProcessor;
+import com.para.tranzai.command.annotation.CommandProcessor;
 import lombok.extern.slf4j.Slf4j;
 import net.mamoe.mirai.event.events.MessageEvent;
 import org.springframework.beans.BeansException;
