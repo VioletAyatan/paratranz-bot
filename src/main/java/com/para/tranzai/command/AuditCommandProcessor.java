@@ -31,7 +31,7 @@ public class AuditCommandProcessor extends AbstractCommandProcessor<GroupMessage
     }
 
     @Override
-    public void accept(GroupMessageEvent event, String[] args) {
+    protected void triggerNoArgs(GroupMessageEvent event) {
         PageResult<Application> pageResult = paraService.listApplications(new Page(), properties.getProjectId(), 0);
         if (CollUtil.isNotEmpty(pageResult.getResults())) {
             List<Application> results = pageResult.getResults();
@@ -62,7 +62,8 @@ public class AuditCommandProcessor extends AbstractCommandProcessor<GroupMessage
         }
     }
 
-    private void multiprocessing(GroupMessageEvent event, List<Application> applications) {
-
+    @Override
+    protected void triggerArgsEvent(GroupMessageEvent event, String[] args) {
+        super.triggerArgsEvent(event, args);
     }
 }

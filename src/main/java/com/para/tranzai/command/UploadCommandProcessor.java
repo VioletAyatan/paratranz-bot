@@ -10,7 +10,12 @@ import net.mamoe.mirai.event.events.GroupMessageEvent;
 public class UploadCommandProcessor extends AbstractCommandProcessor<GroupMessageEvent> {
 
     @Override
-    public void accept(GroupMessageEvent event, String[] args) {
+    protected void triggerNoArgs(GroupMessageEvent event) {
+
+    }
+
+    @Override
+    protected void triggerArgsEvent(GroupMessageEvent event, String[] args) {
 
     }
 }
