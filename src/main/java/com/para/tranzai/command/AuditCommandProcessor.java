@@ -35,7 +35,9 @@ public class AuditCommandProcessor extends AbstractCommandProcessor<GroupMessage
         PageResult<Application> pageResult = paraService.listApplications(new Page(), properties.getProjectId(), 0);
         if (CollUtil.isNotEmpty(pageResult.getResults())) {
             List<Application> results = pageResult.getResults();
+            //有多个待审核人的情况
             if (results.size() > 1) {
+//                multiprocessing(event, results);
                 log.error("Error. application count > 1, {}", results);
             }
             //针对只有一个需要审核的人的情况.
@@ -58,5 +60,9 @@ public class AuditCommandProcessor extends AbstractCommandProcessor<GroupMessage
         } else {
             event.getGroup().sendMessage("抱歉，没找到需要审核的人员呢~");
         }
+    }
+
+    private void multiprocessing(GroupMessageEvent event, List<Application> applications) {
+
     }
 }
