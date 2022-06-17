@@ -15,7 +15,6 @@ import net.mamoe.mirai.utils.LoggerAdapters;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,7 +23,6 @@ import java.util.Optional;
 
 @Slf4j
 @Configuration
-@EnableConfigurationProperties(SystemProperties.class)
 @ConditionalOnProperty(name = "system.module-control.mirai-active", havingValue = "true", matchIfMissing = true)
 public class MiraiConfiguration implements ApplicationListener<ApplicationReadyEvent> {
 
@@ -58,9 +56,10 @@ public class MiraiConfiguration implements ApplicationListener<ApplicationReadyE
             @EventHandler
             @SuppressWarnings("unchecked")
             public void onGroupMessage(GroupMessageEvent event) {
-                String msg = event.getMessage().contentToString();
-                Optional.ofNullable(CommandManger.getCommandProcessor(msg))
-                        .ifPresent(processor -> processor.accept(event, Utils.getArgs(msg)));
+                log.info(event.getMessage().contentToString());
+                String[] args = Utils.getArgs(event.getMessage().contentToString());
+                Optional.ofNullable(CommandManger.getCommandProcessor(args[0]))
+                        .ifPresent(processor -> processor.accept(event, args));
             }
 
             @Override
