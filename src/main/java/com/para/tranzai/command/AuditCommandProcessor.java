@@ -64,6 +64,9 @@ public class AuditCommandProcessor extends AbstractCommandProcessor<GroupMessage
 
     @Override
     protected void triggerArgsEvent(GroupMessageEvent event, String[] args) {
+        //群审核指令一号位参数为用户名.
+        String name = args[0];
+//        List<Audit> content = paraService.getTestContent(name, properties.getProjectId());
         super.triggerArgsEvent(event, args);
     }
 }

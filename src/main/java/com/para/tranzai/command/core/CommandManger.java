@@ -18,7 +18,7 @@ public class CommandManger {
     }
 
     /**
-     * 注册指令处理器
+     * Register command processor.
      * @param command 触发此处理器的指令
      * @param commandProcessor 指令处理器
      * @param override 如果已经存在了指令处理器，可以通过此选项指定是否覆盖现存的指令处理器
