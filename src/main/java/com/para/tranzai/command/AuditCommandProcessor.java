@@ -77,7 +77,7 @@ public class AuditCommandProcessor extends AbstractCommandProcessor<GroupMessage
                     .append(audit.getOriginal()).append("\n\n");
             //旧词条翻译者用户信息可能为空
             if (audit.getOrigin().getUser() != null) {
-                builder.append(audit.getOrigin().getUser().getNickname()).append(":").append("\n");
+                builder.append(audit.getOrigin().getUser().getNickname()).append("：").append("\n");
             }
             //继续拼接
             builder.append(audit.getOrigin().getTranslation()).append("\n\n")
