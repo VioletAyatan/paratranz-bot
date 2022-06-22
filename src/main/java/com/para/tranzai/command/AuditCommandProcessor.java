@@ -11,7 +11,6 @@ import com.para.tranzai.para.server.ParaService;
 import com.para.tranzai.properties.SystemProperties;
 import lombok.extern.slf4j.Slf4j;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
-import net.mamoe.mirai.message.data.MessageChain;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
 
 import java.util.List;
@@ -65,7 +64,7 @@ public class AuditCommandProcessor extends AbstractCommandProcessor<GroupMessage
                 List<Audit> content = paraService.getTestContent(Integer.parseInt(uid), properties.getProjectId());
                 this.sendMessage(event, content);
             } catch (NumberFormatException e) {
-                event.getGroup().sendMessage("无法解析字符串，确保查询参数为的数字用户id.");
+                event.getGroup().sendMessage("无法解析参数，确保查询参数为正确的数字用户id。例：/群审核 [用户id]");
             }
         } else {
             event.getGroup().sendMessage("查询的用户id不可为空！例：/群审核 [用户id]");
@@ -74,14 +73,18 @@ public class AuditCommandProcessor extends AbstractCommandProcessor<GroupMessage
 
     private void sendMessage(GroupMessageEvent event, List<Audit> testContent) {
         for (Audit audit : testContent) {
-            MessageChain messages = new MessageChainBuilder()
-                    .append(audit.getOriginal()).append("\n")
-                    .append(audit.getOrigin().getUser().getNickname()).append(":").append("\n")
-                    .append(audit.getOrigin().getTranslation()).append("\n")
+            MessageChainBuilder builder = new MessageChainBuilder()
+                    .append(audit.getOriginal()).append("\n\n");
+            //旧词条翻译者用户信息可能为空
+            if (audit.getOrigin().getUser() != null) {
+                builder.append(audit.getOrigin().getUser().getNickname()).append(":").append("\n");
+            }
+            //继续拼接
+            builder.append(audit.getOrigin().getTranslation()).append("\n\n")
                     .append("申请者翻译：").append("\n")
-                    .append(audit.getTranslation())
-                    .build();
-            event.getGroup().sendMessage(messages);
+                    .append(audit.getTranslation());
+            //发送消息
+            event.getGroup().sendMessage(builder.build());
         }
     }
 }
