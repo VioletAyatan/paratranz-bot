@@ -1,6 +1,7 @@
 package com.para.tranzai.command;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.StrUtil;
 import com.para.tranzai.command.annotation.CommandProcessor;
 import com.para.tranzai.para.entity.Page;
 import com.para.tranzai.para.entity.PageResult;
@@ -49,24 +50,38 @@ public class AuditCommandProcessor extends AbstractCommandProcessor<GroupMessage
                 }
                 //获取其测试内容
                 List<Audit> testContent = paraService.getTestContent(application.getId(), properties.getProjectId());
-                for (Audit audit : testContent) {
-                    MessageChain messages = new MessageChainBuilder()
-                            .append(audit.getOriginal()).append("\n")
-                            .append(audit.getTranslation())
-                            .build();
-                    event.getGroup().sendMessage(messages);
-                }
+                this.sendMessage(event, testContent);
             }
         } else {
-            event.getGroup().sendMessage("抱歉，没找到需要审核的人员呢~");
+            event.getGroup().sendMessage("抱歉，没找到需要审核人员呢~");
         }
     }
 
     @Override
     protected void triggerArgsEvent(GroupMessageEvent event, String[] args) {
-        //群审核指令一号位参数为用户名.
-        String name = args[0];
-//        List<Audit> content = paraService.getTestContent(name, properties.getProjectId());
-        super.triggerArgsEvent(event, args);
+        String uid = args[0];
+        if (StrUtil.isNotEmpty(uid)) {
+            try {
+                List<Audit> content = paraService.getTestContent(Integer.parseInt(uid), properties.getProjectId());
+                this.sendMessage(event, content);
+            } catch (NumberFormatException e) {
+                event.getGroup().sendMessage("无法解析字符串，确保查询参数为的数字用户id.");
+            }
+        } else {
+            event.getGroup().sendMessage("查询的用户id不可为空！例：/群审核 [用户id]");
+        }
+    }
+
+    private void sendMessage(GroupMessageEvent event, List<Audit> testContent) {
+        for (Audit audit : testContent) {
+            MessageChain messages = new MessageChainBuilder()
+                    .append(audit.getOriginal()).append("\n")
+                    .append(audit.getOrigin().getUser().getNickname()).append(":").append("\n")
+                    .append(audit.getOrigin().getTranslation()).append("\n")
+                    .append("申请者翻译：").append("\n")
+                    .append(audit.getTranslation())
+                    .build();
+            event.getGroup().sendMessage(messages);
+        }
     }
 }
