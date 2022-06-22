@@ -56,7 +56,7 @@ public class MiraiConfiguration implements ApplicationListener<ApplicationReadyE
             @EventHandler
             @SuppressWarnings("unchecked")
             public void onGroupMessage(GroupMessageEvent event) {
-                log.info("[{}:{}] -> {}", event.getSender().getNick(), event.getSender().getId(), event.getMessage().contentToString());
+                log.info(event.getMessage().contentToString());
                 String[] args = Utils.getArgs(event.getMessage().contentToString());
                 Optional.ofNullable(CommandManger.getCommandProcessor(args[0]))
                         .ifPresent(processor -> processor.accept(event, args));
