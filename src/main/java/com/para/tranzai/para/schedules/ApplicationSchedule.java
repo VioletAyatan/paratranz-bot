@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.para.tranzai.para.entity.PageResult;
 import com.para.tranzai.para.entity.data.Application;
-import com.para.tranzai.para.server.ParaService;
+import com.para.tranzai.para.server.ParaApiService;
 import com.para.tranzai.properties.SystemProperties;
 import lombok.extern.slf4j.Slf4j;
 import net.mamoe.mirai.Bot;
@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class ApplicationSchedule {
 
-    private final ParaService paraService;
+    private final ParaApiService paraApiService;
     private final SystemProperties properties;
 
     private final Bot bot;
@@ -35,8 +35,8 @@ public class ApplicationSchedule {
      */
     private Set<Integer> isChecked = new HashSet<>();
 
-    public ApplicationSchedule(ParaService paraService, SystemProperties properties, Bot bot) {
-        this.paraService = paraService;
+    public ApplicationSchedule(ParaApiService paraApiService, SystemProperties properties, Bot bot) {
+        this.paraApiService = paraApiService;
         this.properties = properties;
         this.bot = bot;
     }
@@ -46,7 +46,7 @@ public class ApplicationSchedule {
      */
     @Scheduled(fixedDelay = 2, timeUnit = TimeUnit.MINUTES)
     public void schedulingApplication() {
-        PageResult<Application> pageResult = paraService.listApplications(properties.getProjectId());
+        PageResult<Application> pageResult = paraApiService.listApplications(properties.getProjectId());
         // 待审核列表.
         List<Application> applicationList = pageResult.getResults()
                 .stream()

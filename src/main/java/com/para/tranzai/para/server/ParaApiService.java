@@ -12,7 +12,7 @@ import java.util.List;
  * 针对调用ParaTranz各种公开的Web-Api接口做一个简单封装.
  * @author Ankol
  */
-public interface ParaService {
+public interface ParaApiService {
 
     /**
      * 按游戏列举para项目列表
@@ -31,7 +31,7 @@ public interface ParaService {
      * 获取项目概述
      * @param projectId 项目id
      */
-    ProjectOverview getProjectOverview(String projectId);
+    ProjectOverview getProjectIntroduction(String projectId);
 
     /**
      * 获取项目历史记录列表
@@ -127,8 +127,8 @@ public interface ParaService {
 
     /**
      * 查看申请人翻译
-     * @param uid 用户id
+     * @param applicationId 申请项id
      * @param projectId 项目id
      */
-    List<Audit> getTestContent(int uid, String projectId);
+    List<Audit> getTestContent(int applicationId, String projectId);
 }

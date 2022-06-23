@@ -8,14 +8,14 @@ import com.para.tranzai.para.entity.IssuePageResult;
 import com.para.tranzai.para.entity.Page;
 import com.para.tranzai.para.entity.PageResult;
 import com.para.tranzai.para.entity.data.*;
-import com.para.tranzai.para.server.ParaService;
+import com.para.tranzai.para.server.ParaApiService;
 import com.para.tranzai.tools.GsonUtil;
 
 import javax.annotation.ManagedBean;
 import java.util.*;
 
 @ManagedBean
-public class ParaServiceImpl implements ParaService {
+public class ParaApiServiceImpl implements ParaApiService {
 
     private static final String PARA_API_URL = "https://paratranz.cn/api";
 
@@ -41,7 +41,7 @@ public class ParaServiceImpl implements ParaService {
     }
 
     @Override
-    public ProjectOverview getProjectOverview(String projectId) {
+    public ProjectOverview getProjectIntroduction(String projectId) {
         return GsonUtil.fromJson(HttpUtil.get(PROJECT_API + "/" + projectId), ProjectOverview.class);
     }
 
@@ -175,8 +175,8 @@ public class ParaServiceImpl implements ParaService {
     }
 
     @Override
-    public List<Audit> getTestContent(int uid, String projectId) {
-        String s = HttpUtil.get(PROJECT_API + "/" + projectId + "/applications/" + uid + "/tests");
+    public List<Audit> getTestContent(int applicationId, String projectId) {
+        String s = HttpUtil.get(PROJECT_API + "/" + projectId + "/applications/" + applicationId + "/tests");
         if (GsonUtil.isJsonStr(s)) {
             return GsonUtil.fromJson(s, new TypeToken<>() {
             });
