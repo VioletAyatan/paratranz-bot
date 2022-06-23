@@ -7,7 +7,7 @@ import com.para.tranzai.para.entity.Page;
 import com.para.tranzai.para.entity.PageResult;
 import com.para.tranzai.para.entity.data.Application;
 import com.para.tranzai.para.entity.data.Audit;
-import com.para.tranzai.para.server.ParaService;
+import com.para.tranzai.para.server.ParaApiService;
 import com.para.tranzai.properties.SystemProperties;
 import lombok.extern.slf4j.Slf4j;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
@@ -22,17 +22,17 @@ import java.util.List;
 @CommandProcessor("/群审核")
 public class AuditCommandProcessor extends AbstractCommandProcessor<GroupMessageEvent> {
 
-    private final ParaService paraService;
+    private final ParaApiService paraApiService;
     private final SystemProperties properties;
 
-    public AuditCommandProcessor(ParaService paraService, SystemProperties properties) {
-        this.paraService = paraService;
+    public AuditCommandProcessor(ParaApiService paraApiService, SystemProperties properties) {
+        this.paraApiService = paraApiService;
         this.properties = properties;
     }
 
     @Override
     protected void triggerNoArgs(GroupMessageEvent event) {
-        PageResult<Application> pageResult = paraService.listApplications(new Page(), properties.getProjectId(), 0);
+        PageResult<Application> pageResult = paraApiService.listApplications(new Page(), properties.getProjectId(), 0);
         if (CollUtil.isNotEmpty(pageResult.getResults())) {
             List<Application> results = pageResult.getResults();
             //有多个待审核人的情况
@@ -48,7 +48,7 @@ public class AuditCommandProcessor extends AbstractCommandProcessor<GroupMessage
                     return;
                 }
                 //获取其测试内容
-                List<Audit> testContent = paraService.getTestContent(application.getId(), properties.getProjectId());
+                List<Audit> testContent = paraApiService.getTestContent(application.getId(), properties.getProjectId());
                 this.sendMessage(event, testContent);
             }
         } else {
@@ -58,10 +58,10 @@ public class AuditCommandProcessor extends AbstractCommandProcessor<GroupMessage
 
     @Override
     protected void triggerArgsEvent(GroupMessageEvent event, String[] args) {
-        String uid = args[0];
-        if (StrUtil.isNotEmpty(uid)) {
+        String applicationId = args[0];
+        if (StrUtil.isNotEmpty(applicationId)) {
             try {
-                List<Audit> content = paraService.getTestContent(Integer.parseInt(uid), properties.getProjectId());
+                List<Audit> content = paraApiService.getTestContent(Integer.parseInt(applicationId), properties.getProjectId());
                 this.sendMessage(event, content);
             } catch (NumberFormatException e) {
                 event.getGroup().sendMessage("无法解析参数，确保查询参数为正确的数字用户id。例：/群审核 [用户id]");
@@ -72,19 +72,24 @@ public class AuditCommandProcessor extends AbstractCommandProcessor<GroupMessage
     }
 
     private void sendMessage(GroupMessageEvent event, List<Audit> testContent) {
-        for (Audit audit : testContent) {
-            MessageChainBuilder builder = new MessageChainBuilder()
-                    .append(audit.getOriginal()).append("\n\n");
-            //旧词条翻译者用户信息可能为空
-            if (audit.getOrigin().getUser() != null) {
-                builder.append(audit.getOrigin().getUser().getNickname()).append("：").append("\n");
+        if (testContent.isEmpty()) {
+            event.getGroup().sendMessage("未找到相关测试内容呢~");
+        } else {
+            for (Audit audit : testContent) {
+                MessageChainBuilder builder = new MessageChainBuilder()
+                        .append(audit.getOriginal()).append("\n\n");
+                //旧词条翻译者用户信息可能为空
+                Audit.OriginDTO.UserDTO user = audit.getOrigin().getUser();
+                if (user != null) {
+                    builder.append(user.getNickname() != null ? user.getNickname() : user.getUsername()).append("：").append("\n");
+                }
+                //继续拼接
+                builder.append(audit.getOrigin().getTranslation()).append("\n\n")
+                        .append("申请者翻译：").append("\n")
+                        .append(audit.getTranslation());
+                //发送消息
+                event.getGroup().sendMessage(builder.build());
             }
-            //继续拼接
-            builder.append(audit.getOrigin().getTranslation()).append("\n\n")
-                    .append("申请者翻译：").append("\n")
-                    .append(audit.getTranslation());
-            //发送消息
-            event.getGroup().sendMessage(builder.build());
         }
     }
 }
