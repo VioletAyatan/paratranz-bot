@@ -17,6 +17,7 @@ import java.util.List;
 
 /**
  * 群审核指令处理器
+ * @author Ankol
  */
 @Slf4j
 @CommandProcessor("/群审核")
