@@ -35,3 +35,4 @@ build/
 /json/
 /cache/
 /log/
+/.gradle/
