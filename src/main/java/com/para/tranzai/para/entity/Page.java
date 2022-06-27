@@ -5,6 +5,7 @@ import lombok.Data;
 /**
  * 分页参数类
  * 用于在调用paraTranzApi时传递分页参数使用.
+ * @author ankol
  */
 @Data
 public class Page {

@@ -7,6 +7,7 @@ import java.util.HashMap;
 /**
  * 指令管理器
  * 通过此处理器进行指令处理分发或添加.
+ * @author ankol
  */
 @SuppressWarnings("rawtypes")
 public class CommandManger {
