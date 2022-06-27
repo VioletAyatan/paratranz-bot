@@ -31,6 +31,7 @@ dependencies {
     implementation 'net.mamoe:mirai-core:2.9.1'
     implementation 'cn.hutool:hutool-all:5.8.3'
     implementation 'com.google.code.gson:gson'
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 }
 
 tasks.named('test') {
