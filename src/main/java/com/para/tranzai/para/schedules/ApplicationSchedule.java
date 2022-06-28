@@ -6,6 +6,7 @@ import com.para.tranzai.para.entity.PageResult;
 import com.para.tranzai.para.entity.data.Application;
 import com.para.tranzai.para.server.ParaApiService;
 import com.para.tranzai.properties.SystemProperties;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.contact.Group;
@@ -23,23 +24,17 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Slf4j
+@RequiredArgsConstructor
 public class ApplicationSchedule {
 
     private final ParaApiService paraApiService;
     private final SystemProperties properties;
-
     private final Bot bot;
     /**
      * 此变量用于记录当前已经推送过的申请信息（防止重复推送）.
      * 每日零点清空(也就意味着如果一个申请一天都没人处理，那么第二天会重新进行推送).
      */
     private Set<Integer> isChecked = new HashSet<>();
-
-    public ApplicationSchedule(ParaApiService paraApiService, SystemProperties properties, Bot bot) {
-        this.paraApiService = paraApiService;
-        this.properties = properties;
-        this.bot = bot;
-    }
 
     /**
      * 定时任务，每隔2分钟检测一次申请列表，如果有待审核的申请则通知指定群组.

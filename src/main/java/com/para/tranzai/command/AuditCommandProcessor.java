@@ -9,27 +9,25 @@ import com.para.tranzai.para.entity.data.Application;
 import com.para.tranzai.para.entity.data.Audit;
 import com.para.tranzai.para.server.ParaApiService;
 import com.para.tranzai.properties.SystemProperties;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
 
 import java.util.List;
 
+
 /**
  * 群审核指令处理器
  * @author Ankol
  */
 @Slf4j
+@RequiredArgsConstructor
 @CommandProcessor("/群审核")
 public class AuditCommandProcessor extends AbstractCommandProcessor<GroupMessageEvent> {
 
     private final ParaApiService paraApiService;
     private final SystemProperties properties;
-
-    public AuditCommandProcessor(ParaApiService paraApiService, SystemProperties properties) {
-        this.paraApiService = paraApiService;
-        this.properties = properties;
-    }
 
     @Override
     protected void triggerNoArgs(GroupMessageEvent event) {
