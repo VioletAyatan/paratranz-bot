@@ -41,7 +41,3 @@ java.sourceCompatibility = JavaVersion.VERSION_11
 tasks.withType<JavaCompile> {
     options.encoding = "UTF-8"
 }
-
-tasks.withType(KotlinJvmCompile::class.java) {
-    kotlinOptions.jvmTarget = "11"
-}
