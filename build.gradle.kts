@@ -21,7 +21,7 @@ repositories {
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    compileOnly("org.springframework.boot:spring-boot-configuration-processor")
+    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     // 使用mirai提供的pom，方便进行版本管理
     api(platform("net.mamoe:mirai-bom:2.9.1"))
     //mirai踩坑，与spring集成打包时必须指定运行平台(like -jvm).
