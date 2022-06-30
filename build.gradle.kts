@@ -6,6 +6,7 @@ plugins {
     java
     id("org.springframework.boot") version "2.7.1"
     id("io.freefair.lombok") version "6.5.0.2"
+    kotlin("jvm") version "1.5.30" // 确保添加 Kotlin
 }
 
 apply(plugin = "io.spring.dependency-management")
@@ -21,7 +22,10 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     compileOnly("org.springframework.boot:spring-boot-configuration-processor")
-//    implementation("net.mamoe:mirai-core-jvm:2.9.1")
+    // 使用mirai提供的pom，方便进行版本管理
+    api(platform("net.mamoe:mirai-bom:2.9.1"))
+    api("net.mamoe:mirai-core-api")     // 编译代码使用
+    runtimeOnly("net.mamoe:mirai-core") // 运行时使用
     implementation("com.google.code.gson:gson")
     implementation("cn.hutool:hutool-http:5.8.3")
 }
