@@ -3,6 +3,7 @@ package com.para.tranzai.command;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.para.tranzai.command.annotation.CommandProcessor;
+import com.para.tranzai.command.core.AbstractCommandProcessor;
 import com.para.tranzai.para.entity.Page;
 import com.para.tranzai.para.entity.PageResult;
 import com.para.tranzai.para.entity.data.Application;

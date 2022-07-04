@@ -1,4 +1,4 @@
-package com.para.tranzai.command;
+package com.para.tranzai.command.core;
 
 import net.mamoe.mirai.event.events.MessageEvent;
 
