@@ -1,4 +1,4 @@
-package com.para.tranzai.command.annotation;
+package com.para.tranzai.mirai.command.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

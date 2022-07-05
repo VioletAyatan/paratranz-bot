@@ -1,7 +1,7 @@
-package com.para.tranzai.command;
+package com.para.tranzai.mirai.command;
 
-import com.para.tranzai.command.annotation.CommandProcessor;
-import com.para.tranzai.command.core.AbstractCommandProcessor;
+import com.para.tranzai.mirai.command.annotation.CommandProcessor;
+import com.para.tranzai.mirai.command.core.AbstractCommandProcessor;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 
 /**

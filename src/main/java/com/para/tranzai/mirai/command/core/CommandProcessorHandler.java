@@ -1,9 +1,9 @@
-package com.para.tranzai.command.core;
+package com.para.tranzai.mirai.command.core;
 
 import cn.hutool.core.annotation.AnnotationUtil;
 import cn.hutool.core.util.ClassUtil;
 import cn.hutool.core.util.TypeUtil;
-import com.para.tranzai.command.annotation.CommandProcessor;
+import com.para.tranzai.mirai.command.annotation.CommandProcessor;
 import lombok.extern.slf4j.Slf4j;
 import net.mamoe.mirai.event.events.MessageEvent;
 import org.springframework.beans.BeansException;
