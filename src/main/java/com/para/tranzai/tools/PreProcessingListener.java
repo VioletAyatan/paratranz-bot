@@ -1,8 +1,10 @@
 package com.para.tranzai.tools;
 
 import cn.hutool.core.io.FileUtil;
+import com.para.tranzai.properties.ExternalProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.event.ApplicationPreparedEvent;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.core.io.ClassPathResource;
 
@@ -18,16 +20,24 @@ public class PreProcessingListener implements ApplicationListener<ApplicationPre
      */
     @Override
     public void onApplicationEvent(ApplicationPreparedEvent event) {
-        if (!FileUtil.exist("config/config.properties")) {
+        File file = new File("config/config.properties");
+        if (!file.exists()) {
             log.warn("Warning! Config-file not existed! creat it....");
             ClassPathResource classPathResource = new ClassPathResource("template/config.properties");
             try {
                 InputStream inputStream = classPathResource.getInputStream();
-                File file = new File("config" + File.separator + "config.properties");
-                FileUtil.writeFromStream(inputStream, file);
+                FileUtil.writeFromStream(inputStream, new File("config" + File.separator + "config.properties"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        } else {
+            event.getApplicationContext().addApplicationListener(event1 -> {
+                if (event1 instanceof ApplicationReadyEvent) {
+                    ApplicationReadyEvent readyEvent = (ApplicationReadyEvent) event1;
+                    ExternalProperties properties = readyEvent.getApplicationContext().getBean(ExternalProperties.class);
+                    log.info("Load configuration for {}", properties);
+                }
+            });
         }
     }
 }
