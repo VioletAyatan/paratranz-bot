@@ -19,6 +19,9 @@ public class MiraiEventListener extends SimpleListenerHost {
         super(coroutineContext);
     }
 
+    /**
+     * 群聊事件
+     */
     @EventHandler
     @SuppressWarnings("unchecked")
     public void onGroupMessage(GroupMessageEvent event) {
@@ -28,6 +31,9 @@ public class MiraiEventListener extends SimpleListenerHost {
                 .ifPresent(processor -> processor.accept(event, args));
     }
 
+    /**
+     * 加群事件
+     */
     @EventHandler
     public void onMemberJoin(MemberJoinEvent joinEvent) {
 

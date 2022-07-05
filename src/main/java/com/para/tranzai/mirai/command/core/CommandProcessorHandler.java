@@ -65,7 +65,7 @@ public class CommandProcessorHandler implements BeanPostProcessor, ApplicationCo
                 }
             }
         } else {
-            log.error("Resolve 'CommandProcessor' Bean [{}] Error. It need implement 'BiConsumer' interface.", beanName);
+            log.error("Resolve 'CommandProcessor' bean [{}] error. it must be implement 'BiConsumer' interface.", beanName);
         }
     }
 
