@@ -1,35 +1,34 @@
 package com.para.tranzai.mirai;
 
-import com.para.tranzai.command.core.CommandManger;
+import com.para.tranzai.mirai.command.core.CommandProcessorBeanRegister;
 import com.para.tranzai.properties.SystemProperties;
-import com.para.tranzai.tools.Utils;
-import kotlin.coroutines.CoroutineContext;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.BotFactory;
-import net.mamoe.mirai.event.EventHandler;
-import net.mamoe.mirai.event.SimpleListenerHost;
-import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.utils.BotConfiguration;
 import net.mamoe.mirai.utils.LoggerAdapters;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
-import java.util.Optional;
+import javax.annotation.PostConstruct;
+
 
 @Slf4j
 @Configuration
+@RequiredArgsConstructor
+@Import(CommandProcessorBeanRegister.class)
 @ConditionalOnProperty(name = "system.module-control.mirai-active", havingValue = "true", matchIfMissing = true)
 public class MiraiConfiguration implements ApplicationListener<ApplicationReadyEvent> {
 
     private final SystemProperties properties;
 
-    public MiraiConfiguration(SystemProperties properties) {
-        this.properties = properties;
+    @PostConstruct
+    private void init() {
         log.info("Mirai-module activated.");
     }
 
@@ -47,28 +46,9 @@ public class MiraiConfiguration implements ApplicationListener<ApplicationReadyE
                     //覆盖Mirai内置的日志系统
                     config.setBotLoggerSupplier(it -> LoggerAdapters.asMiraiLogger(log));
                 });
-        addEventListeners(bot);
+        bot.getEventChannel().registerListenerHost(new MiraiEventListener(bot.getCoroutineContext()));
         return bot;
     }
-
-    private void addEventListeners(Bot bot) {
-        bot.getEventChannel().registerListenerHost(new SimpleListenerHost(bot.getCoroutineContext()) {
-            @EventHandler
-            @SuppressWarnings("unchecked")
-            public void onGroupMessage(GroupMessageEvent event) {
-                log.info("[{}:{}] -> {}", event.getSender().getNick(), event.getSender().getId(), event.getMessage().contentToString());
-                String[] args = Utils.getArgs(event.getMessage().contentToString());
-                Optional.ofNullable(CommandManger.getCommandProcessor(args[0]))
-                        .ifPresent(processor -> processor.accept(event, args));
-            }
-
-            @Override
-            public void handleException(@NotNull CoroutineContext context, @NotNull Throwable exception) {
-                super.handleException(context, exception);
-            }
-        });
-    }
-
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
