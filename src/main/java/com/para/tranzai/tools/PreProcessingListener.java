@@ -8,6 +8,7 @@ import org.springframework.core.io.ClassPathResource;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 @Slf4j
 public class PreProcessingListener implements ApplicationListener<ApplicationPreparedEvent> {
@@ -21,8 +22,9 @@ public class PreProcessingListener implements ApplicationListener<ApplicationPre
             log.warn("Warning! Config-file not existed! creat it....");
             ClassPathResource classPathResource = new ClassPathResource("template/config.properties");
             try {
-                File template = classPathResource.getFile();
-                FileUtil.copy(template, new File("config" + File.separator + "config.properties"), false);
+                InputStream inputStream = classPathResource.getInputStream();
+                File file = new File("config" + File.separator + "config.properties");
+                FileUtil.writeFromStream(inputStream, file);
             } catch (IOException e) {
                 e.printStackTrace();
             }
