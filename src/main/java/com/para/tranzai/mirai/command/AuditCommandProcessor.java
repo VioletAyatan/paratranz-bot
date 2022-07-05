@@ -9,7 +9,7 @@ import com.para.tranzai.para.entity.PageResult;
 import com.para.tranzai.para.entity.data.Application;
 import com.para.tranzai.para.entity.data.Audit;
 import com.para.tranzai.para.server.ParaApiService;
-import com.para.tranzai.properties.SystemProperties;
+import com.para.tranzai.properties.ExternalProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
@@ -28,7 +28,7 @@ import java.util.List;
 public class AuditCommandProcessor extends AbstractCommandProcessor<GroupMessageEvent> {
 
     private final ParaApiService paraApiService;
-    private final SystemProperties properties;
+    private final ExternalProperties properties;
 
     @Override
     protected void triggerNoArgs(GroupMessageEvent event) {

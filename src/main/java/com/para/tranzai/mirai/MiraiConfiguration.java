@@ -1,7 +1,7 @@
 package com.para.tranzai.mirai;
 
 import com.para.tranzai.mirai.command.core.CommandProcessorBeanRegister;
-import com.para.tranzai.properties.SystemProperties;
+import com.para.tranzai.properties.ExternalProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.mamoe.mirai.Bot;
@@ -25,7 +25,7 @@ import javax.annotation.PostConstruct;
 @ConditionalOnProperty(name = "system.module-control.mirai-active", havingValue = "true", matchIfMissing = true)
 public class MiraiConfiguration implements ApplicationListener<ApplicationReadyEvent> {
 
-    private final SystemProperties properties;
+    private final ExternalProperties externalProperties;
 
     @PostConstruct
     private void init() {
@@ -35,8 +35,8 @@ public class MiraiConfiguration implements ApplicationListener<ApplicationReadyE
     @Bean
     public Bot miraiBot() {
         Bot bot = BotFactory.INSTANCE.newBot(
-                properties.getBotConfig().getQqNumber(),
-                properties.getBotConfig().getPassword(),
+                externalProperties.getQq(),
+                externalProperties.getPassword(),
                 (config) -> {
                     config.setAutoReconnectOnForceOffline(true);
                     config.setProtocol(BotConfiguration.MiraiProtocol.ANDROID_PHONE);

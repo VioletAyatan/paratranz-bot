@@ -5,7 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import com.para.tranzai.para.entity.PageResult;
 import com.para.tranzai.para.entity.data.Application;
 import com.para.tranzai.para.server.ParaApiService;
-import com.para.tranzai.properties.SystemProperties;
+import com.para.tranzai.properties.ExternalProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.mamoe.mirai.Bot;
@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 public class ApplicationSchedule {
 
     private final ParaApiService paraApiService;
-    private final SystemProperties properties;
+    private final ExternalProperties externalProperties;
     private final Bot bot;
     /**
      * 此变量用于记录当前已经推送过的申请信息（防止重复推送）.
@@ -41,7 +41,7 @@ public class ApplicationSchedule {
      */
     @Scheduled(fixedDelay = 2, timeUnit = TimeUnit.MINUTES)
     public void schedulingApplication() {
-        PageResult<Application> pageResult = paraApiService.listApplications(properties.getProjectId());
+        PageResult<Application> pageResult = paraApiService.listApplications(externalProperties.getProjectId());
         // 待审核列表.
         List<Application> applicationList = pageResult.getResults()
                 .stream()
@@ -50,9 +50,9 @@ public class ApplicationSchedule {
                 .collect(Collectors.toList());
         //如果待审核列表不为空，执行q群通知...
         if (CollUtil.isNotEmpty(applicationList)) {
-            log.info("New application detected. send to group [{}]", Arrays.toString(properties.getBotConfig().getGroups()));
-            for (Long id : properties.getBotConfig().getGroups()) {
-                Group group = bot.getGroup(id);
+            log.info("New application detected. send to group [{}]", Arrays.toString(externalProperties.getGroups()));
+            for (Long groupId : externalProperties.getGroups()) {
+                Group group = bot.getGroup(groupId);
                 if (group != null) {
                     for (Application application : applicationList) {
                         group.sendMessage(buildMessage(group, application));
