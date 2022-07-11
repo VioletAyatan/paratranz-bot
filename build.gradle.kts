@@ -26,7 +26,9 @@ dependencies {
     api("net.mamoe:mirai-core-api-jvm")
     runtimeOnly("net.mamoe:mirai-core-jvm") {
         exclude("net.mamoe", "mirai-core-api")
+        exclude("net.mamoe", "mirai-core-utils")
     }
+    implementation("net.mamoe:mirai-core-utils-jvm")
     implementation("com.google.code.gson:gson")
     implementation("cn.hutool:hutool-http:5.8.3")
 }
