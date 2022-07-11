@@ -29,5 +29,5 @@ jobs:
       #    build in gradle
       - name: Build with Gradle
         uses: gradle/gradle-build-action@v2
-        with:
-          arguments: assemble
+      - name: Excute gralde build
+        run: ./gradlew assemble
