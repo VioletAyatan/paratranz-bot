@@ -27,9 +27,10 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
       #    build in gradle
-      - name: Build with Gradle
-        uses: gradle/gradle-build-action@v2
       - name: print path
         run: pwd
-      - name: Excute gralde build
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
         run: chmod +x ./gradlew
+      - name: Execute Gradle build
+        run: ./gradlew assemble
