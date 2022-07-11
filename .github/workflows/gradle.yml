@@ -31,6 +31,5 @@ jobs:
         run: pwd
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
-        run: chmod +x ./gradlew
       - name: Execute Gradle build
-        run: ./gradlew assemble
+        run: chmod +x ./gradlew assemble
