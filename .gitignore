@@ -36,3 +36,4 @@ build/
 /cache/
 /log/
 /.gradle/
+/config/config.properties
