@@ -34,7 +34,7 @@ jobs:
       - name: Authority
         run: chmod +x ./gradlew
       - name: Execute Gradle build
-        run: ./gradlew bootJar
+        run: ./gradlew assemble
       # deploy...
       - name: SSH deploy
         uses: easingthemes/ssh-deploy@v2.2.11
