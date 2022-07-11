@@ -31,7 +31,7 @@ public class AuditCommandProcessor extends AbstractCommandProcessor<GroupMessage
     private final ExternalProperties properties;
 
     @Override
-    protected void triggerNoArgs(GroupMessageEvent event) {
+    protected void onNoArgsEvent(GroupMessageEvent event) {
         PageResult<Application> pageResult = paraApiService.listApplications(new Page(), properties.getProjectId(), 0);
         if (CollUtil.isNotEmpty(pageResult.getResults())) {
             List<Application> results = pageResult.getResults();
@@ -57,7 +57,7 @@ public class AuditCommandProcessor extends AbstractCommandProcessor<GroupMessage
     }
 
     @Override
-    protected void triggerArgsEvent(GroupMessageEvent event, String[] args) {
+    protected void onArgsEvent(GroupMessageEvent event, String[] args) {
         String applicationId = args[0];
         if (StrUtil.isNotEmpty(applicationId)) {
             try {
