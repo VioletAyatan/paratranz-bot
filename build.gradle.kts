@@ -23,8 +23,10 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     api(platform("net.mamoe:mirai-bom:2.9.1"))
-    api("net.mamoe:mirai-core-api-jvm")     // 编译代码使用
-    runtimeOnly("net.mamoe:mirai-core-jvm") // 运行时使用
+    api("net.mamoe:mirai-core-api-jvm")
+    runtimeOnly("net.mamoe:mirai-core-jvm") {
+        exclude("net.mamoe", "mirai-core-api")
+    }
     implementation("com.google.code.gson:gson")
     implementation("cn.hutool:hutool-http:5.8.3")
 }
