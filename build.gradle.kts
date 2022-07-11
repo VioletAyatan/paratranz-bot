@@ -23,7 +23,9 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     api(platform("net.mamoe:mirai-bom:2.9.1"))
-    api("net.mamoe:mirai-core-api-jvm")
+    api("net.mamoe:mirai-core-api-jvm") {
+        exclude("net.mamoe", "mirai-core-utils")
+    }
     runtimeOnly("net.mamoe:mirai-core-jvm") {
         exclude("net.mamoe", "mirai-core-api")
         exclude("net.mamoe", "mirai-core-utils")
