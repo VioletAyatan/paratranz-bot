@@ -30,4 +30,4 @@ jobs:
       - name: Build with Gradle
         uses: gradle/gradle-build-action@v2
       - name: Excute gralde build
-        run: ./gradlew assemble
+        run: chmod +x ./gradlew assemble
