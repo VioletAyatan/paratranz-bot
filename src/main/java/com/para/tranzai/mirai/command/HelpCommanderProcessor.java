@@ -16,7 +16,7 @@ public class HelpCommanderProcessor extends AbstractCommandProcessor<GroupMessag
      * @param event 事件对象
      */
     @Override
-    protected void triggerNoArgs(GroupMessageEvent event) {
-        super.triggerNoArgs(event);
+    protected void onNoArgsEvent(GroupMessageEvent event) {
+        super.onNoArgsEvent(event);
     }
 }
