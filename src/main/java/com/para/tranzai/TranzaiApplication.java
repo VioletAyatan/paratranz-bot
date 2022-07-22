@@ -12,7 +12,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class TranzaiApplication {
 
     public static void main(String[] args) {
-        log.info("Starting Spring Boot. Version {}", SpringBootVersion.getVersion());
+        log.info("Starting Spring-Boot. Version {}", SpringBootVersion.getVersion());
         SpringApplication.run(TranzaiApplication.class, args);
     }
 

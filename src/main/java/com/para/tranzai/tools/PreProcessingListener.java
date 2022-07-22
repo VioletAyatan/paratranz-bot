@@ -12,6 +12,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * pre-processing the configuration file.
+ * if is not existed. configuration-file will be created.
+ * @author Ankol
+ */
 @Slf4j
 public class PreProcessingListener implements ApplicationListener<ApplicationPreparedEvent> {
     /**
@@ -22,7 +27,7 @@ public class PreProcessingListener implements ApplicationListener<ApplicationPre
     public void onApplicationEvent(ApplicationPreparedEvent event) {
         File file = new File("config/config.properties");
         if (!file.exists()) {
-            log.warn("Warning! Config-file not existed! creat it....");
+            log.warn("Warning! Configuration file not existed! creat it....");
             ClassPathResource classPathResource = new ClassPathResource("template/config.properties");
             try {
                 InputStream inputStream = classPathResource.getInputStream();
