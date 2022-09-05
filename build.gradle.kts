@@ -31,7 +31,7 @@ dependencies {
     }
     implementation("net.mamoe:mirai-core-utils-jvm")
     implementation("com.google.code.gson:gson")
-    implementation("cn.hutool:hutool-http:5.8.5")
+    implementation("cn.hutool:hutool-http:5.8.6")
 }
 
 group = "com.para"
