@@ -7,7 +7,7 @@ plugins {
     id("org.springframework.boot") version "2.7.3"
     id("io.freefair.lombok") version "6.5.1"
     kotlin("jvm") version "1.7.10"
-    id("io.spring.dependency-management") version "1.0.13.RELEASE"
+    id("io.spring.dependency-management") version "1.1.0"
 }
 
 repositories {
