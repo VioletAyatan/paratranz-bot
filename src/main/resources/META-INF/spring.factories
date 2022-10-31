@@ -1,1 +1,0 @@
-org.springframework.context.ApplicationListener=com.para.tranzai.tools.PreProcessingListener

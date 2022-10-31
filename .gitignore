@@ -31,9 +31,9 @@ build/
 
 ### VS Code ###
 .vscode/
-/src/main/resources/application-dev.yml
+/boot-server/src/main/resources/application-dev.yml
 /json/
 /cache/
 /log/
 /.gradle/
-/config/config.properties
+/boot-server/config/config.properties
