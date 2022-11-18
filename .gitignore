@@ -35,5 +35,5 @@ build/
 /json/
 /cache/
 /log/
-/.gradle/
+.gradle/
 /boot-server/config/config.properties

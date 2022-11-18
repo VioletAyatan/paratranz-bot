@@ -1,48 +1,13 @@
-//plugins {
-//    java
-//    id("org.springframework.boot") version "2.7.5"
-//    id("io.freefair.lombok") version "6.5.1"
-//    kotlin("jvm") version "1.7.20"
-//    id("io.spring.dependency-management") version "1.1.0"
-//}
-//
-//repositories {
-//    mavenLocal()
-//    maven {
-//        url = uri("https://maven.aliyun.com/repository/public/")
-//    }
-//    mavenCentral()
-//}
-//
-//dependencies {
-//    implementation("org.springframework.boot:spring-boot-starter")
-//    testImplementation("org.springframework.boot:spring-boot-starter-test")
-//    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
-//    api(platform("net.mamoe:mirai-bom:2.12.3"))
-//    api("net.mamoe:mirai-core-api-jvm") {
-//        exclude("net.mamoe", "mirai-core-utils")
-//    }
-//    runtimeOnly("net.mamoe:mirai-core-jvm") {
-//        exclude("net.mamoe", "mirai-core-api")
-//        exclude("net.mamoe", "mirai-core-utils")
-//    }
-//    implementation("net.mamoe:mirai-core-utils-jvm")
-//    implementation("com.google.code.gson:gson")
-//    implementation("cn.hutool:hutool-http:5.8.9")
-//}
-//
-//group = "com.para"
-//version = "0.0.1"
-//description = "tranzai"
-//java.sourceCompatibility = JavaVersion.VERSION_11
-//
-//tasks.withType<JavaCompile> {
-//    options.encoding = "UTF-8"
-//}
+plugins {
+    java
+}
+
 // 所有子模块通用配置
 allprojects {
     group = "org.paratranz.bot"
     version = "0.0.1"
+
+    apply(plugin = "java")
     // 仓库配置
     repositories {
         mavenLocal()
