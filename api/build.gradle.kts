@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.8.0"
+    kotlin("jvm") version "1.8.10"
 }
 dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
