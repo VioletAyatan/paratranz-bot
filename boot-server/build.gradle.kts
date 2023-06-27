@@ -20,7 +20,7 @@ dependencies {
     }
     implementation("net.mamoe:mirai-core-utils-jvm")
     implementation("com.google.code.gson:gson")
-    implementation("cn.hutool:hutool-http:5.8.18")
+    implementation("cn.hutool:hutool-http:5.8.20")
 }
 
 tasks.withType<JavaCompile> {
