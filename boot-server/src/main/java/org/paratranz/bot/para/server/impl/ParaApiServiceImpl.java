@@ -3,6 +3,7 @@ package org.paratranz.bot.para.server.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.http.HttpUtil;
 import com.google.gson.reflect.TypeToken;
+import jakarta.annotation.ManagedBean;
 import org.paratranz.bot.para.constant.GameEnum;
 import org.paratranz.bot.para.entity.IssuePageResult;
 import org.paratranz.bot.para.entity.Page;
@@ -11,7 +12,6 @@ import org.paratranz.bot.para.server.ParaApiService;
 import org.paratranz.bot.tools.GsonUtil;
 import org.paratranz.bot.para.entity.data.*;
 
-import javax.annotation.ManagedBean;
 import java.util.*;
 
 @ManagedBean

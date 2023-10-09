@@ -1,8 +1,8 @@
 package org.paratranz.bot.para;
 
+import org.paratranz.bot.api.ParaTranzClient;
 import org.paratranz.bot.para.schedules.ApplicationSchedule;
 import org.paratranz.bot.para.server.ParaApiService;
-import org.paratranz.bot.para.server.ParaTranzClient;
 import org.paratranz.bot.properties.ExternalProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

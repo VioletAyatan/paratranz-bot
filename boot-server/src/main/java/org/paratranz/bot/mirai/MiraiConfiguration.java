@@ -1,5 +1,6 @@
 package org.paratranz.bot.mirai;
 
+import jakarta.annotation.PostConstruct;
 import org.paratranz.bot.mirai.command.core.CommandProcessorBeanRegister;
 import org.paratranz.bot.properties.ExternalProperties;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +16,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
-import javax.annotation.PostConstruct;
 
 
 @Slf4j
