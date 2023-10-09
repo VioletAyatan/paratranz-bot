@@ -1,16 +1,16 @@
 plugins {
     java
-    id("io.freefair.lombok") version "8.0.1"
+    id("io.freefair.lombok") version "8.3"
     id("org.springframework.boot") version "3.1.1"
-    kotlin("jvm") version "1.8.22"
     id("io.spring.dependency-management") version "1.1.3"
+    kotlin("jvm") version "1.9.10"
 }
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
-    api(platform("net.mamoe:mirai-bom:2.14.0"))
+    api(platform("net.mamoe:mirai-bom:2.15.0"))
     api("net.mamoe:mirai-core-api-jvm") {
         exclude("net.mamoe", "mirai-core-utils")
     }
