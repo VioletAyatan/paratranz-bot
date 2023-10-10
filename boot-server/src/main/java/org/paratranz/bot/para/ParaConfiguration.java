@@ -1,12 +1,12 @@
 package org.paratranz.bot.para;
 
-import org.paratranz.bot.api.ParaTranzClient;
-import org.paratranz.bot.para.schedules.ApplicationSchedule;
-import org.paratranz.bot.para.server.ParaApiService;
-import org.paratranz.bot.properties.ExternalProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.mamoe.mirai.Bot;
+import org.paratranz.bot.api.ParaTranzApi;
+import org.paratranz.bot.para.schedules.ApplicationSchedule;
+import org.paratranz.bot.para.server.ParaApiService;
+import org.paratranz.bot.properties.ExternalProperties;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,7 +27,7 @@ public class ParaConfiguration {
     }
 
     @Bean
-    public ParaTranzClient paraTranzClient() {
-        return new ParaTranzClient("5828fb55756dbf6ebb4f76937c16e530");
+    public ParaTranzApi paraTranzClient() {
+        return new ParaTranzApi("5828fb55756dbf6ebb4f76937c16e530");
     }
 }

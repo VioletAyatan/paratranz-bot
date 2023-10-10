@@ -1,36 +1,25 @@
 package org.paratranz.bot.mirai;
 
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.BotFactory;
 import net.mamoe.mirai.utils.BotConfiguration;
 import net.mamoe.mirai.utils.LoggerAdapters;
-import org.paratranz.bot.mirai.core.CommandProcessorBeanRegister;
 import org.paratranz.bot.properties.ExternalProperties;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-
-
 
 @Slf4j
 @Configuration
 @RequiredArgsConstructor
-@Import(CommandProcessorBeanRegister.class)
 @ConditionalOnProperty(name = "system.module-control.mirai-active", havingValue = "true", matchIfMissing = true)
 public class MiraiConfiguration implements ApplicationListener<ApplicationReadyEvent> {
 
     private final ExternalProperties externalProperties;
-
-    @PostConstruct
-    private void init() {
-        log.info("Mirai-module activated.");
-    }
 
     @Bean
     public Bot miraiBot() {

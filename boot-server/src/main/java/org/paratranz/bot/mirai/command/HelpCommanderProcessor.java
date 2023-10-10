@@ -1,14 +1,15 @@
 package org.paratranz.bot.mirai.command;
 
-import org.paratranz.bot.mirai.core.CommandProcessor;
-import org.paratranz.bot.mirai.core.AbstractCommandProcessor;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
+import org.paratranz.bot.mirai.core.CommandProcessor;
+import org.paratranz.bot.mirai.core.GroupMessageCommandProcessor;
 
 /**
+ * /help指令处理器
  * @author Ankol
  */
 @CommandProcessor(key = {"/help", "/帮助"})
-public class HelpCommanderProcessor extends AbstractCommandProcessor<GroupMessageEvent> {
+public class HelpCommanderProcessor extends GroupMessageCommandProcessor {
 
 
     /**

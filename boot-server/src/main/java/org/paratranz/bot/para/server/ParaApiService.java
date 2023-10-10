@@ -8,11 +8,7 @@ import org.paratranz.bot.para.entity.data.*;
 
 import java.util.List;
 
-/**
- * 针对调用ParaTranz各种公开的Web-Api接口做一个简单封装.
- * @author Ankol
- */
-@Deprecated
+
 public interface ParaApiService {
 
     /**

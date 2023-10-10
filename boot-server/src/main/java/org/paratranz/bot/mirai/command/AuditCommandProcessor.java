@@ -2,31 +2,30 @@ package org.paratranz.bot.mirai.command;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import net.mamoe.mirai.event.events.GroupMessageEvent;
+import net.mamoe.mirai.message.data.MessageChainBuilder;
 import org.paratranz.bot.api.ParaTranzApi;
 import org.paratranz.bot.mirai.core.CommandProcessor;
-import org.paratranz.bot.mirai.core.AbstractCommandProcessor;
+import org.paratranz.bot.mirai.core.GroupMessageCommandProcessor;
 import org.paratranz.bot.para.entity.Page;
 import org.paratranz.bot.para.entity.PageResult;
 import org.paratranz.bot.para.entity.data.Application;
 import org.paratranz.bot.para.entity.data.Audit;
 import org.paratranz.bot.properties.ExternalProperties;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import net.mamoe.mirai.event.events.GroupMessageEvent;
-import net.mamoe.mirai.message.data.MessageChainBuilder;
 
 import java.util.List;
 
 
 /**
- * 群审核指令处理器
- *
+ * /audit指令处理器
  * @author Ankol
  */
 @Slf4j
 @RequiredArgsConstructor
 @CommandProcessor(key = {"/群审核", "/audit"})
-public class AuditCommandProcessor extends AbstractCommandProcessor<GroupMessageEvent> {
+public class AuditCommandProcessor extends GroupMessageCommandProcessor {
 
     private final ParaTranzApi paraTranzApi;
     private final ExternalProperties properties;

@@ -11,9 +11,9 @@ import java.util.HashMap;
 @SuppressWarnings("rawtypes")
 public class CommandManger {
 
-    private static final HashMap<String, AbstractCommandProcessor> PROCESSOR_HASH_MAP = new HashMap<>();
+    private static final HashMap<String, GroupMessageCommandProcessor> PROCESSOR_HASH_MAP = new HashMap<>();
 
-    public static AbstractCommandProcessor getCommandProcessor(String command) {
+    public static GroupMessageCommandProcessor getCommandProcessor(String command) {
         return PROCESSOR_HASH_MAP.get(command);
     }
 
@@ -24,7 +24,7 @@ public class CommandManger {
      * @param commandProcessor 指令处理器
      * @param override         如果已经存在了指令处理器，可以通过此选项指定是否覆盖现存的指令处理器
      */
-    public static void registerCommandProcessor(String[] commands, AbstractCommandProcessor commandProcessor, boolean override) {
+    public static void registerCommandProcessor(String[] commands, GroupMessageCommandProcessor commandProcessor, boolean override) {
         for (String command : commands) {
             if (override) {
                 boolean contained = PROCESSOR_HASH_MAP.containsKey(command);

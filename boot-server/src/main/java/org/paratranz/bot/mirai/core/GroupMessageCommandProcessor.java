@@ -1,5 +1,6 @@
 package org.paratranz.bot.mirai.core;
 
+import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.event.events.MessageEvent;
 
 import java.util.Arrays;
@@ -12,17 +13,19 @@ import java.util.function.BiConsumer;
  * <br/>
  * 如果一个指令消息不携带参数，那么其会触发 onNoArgsEvent 方法.
  * 如果一个指令消息携带了参数，那么其会触发 onArgsEvent 方法.
+ *
  * @param <E> Bot事件对象类型
  * @author Ankol
  */
-public abstract class AbstractCommandProcessor<E extends MessageEvent> implements BiConsumer<E, String[]> {
+public abstract class GroupMessageCommandProcessor implements BiConsumer<GroupMessageEvent, String[]> {
     /**
      * 对接收到的指令进行处理
+     *
      * @param event 触发的消息事件
-     * @param args 指令集参数，将会自动将传入指令作为数组分发.
+     * @param args  指令集参数，将会自动将传入指令作为数组分发.
      */
     @Override
-    public void accept(E event, String[] args) {
+    public void accept(GroupMessageEvent event, String[] args) {
         if (args.length > 1) {
             onArgsEvent(event, Arrays.copyOfRange(args, 1, args.length));
         } else {
@@ -32,18 +35,20 @@ public abstract class AbstractCommandProcessor<E extends MessageEvent> implement
 
     /**
      * 无参数调用的情况下触发此方法
+     *
      * @param event Bot事件对象（继承自{@link MessageEvent}）
      */
-    protected void onNoArgsEvent(E event) {
+    protected void onNoArgsEvent(GroupMessageEvent event) {
 
     }
 
     /**
      * 有参数调用的情况下触发此方法
+     *
      * @param event Bot事件对象（继承自{@link MessageEvent}）
-     * @param args 指令集参数，将会自动将传入指令作为数组分发.
+     * @param args  指令集参数，将会自动将传入指令作为数组分发.
      */
-    protected void onArgsEvent(E event, String[] args) {
+    protected void onArgsEvent(GroupMessageEvent event, String[] args) {
 
     }
 }
