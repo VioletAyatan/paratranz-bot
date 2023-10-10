@@ -2,13 +2,13 @@ package org.paratranz.bot.mirai.command;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
-import org.paratranz.bot.mirai.command.annotation.CommandProcessor;
-import org.paratranz.bot.mirai.command.core.AbstractCommandProcessor;
+import org.paratranz.bot.api.ParaTranzApi;
+import org.paratranz.bot.mirai.core.CommandProcessor;
+import org.paratranz.bot.mirai.core.AbstractCommandProcessor;
 import org.paratranz.bot.para.entity.Page;
 import org.paratranz.bot.para.entity.PageResult;
 import org.paratranz.bot.para.entity.data.Application;
 import org.paratranz.bot.para.entity.data.Audit;
-import org.paratranz.bot.para.server.ParaApiService;
 import org.paratranz.bot.properties.ExternalProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,19 +20,20 @@ import java.util.List;
 
 /**
  * 群审核指令处理器
+ *
  * @author Ankol
  */
 @Slf4j
 @RequiredArgsConstructor
-@CommandProcessor("/群审核")
+@CommandProcessor(key = {"/群审核", "/audit"})
 public class AuditCommandProcessor extends AbstractCommandProcessor<GroupMessageEvent> {
 
-    private final ParaApiService paraApiService;
+    private final ParaTranzApi paraTranzApi;
     private final ExternalProperties properties;
 
     @Override
     protected void onNoArgsEvent(GroupMessageEvent event) {
-        PageResult<Application> pageResult = paraApiService.listApplications(new Page(), properties.getProjectId(), 0);
+        PageResult<Application> pageResult = paraTranzApi.listApplications(new Page(), properties.getProjectId(), 0);
         if (CollUtil.isNotEmpty(pageResult.getResults())) {
             List<Application> results = pageResult.getResults();
             //有多个待审核人的情况
@@ -48,7 +49,7 @@ public class AuditCommandProcessor extends AbstractCommandProcessor<GroupMessage
                     return;
                 }
                 //获取其测试内容
-                List<Audit> testContent = paraApiService.getTestContent(application.getId(), properties.getProjectId());
+                List<Audit> testContent = paraTranzApi.getTestContent(application.getId(), properties.getProjectId());
                 this.sendMessage(event, testContent);
             }
         } else {
@@ -61,7 +62,7 @@ public class AuditCommandProcessor extends AbstractCommandProcessor<GroupMessage
         String applicationId = args[0];
         if (StrUtil.isNotEmpty(applicationId)) {
             try {
-                List<Audit> content = paraApiService.getTestContent(Integer.parseInt(applicationId), properties.getProjectId());
+                List<Audit> content = paraTranzApi.getTestContent(Integer.parseInt(applicationId), properties.getProjectId());
                 this.sendMessage(event, content);
             } catch (NumberFormatException e) {
                 event.getGroup().sendMessage("无法解析参数，确保查询参数为正确的数字用户id。例：/群审核 [用户id]");

@@ -1,6 +1,5 @@
-package org.paratranz.bot.mirai.command.core;
+package org.paratranz.bot.mirai.core;
 
-import org.paratranz.bot.mirai.command.annotation.CommandProcessor;
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
