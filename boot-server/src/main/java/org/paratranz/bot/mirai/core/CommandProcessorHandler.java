@@ -44,7 +44,7 @@ public class CommandProcessorHandler implements BeanPostProcessor, ApplicationCo
                 //检查指令处理器的参数是否正确
                 checkArgument(bean, beanName);
                 //注册指令处理器
-                CommandManger.registerCommandProcessor(annotation.key(), (GroupMessageCommandProcessor) bean, false);
+                CommandManger.registerCommandProcessor(annotation.key(), (GroupMessageCommandProcessor) bean);
             } catch (RuntimeException e) {
                 log.error(e.getMessage());
                 SpringApplication.exit(applicationContext);
