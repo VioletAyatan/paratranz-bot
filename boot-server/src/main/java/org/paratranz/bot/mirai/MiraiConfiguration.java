@@ -35,6 +35,7 @@ public class MiraiConfiguration implements ApplicationListener<ApplicationReadyE
                     //覆盖Mirai内置的日志系统
                     config.setBotLoggerSupplier(it -> LoggerAdapters.asMiraiLogger(log));
                 });
+        //群聊事件处理
         bot.getEventChannel().registerListenerHost(new MiraiEventListener(bot.getCoroutineContext()));
         return bot;
     }
