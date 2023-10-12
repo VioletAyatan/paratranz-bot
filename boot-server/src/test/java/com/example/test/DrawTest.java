@@ -18,14 +18,14 @@ public class DrawTest {
      */
     @Test
     public void drawCircle() {
-        Surface surface = Surface.makeRaster(ImageInfo.makeN32Premul(100, 100));
+        Surface surface = Surface.makeRaster(ImageInfo.makeN32Premul(1024, 1024));
 
         Canvas canvas = surface.getCanvas();
 
         Paint paint = new Paint();
         paint.setColor(Colors.RED);
         // 画圆
-        canvas.drawCircle(50, 50, 50, paint);
+        canvas.drawCircle(250, 250, 200, paint);
 
         //输出
         Image image = surface.makeImageSnapshot();
@@ -41,28 +41,36 @@ public class DrawTest {
                 "\n\n" +
                 "The trauma we experienced at the hands of our former masters can never be undone. " +
                 "True healing will take generations. But today is a good day.";
-        Surface surface = Surface.makeRaster(ImageInfo.makeN32Premul(3875, 25));
-        Canvas canvas = surface.getCanvas();
-
-        try (Typeface menlo = FontMgr.getDefault().matchFamilyStyle("Arial", FontStyle.NORMAL)) {
+        try (Typeface typeface = FontMgr.getDefault().matchFamilyStyle("Arial", FontStyle.NORMAL)) {
             // 创建字体
-            Font font = new Font(menlo, 25);
-            Paint paint = new Paint().setColor(Colors.RED);
+            int fontSize = 25;
+            Font font = new Font(typeface, fontSize);
+            Paint paint = new Paint().setColor(Colors.GREEN);
 
+            //测量文本长度
             float textWidth = font.measureTextWidth(text);
-            System.out.println("文本长度 = " + textWidth + "px");
+            System.out.println("textWidth = " + textWidth + "px");
+            // 创建画布
+            Surface surface = Surface.makeRaster(ImageInfo.makeN32Premul((int) (textWidth + 5), fontSize + 5));
+            Canvas canvas = surface.getCanvas();
 
-            //x轴为0代表从图层最左上角开始绘制字体.y轴标识纵轴绘制的方向.
-            canvas.drawString(text, 0, 25 - 5, font, paint);
+            //x轴为0代表从图层最左上角开始绘制字体.
+            // y轴表示纵轴绘制方向，这里设置为字体大小-5px.
+            canvas.drawString(text, 0, fontSize-2, font, paint);
+            //输出
+            Image image = surface.makeImageSnapshot();
+            writerToPng("Text.png", image);
         }
-
-        //输出
-        Image image = surface.makeImageSnapshot();
-        writerToPng("Text.png", image);
     }
 
+    /**
+     * 输出图像
+     * @param outPutPath 输出路径
+     * @param image 图片对象
+     */
     private static void writerToPng(String outPutPath, Image image) {
         try {
+            //图像编码为PNG
             Data encode = EncoderPNG.encode(image);
             ByteBuffer byteBuffer = encode.toByteBuffer();
             SeekableByteChannel byteChannel = Files.newByteChannel(Path.of(outPutPath),
