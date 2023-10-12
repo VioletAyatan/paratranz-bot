@@ -1,8 +1,8 @@
 package org.paratranz.bot.tools;
 
 import cn.hutool.core.io.FileUtil;
-import org.paratranz.bot.properties.ExternalProperties;
 import lombok.extern.slf4j.Slf4j;
+import org.paratranz.bot.properties.ExternalProperties;
 import org.springframework.boot.context.event.ApplicationPreparedEvent;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
@@ -15,12 +15,14 @@ import java.io.InputStream;
 /**
  * pre-processing the configuration file.
  * if is not existed. configuration-file will be created.
+ *
  * @author Ankol
  */
 @Slf4j
-public class PreProcessingListener implements ApplicationListener<ApplicationPreparedEvent> {
+public class ConfigInitializer implements ApplicationListener<ApplicationPreparedEvent> {
     /**
      * Handle an application event.
+     *
      * @param event the event to respond to
      */
     @Override
@@ -33,12 +35,11 @@ public class PreProcessingListener implements ApplicationListener<ApplicationPre
                 InputStream inputStream = classPathResource.getInputStream();
                 FileUtil.writeFromStream(inputStream, new File("config" + File.separator + "config.properties"));
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error("初始化配置文件出错，原因：" + e.getMessage(), e);
             }
         } else {
             event.getApplicationContext().addApplicationListener(event1 -> {
-                if (event1 instanceof ApplicationReadyEvent) {
-                    ApplicationReadyEvent readyEvent = (ApplicationReadyEvent) event1;
+                if (event1 instanceof ApplicationReadyEvent readyEvent) {
                     ExternalProperties properties = readyEvent.getApplicationContext().getBean(ExternalProperties.class);
                     log.info("Load configuration for {}", properties);
                 }
