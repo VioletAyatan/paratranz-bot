@@ -1,4 +1,4 @@
-package org.paratranz.bot;
+package org.paratranz.bot.art;
 
 /**
  * 颜色表

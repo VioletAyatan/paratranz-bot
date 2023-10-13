@@ -45,7 +45,7 @@
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.jetbrains.skiko/skiko-awt-runtime-windows-x64 -->
+        <!-- windows java-skia图形库 -->
         <dependency>
             <groupId>io.github.humbleui</groupId>
             <artifactId>skija-windows-x64</artifactId>
