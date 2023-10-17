@@ -2,6 +2,7 @@ package org.paratranz.bot.api;
 
 import cn.hutool.http.Header;
 import cn.hutool.http.HttpRequest;
+import cn.hutool.http.HttpResponse;
 import cn.hutool.http.Method;
 
 import java.util.Map;
@@ -14,19 +15,18 @@ public abstract class AbstractApi {
     }
 
     protected HttpRequest createRequest(String url, Method method) {
-        return new HttpRequest(url)
+        return HttpRequest.of(url)
                 .header(Header.AUTHORIZATION, authorization)
                 .method(method);
     }
 
-    protected String doGet(String url, Map<String, Object> param) {
+    protected HttpResponse doGet(String url, Map<String, Object> param) {
         return this.createRequest(url, Method.GET)
                 .form(param)
-                .execute()
-                .body();
+                .execute();
     }
 
-    protected String doGet(String url) {
+    protected HttpResponse doGet(String url) {
         return this.doGet(url, null);
     }
 }

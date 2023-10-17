@@ -1,11 +1,14 @@
 package org.paratranz.bot.api;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.http.HttpException;
+import cn.hutool.http.HttpResponse;
 import com.google.gson.reflect.TypeToken;
 import org.paratranz.bot.api.entity.Page;
 import org.paratranz.bot.api.entity.PageResult;
 import org.paratranz.bot.api.entity.data.Application;
 import org.paratranz.bot.api.entity.data.Audit;
+import org.paratranz.bot.api.entity.data.GetStringRes;
 import org.paratranz.bot.tools.GsonUtil;
 
 import java.util.Collections;
@@ -13,6 +16,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * 基于<a href="https://paratranz.cn/">Paratranz</a>API文档实现的简单客户端
+ *
+ * @author Administrator
+ * @see <a href="https://paratranz.cn/docs">https://paratranz.cn/docs</a>
+ */
 public class ParaTranzApi extends AbstractApi {
     private static final String PARA_API_URL = "https://paratranz.cn/api";
 
@@ -20,9 +29,20 @@ public class ParaTranzApi extends AbstractApi {
         super(authorization);
     }
 
+    /**
+     * 项目申请
+     */
     public final Apply apply = new Apply(authorization);
+    /**
+     * 词条
+     */
+    public final Strings strings = new Strings(authorization);
 
-
+    /**
+     * 项目申请
+     *
+     * @author Administrator
+     */
     public static class Apply extends AbstractApi {
         protected Apply(String authorization) {
             super(authorization);
@@ -38,12 +58,14 @@ public class ParaTranzApi extends AbstractApi {
         public PageResult<Application> listApply(Page page, String projectId, Integer status) {
             Map<String, Object> params = BeanUtil.beanToMap(Optional.ofNullable(page).orElse(new Page()), false, true);
             params.put("status", status);
-            String json = this.doGet(PARA_API_URL + "/projects/" + projectId + "/applications", params);
-            if (GsonUtil.isJsonStr(json)) {
-                return GsonUtil.fromJson(json, new TypeToken<>() {
-                });
+            try (HttpResponse response = this.doGet(PARA_API_URL + "/projects/" + projectId + "/applications", params)) {
+                if (response.isOk()) {
+                    return GsonUtil.fromJson(response.body(), new TypeToken<>() {
+                    });
+                } else {
+                    return new PageResult<>();
+                }
             }
-            return new PageResult<>();
         }
 
         /**
@@ -62,12 +84,49 @@ public class ParaTranzApi extends AbstractApi {
          * @param projectId     项目id
          */
         public List<Audit> getTestContent(Integer applicationId, String projectId) {
-            String json = this.doGet(PARA_API_URL + "/projects/" + projectId + "/applications/" + applicationId + "/tests");
-            if (GsonUtil.isJsonStr(json)) {
-                return GsonUtil.fromJson(json, new TypeToken<>() {
-                });
+            try (HttpResponse response = this.doGet(PARA_API_URL + "/projects/" + projectId + "/applications/" + applicationId + "/tests")) {
+                if (response.isOk()) {
+                    return GsonUtil.fromJson(response.body(), new TypeToken<>() {
+                    });
+                } else {
+                    return Collections.emptyList();
+                }
             }
-            return Collections.emptyList();
+        }
+    }
+
+    /**
+     * 词条
+     * @author Administrator
+     */
+    public static class Strings extends AbstractApi {
+
+        protected Strings(String authorization) {
+            super(authorization);
+        }
+
+        /**
+         * 获取项目词条
+         *
+         * @param projectId 项目ID
+         * @return {@link PageResult<GetStringRes>}
+         */
+        public PageResult<GetStringRes> getStrings(String projectId) {
+            try (HttpResponse response = this.doGet(PARA_API_URL + "/projects/" + projectId + "/strings")) {
+                if (response.isOk()) {
+                    return GsonUtil.fromJson(response.body(), new TypeToken<>() {
+                    });
+                } else {
+                    throw new HttpException("请求出现错误：{}", response.body());
+                }
+            }
+        }
+
+        /**
+         * 创建词条
+         */
+        public void createStrings() {
+
         }
     }
 }
