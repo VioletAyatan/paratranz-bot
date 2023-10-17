@@ -85,8 +85,6 @@ public class DrawTest {
                         .setFontSize(25)
                         .setTypeface(FontMgr.getDefault().matchFamilyStyle("Arial", FontStyle.NORMAL))
                 )
-                .setAlignment(Alignment.CENTER)
-                .setHeight(25)
                 ;
         // ！这里必须设置这个默认的字体管理器，否则什么也渲染不出来！
         FontCollection fontCollection = new FontCollection()
