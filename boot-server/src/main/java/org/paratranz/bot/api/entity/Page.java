@@ -1,4 +1,4 @@
-package org.paratranz.bot.para.entity;
+package org.paratranz.bot.api.entity;
 
 import lombok.Data;
 

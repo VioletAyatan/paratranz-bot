@@ -1,4 +1,4 @@
-package org.paratranz.bot.para.entity.data;
+package org.paratranz.bot.api.entity.data;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;

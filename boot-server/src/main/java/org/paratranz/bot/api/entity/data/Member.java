@@ -1,40 +1,26 @@
-package org.paratranz.bot.para.entity.data;
+package org.paratranz.bot.api.entity.data;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 排行榜
+ * 项目成员
  */
 @NoArgsConstructor
 @Data
-public class Leaderboard {
+public class Member {
 
     @SerializedName("id")
     private Integer id;
-    @SerializedName("username")
-    private String username;
-    @SerializedName("nickname")
-    private String nickname;
-    @SerializedName("avatar")
-    private String avatar;
-    @SerializedName("lastVisit")
-    private String lastVisit;
     @SerializedName("createdAt")
     private String createdAt;
-    @SerializedName("updatedAt")
-    private String updatedAt;
     @SerializedName("uid")
     private Integer uid;
     @SerializedName("project")
     private Integer project;
     @SerializedName("permission")
     private Integer permission;
-    @SerializedName("approveBy")
-    private Integer approveBy;
-    @SerializedName("note")
-    private String note;
     @SerializedName("translated")
     private Integer translated;
     @SerializedName("edited")
@@ -43,6 +29,21 @@ public class Leaderboard {
     private Integer reviewed;
     @SerializedName("points")
     private Double points;
-    @SerializedName("isOnline")
-    private Boolean isOnline;
+    @SerializedName("user")
+    private UserDTO user;
+
+    @NoArgsConstructor
+    @Data
+    public static class UserDTO {
+        @SerializedName("id")
+        private Integer id;
+        @SerializedName("username")
+        private String username;
+        @SerializedName("avatar")
+        private String avatar;
+        @SerializedName("lastVisit")
+        private String lastVisit;
+        @SerializedName("isOnline")
+        private Boolean isOnline;
+    }
 }

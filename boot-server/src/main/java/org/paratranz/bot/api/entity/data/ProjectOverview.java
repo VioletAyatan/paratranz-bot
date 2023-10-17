@@ -1,4 +1,4 @@
-package org.paratranz.bot.para.entity.data;
+package org.paratranz.bot.api.entity.data;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
@@ -7,11 +7,12 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 /**
- * 项目信息
+ * 项目概述
+ * 通过插件生成的结构，请不要乱动.
  */
 @Data
 @NoArgsConstructor
-public class Project {
+public class ProjectOverview {
 
     @SerializedName("id")
     private Integer id;
@@ -55,6 +56,8 @@ public class Project {
     private Integer stage;
     @SerializedName("extra")
     private ExtraDTO extra;
+    @SerializedName("owner")
+    private OwnerDTO owner;
     @SerializedName("stats")
     private StatsDTO stats;
     @SerializedName("relatedGames")
@@ -65,6 +68,22 @@ public class Project {
     private String gameName;
     @SerializedName("formats")
     private FormatsDTO formats;
+    @SerializedName("webhook")
+    private WebhookDTO webhook;
+    @SerializedName("announcementsCount")
+    private Integer announcementsCount;
+    @SerializedName("tasksCount")
+    private Integer tasksCount;
+    @SerializedName("filesCount")
+    private Integer filesCount;
+    @SerializedName("termsCount")
+    private Integer termsCount;
+    @SerializedName("issuesCount")
+    private Integer issuesCount;
+    @SerializedName("applicationsCount")
+    private Integer applicationsCount;
+    @SerializedName("tags")
+    private List<List<String>> tags;
 
     @NoArgsConstructor
     @Data
@@ -79,12 +98,35 @@ public class Project {
         private String credit;
         @SerializedName("version")
         private String version;
+        @SerializedName("testCount")
+        private Integer testCount;
         @SerializedName("compatible")
         private String compatible;
         @SerializedName("creditLink")
         private String creditLink;
+        @SerializedName("modVersion")
+        private String modVersion;
+        @SerializedName("customTests")
+        private Boolean customTests;
+        @SerializedName("publishLink")
+        private String publishLink;
         @SerializedName("hasTranslation")
         private Boolean hasTranslation;
+    }
+
+    @NoArgsConstructor
+    @Data
+    public static class OwnerDTO {
+        @SerializedName("id")
+        private Integer id;
+        @SerializedName("username")
+        private String username;
+        @SerializedName("nickname")
+        private String nickname;
+        @SerializedName("avatar")
+        private String avatar;
+        @SerializedName("lastVisit")
+        private String lastVisit;
     }
 
     @NoArgsConstructor
@@ -125,5 +167,12 @@ public class Project {
         private String yml;
         @SerializedName("txt")
         private String txt;
+    }
+
+    @NoArgsConstructor
+    @Data
+    public static class WebhookDTO {
+        @SerializedName("discord")
+        private String discord;
     }
 }

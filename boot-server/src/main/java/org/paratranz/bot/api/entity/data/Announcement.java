@@ -1,17 +1,12 @@
-package org.paratranz.bot.para.entity.data;
+package org.paratranz.bot.api.entity.data;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
-/**
- * 术语
- */
 @NoArgsConstructor
 @Data
-public class Terms {
+public class Announcement {
 
     @SerializedName("id")
     private Integer id;
@@ -19,41 +14,28 @@ public class Terms {
     private String createdAt;
     @SerializedName("updatedAt")
     private String updatedAt;
-    @SerializedName("updatedBy")
-    private UpdatedByDTO updatedBy;
-    @SerializedName("pos")
-    private String pos;
     @SerializedName("uid")
     private Integer uid;
-    @SerializedName("term")
-    private String term;
-    @SerializedName("translation")
-    private String translation;
-    @SerializedName("note")
-    private String note;
     @SerializedName("project")
     private Integer project;
-    @SerializedName("variants")
-    private List<String> variants;
+    @SerializedName("title")
+    private String title;
+    @SerializedName("content")
+    private String content;
+    @SerializedName("html")
+    private String html;
+    @SerializedName("status")
+    private Integer status;
+    @SerializedName("sticky")
+    private Boolean sticky;
+    @SerializedName("category")
+    private String category;
+    @SerializedName("votesCount")
+    private Integer votesCount;
     @SerializedName("commentsCount")
     private Integer commentsCount;
     @SerializedName("user")
     private UserDTO user;
-
-    @NoArgsConstructor
-    @Data
-    public static class UpdatedByDTO {
-        @SerializedName("id")
-        private Integer id;
-        @SerializedName("username")
-        private String username;
-        @SerializedName("nickname")
-        private String nickname;
-        @SerializedName("avatar")
-        private String avatar;
-        @SerializedName("lastVisit")
-        private String lastVisit;
-    }
 
     @NoArgsConstructor
     @Data
