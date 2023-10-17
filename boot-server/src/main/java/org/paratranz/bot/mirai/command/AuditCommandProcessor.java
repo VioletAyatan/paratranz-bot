@@ -7,12 +7,12 @@ import lombok.extern.slf4j.Slf4j;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
 import org.paratranz.bot.api.ParaTranzApi;
+import org.paratranz.bot.api.entity.Page;
+import org.paratranz.bot.api.entity.PageResult;
+import org.paratranz.bot.api.entity.data.Application;
+import org.paratranz.bot.api.entity.data.Audit;
 import org.paratranz.bot.mirai.core.CommandProcessor;
 import org.paratranz.bot.mirai.core.GroupMessageCommandProcessor;
-import org.paratranz.bot.para.entity.Page;
-import org.paratranz.bot.para.entity.PageResult;
-import org.paratranz.bot.para.entity.data.Application;
-import org.paratranz.bot.para.entity.data.Audit;
 import org.paratranz.bot.properties.ExternalProperties;
 
 import java.util.List;
@@ -32,7 +32,7 @@ public class AuditCommandProcessor extends GroupMessageCommandProcessor {
 
     @Override
     protected void onNoArgsEvent(GroupMessageEvent event) {
-        PageResult<Application> pageResult = paraTranzApi.listApplications(new Page(), properties.getProjectId(), 0);
+        PageResult<Application> pageResult = paraTranzApi.apply.listApply(new Page(), properties.getProjectId(), 0);
         if (CollUtil.isNotEmpty(pageResult.getResults())) {
             List<Application> results = pageResult.getResults();
             //有多个待审核人的情况
@@ -47,7 +47,7 @@ public class AuditCommandProcessor extends GroupMessageCommandProcessor {
                     return;
                 }
                 //获取其测试内容
-                List<Audit> testContent = paraTranzApi.getTestContent(application.getId(), properties.getProjectId());
+                List<Audit> testContent = paraTranzApi.apply.getTestContent(application.getId(), properties.getProjectId());
                 this.sendMessage(event, testContent);
             }
         } else {

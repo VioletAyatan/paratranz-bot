@@ -1,10 +1,10 @@
 package org.paratranz.bot.para.server;
 
+import org.paratranz.bot.api.entity.IssuePageResult;
+import org.paratranz.bot.api.entity.Page;
+import org.paratranz.bot.api.entity.PageResult;
+import org.paratranz.bot.api.entity.data.*;
 import org.paratranz.bot.para.constant.GameEnum;
-import org.paratranz.bot.para.entity.IssuePageResult;
-import org.paratranz.bot.para.entity.Page;
-import org.paratranz.bot.para.entity.PageResult;
-import org.paratranz.bot.para.entity.data.*;
 
 import java.util.List;
 
