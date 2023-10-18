@@ -27,7 +27,7 @@ public class PageResult<T> {
      */
     private Integer pageSize = 0;
     /**
-     * 真正的相应内容
+     * 真正的数据内容
      */
     private List<T> results = Collections.emptyList();
     /**

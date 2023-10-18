@@ -13,14 +13,23 @@ public class Application {
 
     @SerializedName("id")
     private Integer id;
+    /**
+     * 创建时间
+     */
     @SerializedName("createdAt")
     private String createdAt;
     @SerializedName("uid")
     private Integer uid;
+    /**
+     * 申请的项目ID
+     */
     @SerializedName("project")
     private Integer project;
     @SerializedName("permission")
     private Integer permission;
+    /**
+     * 申请内容
+     */
     @SerializedName("content")
     private String content;
     @SerializedName("status")
@@ -33,6 +42,9 @@ public class Application {
     private DetailDTO detail;
     @SerializedName("tests")
     private Integer tests;
+    /**
+     * 用户相关信息
+     */
     @SerializedName("user")
     private UserDTO user;
 

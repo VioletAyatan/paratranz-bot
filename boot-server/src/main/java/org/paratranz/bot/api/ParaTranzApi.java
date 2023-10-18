@@ -4,6 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.http.HttpException;
 import cn.hutool.http.HttpResponse;
 import com.google.gson.reflect.TypeToken;
+import org.jetbrains.annotations.NotNull;
 import org.paratranz.bot.api.entity.Page;
 import org.paratranz.bot.api.entity.PageResult;
 import org.paratranz.bot.api.entity.data.Application;
@@ -14,7 +15,6 @@ import org.paratranz.bot.tools.GsonUtil;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * 基于<a href="https://paratranz.cn/">Paratranz</a>API文档实现的简单客户端
@@ -55,8 +55,8 @@ public class ParaTranzApi extends AbstractApi {
          * @param projectId 项目id
          * @param status    状态（0待审核、1已拒绝、2已通过）
          */
-        public PageResult<Application> listApply(Page page, String projectId, Integer status) {
-            Map<String, Object> params = BeanUtil.beanToMap(Optional.ofNullable(page).orElse(new Page()), false, true);
+        public PageResult<Application> listApply(@NotNull Page page, @NotNull Integer projectId, Integer status) {
+            Map<String, Object> params = BeanUtil.beanToMap(page, false, true);
             params.put("status", status);
             try (HttpResponse response = this.doGet(PARA_API_URL + "/projects/" + projectId + "/applications", params)) {
                 if (response.isOk()) {
@@ -73,18 +73,18 @@ public class ParaTranzApi extends AbstractApi {
          *
          * @param projectId 项目id
          */
-        public PageResult<Application> listApply(String projectId) {
-            return this.listApply(null, projectId, null);
+        public PageResult<Application> listApply(@NotNull Integer projectId) {
+            return this.listApply(Page.of(), projectId, null);
         }
 
         /**
-         * 查看申请人翻译
+         * 获取申请人测试内容
          *
-         * @param applicationId 申请项id
-         * @param projectId     项目id
+         * @param applyId   申请项id
+         * @param projectId 项目id
          */
-        public List<Audit> getTestContent(Integer applicationId, String projectId) {
-            try (HttpResponse response = this.doGet(PARA_API_URL + "/projects/" + projectId + "/applications/" + applicationId + "/tests")) {
+        public List<Audit> getTestContent(@NotNull Integer applyId, @NotNull Integer projectId) {
+            try (HttpResponse response = this.doGet(PARA_API_URL + "/projects/" + projectId + "/applications/" + applyId + "/tests")) {
                 if (response.isOk()) {
                     return GsonUtil.fromJson(response.body(), new TypeToken<>() {
                     });
@@ -97,6 +97,7 @@ public class ParaTranzApi extends AbstractApi {
 
     /**
      * 词条
+     *
      * @author Administrator
      */
     public static class Strings extends AbstractApi {
