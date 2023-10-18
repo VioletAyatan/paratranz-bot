@@ -8,7 +8,7 @@ import org.paratranz.bot.para.constant.GameEnum;
 
 import java.util.List;
 
-
+@Deprecated
 public interface ParaApiService {
 
     /**

@@ -12,7 +12,10 @@ import org.paratranz.bot.para.constant.GameEnum;
 import org.paratranz.bot.para.server.ParaApiService;
 import org.paratranz.bot.tools.GsonUtil;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @ManagedBean
 public class ParaApiServiceImpl implements ParaApiService {
@@ -159,7 +162,7 @@ public class ParaApiServiceImpl implements ParaApiService {
 
     @Override
     public PageResult<Application> listApplications(Page page, String projectId, Integer status) {
-        Map<String, Object> params = BeanUtil.beanToMap(Optional.ofNullable(page).orElse(new Page()), false, true);
+        Map<String, Object> params = BeanUtil.beanToMap(Page.of(), false, true);
         params.put("status", status);
         String s = HttpUtil.get(PROJECT_API + "/" + projectId + "/applications", params);
         if (GsonUtil.isJsonStr(s)) {
