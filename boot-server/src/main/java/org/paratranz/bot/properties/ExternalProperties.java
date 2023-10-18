@@ -28,5 +28,5 @@ public class ExternalProperties {
      * 配置机器人监听的paraTranz项目id
      */
     @Value("${tranz.projectId}")
-    private String projectId;
+    private Integer projectId;
 }

@@ -29,4 +29,9 @@ public abstract class AbstractApi {
     protected HttpResponse doGet(String url) {
         return this.doGet(url, null);
     }
+
+    protected HttpResponse doPost(String url) {
+        return this.createRequest(url, Method.POST)
+                .execute();
+    }
 }

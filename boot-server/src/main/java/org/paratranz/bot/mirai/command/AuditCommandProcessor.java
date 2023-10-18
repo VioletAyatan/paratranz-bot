@@ -20,6 +20,7 @@ import java.util.List;
 
 /**
  * /audit指令处理器
+ *
  * @author Ankol
  */
 @Slf4j
@@ -32,7 +33,7 @@ public class AuditCommandProcessor extends GroupMessageCommandProcessor {
 
     @Override
     protected void onNoArgsEvent(GroupMessageEvent event) {
-        PageResult<Application> pageResult = paraTranzApi.apply.listApply(new Page(), properties.getProjectId(), 0);
+        PageResult<Application> pageResult = paraTranzApi.apply.listApply(Page.of(), properties.getProjectId(), 0);
         if (CollUtil.isNotEmpty(pageResult.getResults())) {
             List<Application> results = pageResult.getResults();
             //有多个待审核人的情况
@@ -60,7 +61,7 @@ public class AuditCommandProcessor extends GroupMessageCommandProcessor {
         String applicationId = args[0];
         if (StrUtil.isNotEmpty(applicationId)) {
             try {
-                List<Audit> content = paraTranzApi.getTestContent(Integer.parseInt(applicationId), properties.getProjectId());
+                List<Audit> content = paraTranzApi.apply.getTestContent(Integer.parseInt(applicationId), properties.getProjectId());
                 this.sendMessage(event, content);
             } catch (NumberFormatException e) {
                 event.getGroup().sendMessage("无法解析参数，确保查询参数为正确的数字用户id。例：/群审核 [用户id]");

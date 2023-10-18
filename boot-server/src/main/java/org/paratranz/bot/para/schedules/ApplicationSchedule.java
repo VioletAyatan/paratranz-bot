@@ -10,9 +10,9 @@ import net.mamoe.mirai.contact.MemberPermission;
 import net.mamoe.mirai.message.data.AtAll;
 import net.mamoe.mirai.message.data.MessageChain;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
+import org.paratranz.bot.api.ParaTranzApi;
 import org.paratranz.bot.api.entity.PageResult;
 import org.paratranz.bot.api.entity.data.Application;
-import org.paratranz.bot.para.server.ParaApiService;
 import org.paratranz.bot.properties.ExternalProperties;
 import org.springframework.scheduling.annotation.Scheduled;
 
@@ -26,8 +26,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @RequiredArgsConstructor
 public class ApplicationSchedule {
-
-    private final ParaApiService paraApiService;
+    private final ParaTranzApi paraTranzApi;
     private final ExternalProperties externalProperties;
     private final Bot bot;
     /**
@@ -41,7 +40,7 @@ public class ApplicationSchedule {
      */
     @Scheduled(fixedDelay = 2, timeUnit = TimeUnit.MINUTES)
     public void schedulingApplication() {
-        PageResult<Application> pageResult = paraApiService.listApplications(externalProperties.getProjectId());
+        PageResult<Application> pageResult = paraTranzApi.apply.listApply(externalProperties.getProjectId());
         // 待审核列表.
         List<Application> applicationList = pageResult.getResults()
                 .stream()
