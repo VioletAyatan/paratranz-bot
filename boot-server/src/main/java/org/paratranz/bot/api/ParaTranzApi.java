@@ -1,6 +1,7 @@
 package org.paratranz.bot.api;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.http.HttpException;
 import cn.hutool.http.HttpResponse;
 import com.google.gson.reflect.TypeToken;
 import org.jetbrains.annotations.NotNull;
@@ -139,9 +140,10 @@ public class ParaTranzApi extends AbstractApi {
          *
          * @param projectId 项目Id
          * @param page      分页对象
-         * @return {@link PageResult< TermDetail >}
+         * @return {@link PageResult<TermDetail>}
+         * @throws HttpException Api调用出错抛出
          */
-        public PageResult<TermDetail> listTerms(int projectId, Page page) {
+        public PageResult<TermDetail> listTerms(int projectId, Page page) throws HttpException {
             Map<String, Object> params = BeanUtil.beanToMap(Optional.ofNullable(page).orElse(Page.of()), false, true);
             try (HttpResponse response = doGet(PARA_API_URL + "/projects/" + projectId + "/terms", params)) {
                 return processResponse(response, new TypeToken<>() {
@@ -153,9 +155,10 @@ public class ParaTranzApi extends AbstractApi {
          * 获取项目术语列表
          *
          * @param projectId 项目Id
-         * @return {@link PageResult< TermDetail >}
+         * @return {@link PageResult<TermDetail>}
+         * @throws HttpException Api调用出错抛出
          */
-        public PageResult<TermDetail> listTerms(int projectId) {
+        public PageResult<TermDetail> listTerms(int projectId) throws HttpException {
             return this.listTerms(projectId, Page.of());
         }
 
@@ -165,8 +168,9 @@ public class ParaTranzApi extends AbstractApi {
          * @param projectId 项目ID
          * @param termId    术语ID
          * @return {@link TermDetail}
+         * @throws HttpException Api调用出错抛出
          */
-        public TermConfigRes getTermDetail(int projectId, int termId) {
+        public TermConfigRes getTermDetail(int projectId, int termId) throws HttpException {
             try (HttpResponse response = doGet(PARA_API_URL + "/projects/" + projectId + "/terms/" + termId)) {
                 return processResponse(response, TermConfigRes.class);
             }
@@ -178,8 +182,9 @@ public class ParaTranzApi extends AbstractApi {
          * @param projectId 项目Id
          * @param config    术语配置
          * @return {@link TermConfigRes}
+         * @throws HttpException Api调用出错抛出
          */
-        public TermConfigRes createTerm(int projectId, TermConfig config) {
+        public TermConfigRes createTerm(int projectId, TermConfig config) throws HttpException {
             try (HttpResponse response = doPost(PARA_API_URL + "/projects/" + projectId + "/terms", config)) {
                 return processResponse(response, TermConfigRes.class);
             }
@@ -192,8 +197,9 @@ public class ParaTranzApi extends AbstractApi {
          * @param termId    术语ID
          * @param config    术语配置
          * @return {@link TermConfig}
+         * @throws HttpException Api调用出错抛出
          */
-        public TermConfigRes editTerm(int projectId, int termId, TermConfig config) {
+        public TermConfigRes editTerm(int projectId, int termId, TermConfig config) throws HttpException {
             try (HttpResponse response = doPut(PARA_API_URL + "/projects/" + projectId + "/terms/" + termId, config)) {
                 return processResponse(response, TermConfigRes.class);
             }
