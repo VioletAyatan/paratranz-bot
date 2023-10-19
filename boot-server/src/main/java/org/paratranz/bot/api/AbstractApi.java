@@ -4,6 +4,7 @@ import cn.hutool.http.Header;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.http.Method;
+import org.paratranz.bot.tools.GsonUtil;
 
 import java.util.Map;
 
@@ -32,6 +33,12 @@ public abstract class AbstractApi {
 
     protected HttpResponse doPost(String url) {
         return this.createRequest(url, Method.POST)
+                .execute();
+    }
+
+    protected HttpResponse doPost(String url, Object param) {
+        return this.createRequest(url, Method.POST)
+                .body(GsonUtil.toJson(param))
                 .execute();
     }
 }
