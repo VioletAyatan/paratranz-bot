@@ -10,11 +10,14 @@ import org.paratranz.bot.api.entity.PageResult;
 import org.paratranz.bot.api.entity.data.Application;
 import org.paratranz.bot.api.entity.data.Audit;
 import org.paratranz.bot.api.entity.data.GetStringRes;
+import org.paratranz.bot.api.entity.terms.TermConfigRes;
+import org.paratranz.bot.api.entity.terms.TermsConfig;
 import org.paratranz.bot.tools.GsonUtil;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * 基于<a href="https://paratranz.cn/">Paratranz</a>API文档实现的简单客户端
@@ -37,6 +40,10 @@ public class ParaTranzApi extends AbstractApi {
      * 词条
      */
     public final Strings strings = new Strings(authorization);
+    /**
+     * 术语
+     */
+    public final Terms terms = new Terms(authorization);
 
     /**
      * 项目申请
@@ -55,7 +62,7 @@ public class ParaTranzApi extends AbstractApi {
          * @param projectId 项目id
          * @param status    状态（0待审核、1已拒绝、2已通过）
          */
-        public PageResult<Application> listApply(@NotNull Page page, @NotNull Integer projectId, Integer status) {
+        public PageResult<Application> listApply(@NotNull Page page, int projectId, Integer status) {
             Map<String, Object> params = BeanUtil.beanToMap(page, false, true);
             params.put("status", status);
             try (HttpResponse response = this.doGet(PARA_API_URL + "/projects/" + projectId + "/applications", params)) {
@@ -73,7 +80,7 @@ public class ParaTranzApi extends AbstractApi {
          *
          * @param projectId 项目id
          */
-        public PageResult<Application> listApply(@NotNull Integer projectId) {
+        public PageResult<Application> listApply(int projectId) {
             return this.listApply(Page.of(), projectId, null);
         }
 
@@ -83,7 +90,7 @@ public class ParaTranzApi extends AbstractApi {
          * @param applyId   申请项id
          * @param projectId 项目id
          */
-        public List<Audit> getTestContent(@NotNull Integer applyId, @NotNull Integer projectId) {
+        public List<Audit> getTestContent(int applyId, int projectId) {
             try (HttpResponse response = this.doGet(PARA_API_URL + "/projects/" + projectId + "/applications/" + applyId + "/tests")) {
                 if (response.isOk()) {
                     return GsonUtil.fromJson(response.body(), new TypeToken<>() {
@@ -101,7 +108,7 @@ public class ParaTranzApi extends AbstractApi {
      * @author Administrator
      */
     public static class Strings extends AbstractApi {
-
+        //todo
         protected Strings(String authorization) {
             super(authorization);
         }
@@ -128,6 +135,62 @@ public class ParaTranzApi extends AbstractApi {
          */
         public void createStrings() {
 
+        }
+    }
+
+    /**
+     * 术语
+     *
+     * @author Administrator
+     */
+    public static class Terms extends AbstractApi {
+        protected Terms(String authorization) {
+            super(authorization);
+        }
+
+        /**
+         * 获取项目术语列表
+         *
+         * @param projectId 项目Id
+         * @param page      分页对象
+         * @return {@link PageResult<GetTerms>}
+         */
+        public PageResult<Terms> listTerms(int projectId, Page page) {
+            Map<String, Object> params = BeanUtil.beanToMap(Optional.ofNullable(page).orElse(Page.of()), false, true);
+            try (HttpResponse response = doGet(PARA_API_URL + "/projects/" + projectId + "/terms", params)) {
+                if (response.isOk()) {
+                    return GsonUtil.fromJson(response.body(), new TypeToken<>() {
+                    });
+                } else {
+                    throw new HttpException(response.body());
+                }
+            }
+        }
+
+        /**
+         * 获取项目术语列表
+         *
+         * @param projectId 项目Id
+         * @return {@link PageResult<GetTerms>}
+         */
+        public PageResult<Terms> listTerms(int projectId) {
+            return this.listTerms(projectId, Page.of());
+        }
+
+        /**
+         * 创建新术语，如果已存在相同术语会失败
+         *
+         * @param projectId 项目Id
+         * @param params    术语配置对象
+         * @return
+         */
+        public TermConfigRes createTerms(int projectId, TermsConfig params) {
+            try (HttpResponse response = doPost(PARA_API_URL + "/projects/" + projectId + "/terms", params)) {
+                if (response.isOk()) {
+                    return GsonUtil.fromJson(response.body(), TermConfigRes.class);
+                }
+                throw new HttpException(response.body());
+            }
         }
     }
 }
