@@ -30,20 +30,23 @@ public abstract class AbstractApi {
     }
 
     protected HttpResponse doPost(String url) {
-        return this.createRequest(url, Method.POST)
-                .execute();
+        return this.doPost(url, null);
     }
 
     protected HttpResponse doPost(String url, Object param) {
-        return this.createRequest(url, Method.POST)
-                .body(GsonUtil.toJson(param))
-                .execute();
+        HttpRequest request = this.createRequest(url, Method.POST);
+        if (param != null) {
+            request.body(GsonUtil.toJson(param));
+        }
+        return request.execute();
     }
 
     protected HttpResponse doPut(String url, Object param) {
-        return this.createRequest(url, Method.PUT)
-                .body(GsonUtil.toJson(param))
-                .execute();
+        HttpRequest request = this.createRequest(url, Method.PUT);
+        if (param != null) {
+            request.body(GsonUtil.toJson(param));
+        }
+        return request.execute();
     }
 
     protected HttpResponse doDelete(String url) {
