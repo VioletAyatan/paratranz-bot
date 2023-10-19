@@ -1,9 +1,7 @@
 package org.paratranz.bot.api;
 
-import cn.hutool.http.Header;
-import cn.hutool.http.HttpRequest;
-import cn.hutool.http.HttpResponse;
-import cn.hutool.http.Method;
+import cn.hutool.http.*;
+import com.google.gson.reflect.TypeToken;
 import org.paratranz.bot.tools.GsonUtil;
 
 import java.util.Map;
@@ -40,5 +38,32 @@ public abstract class AbstractApi {
         return this.createRequest(url, Method.POST)
                 .body(GsonUtil.toJson(param))
                 .execute();
+    }
+
+    protected HttpResponse doPut(String url, Object param) {
+        return this.createRequest(url, Method.PUT)
+                .body(GsonUtil.toJson(param))
+                .execute();
+    }
+
+    protected HttpResponse doDelete(String url) {
+        return this.createRequest(url, Method.DELETE)
+                .execute();
+    }
+
+    protected <T> T processResponse(HttpResponse response, Class<T> target) throws HttpException {
+        if (response.isOk()) {
+            return GsonUtil.fromJson(response.body(), target);
+        } else {
+            throw new HttpException(response.body());
+        }
+    }
+
+    protected <T> T processResponse(HttpResponse response, TypeToken<T> typeToken) throws HttpException {
+        if (response.isOk()) {
+            return GsonUtil.fromJson(response.body(), typeToken);
+        } else {
+            throw new HttpException(response.body());
+        }
     }
 }
