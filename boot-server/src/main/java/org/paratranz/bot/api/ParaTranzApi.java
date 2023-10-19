@@ -1,7 +1,6 @@
 package org.paratranz.bot.api;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.http.HttpException;
 import cn.hutool.http.HttpResponse;
 import com.google.gson.reflect.TypeToken;
 import org.jetbrains.annotations.NotNull;
@@ -10,11 +9,10 @@ import org.paratranz.bot.api.entity.PageResult;
 import org.paratranz.bot.api.entity.data.Application;
 import org.paratranz.bot.api.entity.data.Audit;
 import org.paratranz.bot.api.entity.data.GetStringRes;
+import org.paratranz.bot.api.entity.terms.TermConfig;
 import org.paratranz.bot.api.entity.terms.TermConfigRes;
-import org.paratranz.bot.api.entity.terms.TermsConfig;
-import org.paratranz.bot.tools.GsonUtil;
+import org.paratranz.bot.api.entity.terms.TermDetail;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -66,12 +64,8 @@ public class ParaTranzApi extends AbstractApi {
             Map<String, Object> params = BeanUtil.beanToMap(page, false, true);
             params.put("status", status);
             try (HttpResponse response = this.doGet(PARA_API_URL + "/projects/" + projectId + "/applications", params)) {
-                if (response.isOk()) {
-                    return GsonUtil.fromJson(response.body(), new TypeToken<>() {
-                    });
-                } else {
-                    return new PageResult<>();
-                }
+                return processResponse(response, new TypeToken<>() {
+                });
             }
         }
 
@@ -92,12 +86,8 @@ public class ParaTranzApi extends AbstractApi {
          */
         public List<Audit> getTestContent(int applyId, int projectId) {
             try (HttpResponse response = this.doGet(PARA_API_URL + "/projects/" + projectId + "/applications/" + applyId + "/tests")) {
-                if (response.isOk()) {
-                    return GsonUtil.fromJson(response.body(), new TypeToken<>() {
-                    });
-                } else {
-                    return Collections.emptyList();
-                }
+                return processResponse(response, new TypeToken<>() {
+                });
             }
         }
     }
@@ -108,7 +98,7 @@ public class ParaTranzApi extends AbstractApi {
      * @author Administrator
      */
     public static class Strings extends AbstractApi {
-        //todo
+
         protected Strings(String authorization) {
             super(authorization);
         }
@@ -121,17 +111,13 @@ public class ParaTranzApi extends AbstractApi {
          */
         public PageResult<GetStringRes> getStrings(String projectId) {
             try (HttpResponse response = this.doGet(PARA_API_URL + "/projects/" + projectId + "/strings")) {
-                if (response.isOk()) {
-                    return GsonUtil.fromJson(response.body(), new TypeToken<>() {
-                    });
-                } else {
-                    throw new HttpException("请求出现错误：{}", response.body());
-                }
+                return processResponse(response, new TypeToken<>() {
+                });
             }
         }
 
         /**
-         * 创建词条
+         * 创建词条 todo
          */
         public void createStrings() {
 
@@ -153,17 +139,13 @@ public class ParaTranzApi extends AbstractApi {
          *
          * @param projectId 项目Id
          * @param page      分页对象
-         * @return {@link PageResult<GetTerms>}
+         * @return {@link PageResult< TermDetail >}
          */
-        public PageResult<Terms> listTerms(int projectId, Page page) {
+        public PageResult<TermDetail> listTerms(int projectId, Page page) {
             Map<String, Object> params = BeanUtil.beanToMap(Optional.ofNullable(page).orElse(Page.of()), false, true);
             try (HttpResponse response = doGet(PARA_API_URL + "/projects/" + projectId + "/terms", params)) {
-                if (response.isOk()) {
-                    return GsonUtil.fromJson(response.body(), new TypeToken<>() {
-                    });
-                } else {
-                    throw new HttpException(response.body());
-                }
+                return processResponse(response, new TypeToken<>() {
+                });
             }
         }
 
@@ -171,25 +153,62 @@ public class ParaTranzApi extends AbstractApi {
          * 获取项目术语列表
          *
          * @param projectId 项目Id
-         * @return {@link PageResult<GetTerms>}
+         * @return {@link PageResult< TermDetail >}
          */
-        public PageResult<Terms> listTerms(int projectId) {
+        public PageResult<TermDetail> listTerms(int projectId) {
             return this.listTerms(projectId, Page.of());
+        }
+
+        /**
+         * 通过ID获取项目术语信息
+         *
+         * @param projectId 项目ID
+         * @param termId    术语ID
+         * @return {@link TermDetail}
+         */
+        public TermConfigRes getTermDetail(int projectId, int termId) {
+            try (HttpResponse response = doGet(PARA_API_URL + "/projects/" + projectId + "/terms/" + termId)) {
+                return processResponse(response, TermConfigRes.class);
+            }
         }
 
         /**
          * 创建新术语，如果已存在相同术语会失败
          *
          * @param projectId 项目Id
-         * @param params    术语配置对象
-         * @return
+         * @param config    术语配置
+         * @return {@link TermConfigRes}
          */
-        public TermConfigRes createTerms(int projectId, TermsConfig params) {
-            try (HttpResponse response = doPost(PARA_API_URL + "/projects/" + projectId + "/terms", params)) {
-                if (response.isOk()) {
-                    return GsonUtil.fromJson(response.body(), TermConfigRes.class);
-                }
-                throw new HttpException(response.body());
+        public TermConfigRes createTerm(int projectId, TermConfig config) {
+            try (HttpResponse response = doPost(PARA_API_URL + "/projects/" + projectId + "/terms", config)) {
+                return processResponse(response, TermConfigRes.class);
+            }
+        }
+
+        /**
+         * 修改术语
+         *
+         * @param projectId 项目ID
+         * @param termId    术语ID
+         * @param config    术语配置
+         * @return {@link TermConfig}
+         */
+        public TermConfigRes editTerm(int projectId, int termId, TermConfig config) {
+            try (HttpResponse response = doPut(PARA_API_URL + "/projects/" + projectId + "/terms/" + termId, config)) {
+                return processResponse(response, TermConfigRes.class);
+            }
+        }
+
+        /**
+         * 通过ID删除术语，仅创建者及管理员可以删除
+         *
+         * @param projectId 项目ID
+         * @param termId    术语ID
+         * @return {@link Boolean}
+         */
+        public boolean deleteTerm(int projectId, int termId) {
+            try (HttpResponse response = doDelete(PARA_API_URL + "/projects/" + projectId + "/terms/" + termId)) {
+                return response.isOk();
             }
         }
     }
