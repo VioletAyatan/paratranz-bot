@@ -1,16 +1,14 @@
 package org.paratranz.bot.api.entity.terms;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * 用于创建术语的配置对象
  *
  * @author Administrator
  */
-@NoArgsConstructor
 @Data
-public class TermsConfig {
+public class TermConfig {
     /**
      * 词性（part of speech）
      */
@@ -41,12 +39,21 @@ public class TermsConfig {
      * @param note        额外的说明
      * @param variants    术语变体
      */
-    public TermsConfig(PosEnum pos, String term, String translation, String note, String[] variants) {
-        this.pos = pos.name().toLowerCase();
-        this.term = term;
-        this.translation = translation;
-        this.note = note;
-        this.variants = variants;
+    public static TermConfig of(PosEnum pos, String term, String translation, String note, String[] variants) {
+        return new TermConfig(pos, term, translation, note, variants);
+    }
+
+    /**
+     * 创建一个术语配置对象
+     *
+     * @param pos         词性枚举，参考: {@link PosEnum}
+     * @param term        术语原文，单词或短语
+     * @param translation 术语译文
+     * @param note        额外的说明
+     * @param variants    术语变体
+     */
+    protected TermConfig(PosEnum pos, String term, String translation, String note, String[] variants) {
+        this(pos.name().toLowerCase(), term, translation, note, variants);
     }
 
     /**
@@ -58,12 +65,15 @@ public class TermsConfig {
      * @param note        额外的说明
      * @param variants    术语变体
      */
-    public TermsConfig(String pos, String term, String translation, String note, String[] variants) {
+    protected TermConfig(String pos, String term, String translation, String note, String[] variants) {
         this.pos = pos;
         this.term = term;
         this.translation = translation;
         this.note = note;
-        this.variants = variants;
+        this.variants = variants != null ? variants : new String[0];
+    }
+
+    protected TermConfig() {
     }
 
     /**

@@ -3,12 +3,11 @@ package org.paratranz.bot.api.entity.terms;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.paratranz.bot.api.entity.UserDto;
 
 @Getter
 @Setter
 @ToString
-public class TermConfigRes extends TermsConfig {
+public class TermConfigRes extends TermConfig {
     /**
      * id
      */
@@ -24,7 +23,7 @@ public class TermConfigRes extends TermsConfig {
     /**
      * 更新用户
      */
-    private UserDto updatedBy;
+    private Integer updatedBy;
     /**
      * 用户Id
      */

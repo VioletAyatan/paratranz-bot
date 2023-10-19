@@ -8,7 +8,7 @@ import org.paratranz.bot.api.entity.UserDto;
 @Getter
 @Setter
 @ToString
-public class Terms extends TermConfigRes {
+public class TermDetail extends TermConfigRes {
     /**
      * 用户信息
      */
