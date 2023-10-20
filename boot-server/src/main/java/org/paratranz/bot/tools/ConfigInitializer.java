@@ -41,7 +41,7 @@ public class ConfigInitializer implements ApplicationListener<ApplicationPrepare
             event.getApplicationContext().addApplicationListener(event1 -> {
                 if (event1 instanceof ApplicationReadyEvent readyEvent) {
                     ExternalProperties properties = readyEvent.getApplicationContext().getBean(ExternalProperties.class);
-                    log.info("Load configuration for {}", properties);
+                    log.info("Load Configuration file from {}", properties);
                 }
             });
         }
