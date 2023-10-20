@@ -7,6 +7,7 @@ import net.mamoe.mirai.BotFactory;
 import net.mamoe.mirai.utils.BotConfiguration;
 import net.mamoe.mirai.utils.LoggerAdapters;
 import org.paratranz.bot.api.ParaTranzApi;
+import org.paratranz.bot.bot.core.CommandProcessorHandler;
 import org.paratranz.bot.bot.schedules.ApplicationSchedule;
 import org.paratranz.bot.properties.ExternalProperties;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -54,6 +55,11 @@ public class MiraiBotConfig implements ApplicationListener<ApplicationReadyEvent
             Bot bot
     ) {
         return new ApplicationSchedule(paraTranzApi, externalProperties, bot);
+    }
+
+    @Bean
+    public CommandProcessorHandler commandProcessorHandler() {
+        return new CommandProcessorHandler();
     }
 
     @Override

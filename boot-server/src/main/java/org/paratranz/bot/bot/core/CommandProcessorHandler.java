@@ -10,7 +10,6 @@ import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -22,7 +21,6 @@ import java.util.function.Predicate;
  * @author ankol
  */
 @Slf4j
-@Component
 public class CommandProcessorHandler implements BeanPostProcessor, ApplicationContextAware {
 
     /**

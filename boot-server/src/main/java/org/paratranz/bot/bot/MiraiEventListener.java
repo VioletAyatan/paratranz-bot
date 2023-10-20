@@ -23,7 +23,6 @@ public class MiraiEventListener extends SimpleListenerHost {
      * 群聊事件
      */
     @EventHandler
-    @SuppressWarnings("unchecked")
     public void onGroupMessage(GroupMessageEvent event) {
         log.info("[{}:{}] -> {}", event.getSender().getNick(), event.getSender().getId(), event.getMessage().contentToString());
         String[] args = Utils.getArgs(event.getMessage().contentToString());
