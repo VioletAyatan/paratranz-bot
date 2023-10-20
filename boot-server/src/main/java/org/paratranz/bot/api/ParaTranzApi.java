@@ -1,12 +1,18 @@
 package org.paratranz.bot.api;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.io.StreamProgress;
+import cn.hutool.core.lang.Assert;
 import cn.hutool.http.HttpException;
 import cn.hutool.http.HttpResponse;
+import cn.hutool.http.HttpStatus;
+import cn.hutool.http.HttpUtil;
 import com.google.gson.reflect.TypeToken;
 import org.jetbrains.annotations.NotNull;
 import org.paratranz.bot.api.entity.Page;
 import org.paratranz.bot.api.entity.PageResult;
+import org.paratranz.bot.api.entity.artifact.ArtifactResult;
+import org.paratranz.bot.api.entity.artifact.TriggerExportRes;
 import org.paratranz.bot.api.entity.data.Application;
 import org.paratranz.bot.api.entity.data.Audit;
 import org.paratranz.bot.api.entity.data.GetStringRes;
@@ -14,9 +20,12 @@ import org.paratranz.bot.api.entity.terms.TermConfig;
 import org.paratranz.bot.api.entity.terms.TermConfigRes;
 import org.paratranz.bot.api.entity.terms.TermDetail;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 基于<a href="https://paratranz.cn/">Paratranz</a>API文档实现的简单客户端
@@ -40,9 +49,13 @@ public class ParaTranzApi extends AbstractApi {
      */
     public final Strings strings = new Strings(authorization);
     /**
-     * 术语
+     * 术语相关接口
      */
     public final Terms terms = new Terms(authorization);
+    /**
+     * 导出压缩包及下载相关接口
+     */
+    public final Artifacts artifacts = new Artifacts(authorization);
 
     /**
      * 项目申请
@@ -215,6 +228,96 @@ public class ParaTranzApi extends AbstractApi {
         public boolean deleteTerm(int projectId, int termId) {
             try (HttpResponse response = doDelete(PARA_API_URL + "/projects/" + projectId + "/terms/" + termId)) {
                 return response.isOk();
+            }
+        }
+    }
+
+    /**
+     * 导出压缩包及下载相关接口
+     *
+     * @author Administrator
+     */
+    public static class Artifacts extends AbstractApi {
+
+        protected Artifacts(String authorization) {
+            super(authorization);
+        }
+
+        /**
+         * 获取最近一次导出的结果
+         *
+         * @param projectId 项目ID
+         * @return {@link ArtifactResult}
+         * @throws HttpException Api调用出错抛出
+         */
+        public ArtifactResult getExportResult(int projectId) throws HttpException {
+            try (HttpResponse response = doGet(PARA_API_URL + "/projects/" + projectId + "/artifacts")) {
+                return processResponse(response, ArtifactResult.class);
+            }
+        }
+
+        /**
+         * 手动触发导出操作，仅管理员可使用
+         *
+         * @param projectId 项目ID
+         * @return {@link TriggerExportRes}
+         * @throws HttpException Api调用出错抛出
+         */
+        public TriggerExportRes triggerExport(int projectId) throws HttpException {
+            try (HttpResponse response = doPost(PARA_API_URL + "/projects/" + projectId + "/artifacts")) {
+                return processResponse(response, TriggerExportRes.class);
+            }
+        }
+
+        /**
+         * 下载导出的压缩包
+         *
+         * @param projectId 项目ID
+         * @param path      目标文件或目录，当为目录时，取URL中的文件名，取不到使用编码后的URL做为文件名
+         * @return 下载的文件大小（单位Byte）
+         */
+        public long downloadArtifacts(int projectId, String path) {
+            return this.downloadArtifacts(projectId, new File(path));
+        }
+
+        /**
+         * 下载导出的压缩包
+         *
+         * @param projectId 项目ID
+         * @param file      目标文件或目录，当为目录时，取URL中的文件名，取不到使用编码后的URL做为文件名
+         * @return 下载的文件大小（单位Byte）
+         */
+        public long downloadArtifacts(int projectId, File file) {
+            return this.downloadArtifacts(projectId, file, null);
+        }
+
+        /**
+         * 下载导出的压缩包
+         *
+         * @param projectId 项目ID
+         * @param file      目标文件或目录，当为目录时，取URL中的文件名，取不到使用编码后的URL做为文件名
+         * @param progress  进度条回调接口
+         * @return 下载的文件大小（单位Byte）
+         */
+        public long downloadArtifacts(int projectId, File file, StreamProgress progress) {
+            Assert.notNull(file, "文件路径不能为空");
+            try (HttpResponse response = doGet(PARA_API_URL + "/projects/" + projectId + "/artifacts/download")) {
+                if (response.getStatus() == HttpStatus.HTTP_MOVED_TEMP) {
+                    String downloadUrl = this.extractDownloadUrl(response.body());
+                    return HttpUtil.downloadFile(downloadUrl, file, progress);
+                } else {
+                    throw new HttpException(response.body());
+                }
+            }
+        }
+
+        private String extractDownloadUrl(String body) {
+            Pattern regex = Pattern.compile("<a\\s+[^>]*href=\"([^\"]+)\"");
+            Matcher matcher = regex.matcher(body);
+            if (matcher.find()) {
+                return matcher.group(1);
+            } else {
+                throw new HttpException("Can't found artifacts download url!");
             }
         }
     }
