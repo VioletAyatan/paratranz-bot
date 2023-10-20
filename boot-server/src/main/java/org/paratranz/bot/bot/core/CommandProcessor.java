@@ -1,4 +1,4 @@
-package org.paratranz.bot.mirai.core;
+package org.paratranz.bot.bot.core;
 
 import org.springframework.stereotype.Component;
 

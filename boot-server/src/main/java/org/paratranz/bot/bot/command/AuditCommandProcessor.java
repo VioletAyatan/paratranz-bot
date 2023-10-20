@@ -1,4 +1,4 @@
-package org.paratranz.bot.mirai.command;
+package org.paratranz.bot.bot.command;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
@@ -11,8 +11,8 @@ import org.paratranz.bot.api.entity.Page;
 import org.paratranz.bot.api.entity.PageResult;
 import org.paratranz.bot.api.entity.data.Application;
 import org.paratranz.bot.api.entity.data.Audit;
-import org.paratranz.bot.mirai.core.CommandProcessor;
-import org.paratranz.bot.mirai.core.GroupMessageCommandProcessor;
+import org.paratranz.bot.bot.core.CommandProcessor;
+import org.paratranz.bot.bot.core.GroupMessageCommandProcessor;
 import org.paratranz.bot.properties.ExternalProperties;
 
 import java.util.List;

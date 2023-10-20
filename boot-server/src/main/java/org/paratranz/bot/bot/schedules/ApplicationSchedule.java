@@ -1,4 +1,4 @@
-package org.paratranz.bot.para.schedules;
+package org.paratranz.bot.bot.schedules;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;

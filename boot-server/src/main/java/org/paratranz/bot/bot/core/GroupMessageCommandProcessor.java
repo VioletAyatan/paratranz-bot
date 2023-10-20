@@ -1,4 +1,4 @@
-package org.paratranz.bot.mirai.core;
+package org.paratranz.bot.bot.core;
 
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.event.events.MessageEvent;

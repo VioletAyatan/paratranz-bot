@@ -1,4 +1,4 @@
-package org.paratranz.bot.mirai;
+package org.paratranz.bot.bot;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -6,6 +6,8 @@ import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.BotFactory;
 import net.mamoe.mirai.utils.BotConfiguration;
 import net.mamoe.mirai.utils.LoggerAdapters;
+import org.paratranz.bot.api.ParaTranzApi;
+import org.paratranz.bot.bot.schedules.ApplicationSchedule;
 import org.paratranz.bot.properties.ExternalProperties;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -17,12 +19,17 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @RequiredArgsConstructor
 @ConditionalOnProperty(name = "system.module-control.mirai-active", havingValue = "true", matchIfMissing = true)
-public class MiraiConfiguration implements ApplicationListener<ApplicationReadyEvent> {
-
-    private final ExternalProperties externalProperties;
+public class MiraiBotConfig implements ApplicationListener<ApplicationReadyEvent> {
 
     @Bean
-    public Bot miraiBot() {
+    public ParaTranzApi paraTranzClient() {
+        return new ParaTranzApi("5828fb55756dbf6ebb4f76937c16e530");
+    }
+
+    @Bean
+    public Bot miraiBot(
+            ExternalProperties externalProperties
+    ) {
         Bot bot = BotFactory.INSTANCE.newBot(
                 externalProperties.getQq(),
                 externalProperties.getPassword(),
@@ -38,6 +45,15 @@ public class MiraiConfiguration implements ApplicationListener<ApplicationReadyE
         //群聊事件处理
         bot.getEventChannel().registerListenerHost(new MiraiEventListener(bot.getCoroutineContext()));
         return bot;
+    }
+
+    @Bean
+    public ApplicationSchedule applicationSchedule(
+            ParaTranzApi paraTranzApi,
+            ExternalProperties externalProperties,
+            Bot bot
+    ) {
+        return new ApplicationSchedule(paraTranzApi, externalProperties, bot);
     }
 
     @Override

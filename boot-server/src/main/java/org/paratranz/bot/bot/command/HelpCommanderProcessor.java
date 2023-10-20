@@ -1,8 +1,8 @@
-package org.paratranz.bot.mirai.command;
+package org.paratranz.bot.bot.command;
 
 import net.mamoe.mirai.event.events.GroupMessageEvent;
-import org.paratranz.bot.mirai.core.CommandProcessor;
-import org.paratranz.bot.mirai.core.GroupMessageCommandProcessor;
+import org.paratranz.bot.bot.core.CommandProcessor;
+import org.paratranz.bot.bot.core.GroupMessageCommandProcessor;
 
 /**
  * /help指令处理器

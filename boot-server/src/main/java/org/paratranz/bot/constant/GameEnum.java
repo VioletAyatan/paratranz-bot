@@ -1,4 +1,4 @@
-package org.paratranz.bot.para.constant;
+package org.paratranz.bot.constant;
 
 import lombok.Getter;
 
