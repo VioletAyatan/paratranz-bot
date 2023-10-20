@@ -77,7 +77,7 @@ public class ParaTranzApi extends AbstractApi {
         public PageResult<Application> listApply(@NotNull Page page, int projectId, Integer status) {
             Map<String, Object> params = BeanUtil.beanToMap(page, false, true);
             params.put("status", status);
-            try (HttpResponse response = this.doGet(PARA_API_URL + "/projects/" + projectId + "/applications", params)) {
+            try (HttpResponse response = super.doGet(PARA_API_URL + "/projects/" + projectId + "/applications", params)) {
                 return processResponse(response, new TypeToken<>() {
                 });
             }
@@ -99,7 +99,7 @@ public class ParaTranzApi extends AbstractApi {
          * @param projectId 项目id
          */
         public List<Audit> getTestContent(int applyId, int projectId) {
-            try (HttpResponse response = this.doGet(PARA_API_URL + "/projects/" + projectId + "/applications/" + applyId + "/tests")) {
+            try (HttpResponse response = super.doGet(PARA_API_URL + "/projects/" + projectId + "/applications/" + applyId + "/tests")) {
                 return processResponse(response, new TypeToken<>() {
                 });
             }
@@ -124,7 +124,7 @@ public class ParaTranzApi extends AbstractApi {
          * @return {@link PageResult<GetStringRes>}
          */
         public PageResult<GetStringRes> getStrings(String projectId) {
-            try (HttpResponse response = this.doGet(PARA_API_URL + "/projects/" + projectId + "/strings")) {
+            try (HttpResponse response = super.doGet(PARA_API_URL + "/projects/" + projectId + "/strings")) {
                 return processResponse(response, new TypeToken<>() {
                 });
             }
@@ -158,7 +158,7 @@ public class ParaTranzApi extends AbstractApi {
          */
         public PageResult<TermDetail> listTerms(int projectId, Page page) throws HttpException {
             Map<String, Object> params = BeanUtil.beanToMap(Optional.ofNullable(page).orElse(Page.of()), false, true);
-            try (HttpResponse response = doGet(PARA_API_URL + "/projects/" + projectId + "/terms", params)) {
+            try (HttpResponse response = super.doGet(PARA_API_URL + "/projects/" + projectId + "/terms", params)) {
                 return processResponse(response, new TypeToken<>() {
                 });
             }
@@ -184,7 +184,7 @@ public class ParaTranzApi extends AbstractApi {
          * @throws HttpException Api调用出错抛出
          */
         public TermConfigRes getTermDetail(int projectId, int termId) throws HttpException {
-            try (HttpResponse response = doGet(PARA_API_URL + "/projects/" + projectId + "/terms/" + termId)) {
+            try (HttpResponse response = super.doGet(PARA_API_URL + "/projects/" + projectId + "/terms/" + termId)) {
                 return processResponse(response, TermConfigRes.class);
             }
         }
@@ -198,7 +198,7 @@ public class ParaTranzApi extends AbstractApi {
          * @throws HttpException Api调用出错抛出
          */
         public TermConfigRes createTerm(int projectId, TermConfig config) throws HttpException {
-            try (HttpResponse response = doPost(PARA_API_URL + "/projects/" + projectId + "/terms", config)) {
+            try (HttpResponse response = super.doPost(PARA_API_URL + "/projects/" + projectId + "/terms", config)) {
                 return processResponse(response, TermConfigRes.class);
             }
         }
@@ -213,7 +213,7 @@ public class ParaTranzApi extends AbstractApi {
          * @throws HttpException Api调用出错抛出
          */
         public TermConfigRes editTerm(int projectId, int termId, TermConfig config) throws HttpException {
-            try (HttpResponse response = doPut(PARA_API_URL + "/projects/" + projectId + "/terms/" + termId, config)) {
+            try (HttpResponse response = super.doPut(PARA_API_URL + "/projects/" + projectId + "/terms/" + termId, config)) {
                 return processResponse(response, TermConfigRes.class);
             }
         }
@@ -226,7 +226,7 @@ public class ParaTranzApi extends AbstractApi {
          * @return {@link Boolean}
          */
         public boolean deleteTerm(int projectId, int termId) {
-            try (HttpResponse response = doDelete(PARA_API_URL + "/projects/" + projectId + "/terms/" + termId)) {
+            try (HttpResponse response = super.doDelete(PARA_API_URL + "/projects/" + projectId + "/terms/" + termId)) {
                 return response.isOk();
             }
         }
@@ -251,7 +251,7 @@ public class ParaTranzApi extends AbstractApi {
          * @throws HttpException Api调用出错抛出
          */
         public ArtifactResult getExportResult(int projectId) throws HttpException {
-            try (HttpResponse response = doGet(PARA_API_URL + "/projects/" + projectId + "/artifacts")) {
+            try (HttpResponse response = super.doGet(PARA_API_URL + "/projects/" + projectId + "/artifacts")) {
                 return processResponse(response, ArtifactResult.class);
             }
         }
@@ -264,7 +264,7 @@ public class ParaTranzApi extends AbstractApi {
          * @throws HttpException Api调用出错抛出
          */
         public TriggerExportRes triggerExport(int projectId) throws HttpException {
-            try (HttpResponse response = doPost(PARA_API_URL + "/projects/" + projectId + "/artifacts")) {
+            try (HttpResponse response = super.doPost(PARA_API_URL + "/projects/" + projectId + "/artifacts")) {
                 return processResponse(response, TriggerExportRes.class);
             }
         }
@@ -301,7 +301,7 @@ public class ParaTranzApi extends AbstractApi {
          */
         public long downloadArtifacts(int projectId, File file, StreamProgress progress) {
             Assert.notNull(file, "文件路径不能为空");
-            try (HttpResponse response = doGet(PARA_API_URL + "/projects/" + projectId + "/artifacts/download")) {
+            try (HttpResponse response = super.doGet(PARA_API_URL + "/projects/" + projectId + "/artifacts/download")) {
                 if (response.getStatus() == HttpStatus.HTTP_MOVED_TEMP) {
                     String downloadUrl = this.extractDownloadUrl(response.body());
                     return HttpUtil.downloadFile(downloadUrl, file, progress);
