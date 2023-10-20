@@ -1,4 +1,3 @@
 system:
   module-control:
-    para-active: true
-    mirai-active: true
+    mirai-active: false

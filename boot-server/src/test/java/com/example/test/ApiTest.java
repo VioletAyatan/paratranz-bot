@@ -57,4 +57,14 @@ public class ApiTest {
             e.printStackTrace();
         }
     }
+    @Test
+    public void artifactsTest() {
+        int projectId = 5727;
+
+        ParaTranzApi.Artifacts artifacts = paraTranzApi.artifacts;
+
+        long total = artifacts.downloadArtifacts(projectId, "opt/artifacts.zip");
+        System.out.println("总下载大小 = " + total + " byte");
+
+    }
 }
