@@ -1,12 +1,8 @@
 package org.paratranz.bot.properties;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-@Getter
-@Setter
 @Component
 @ConfigurationProperties(prefix = "system")
 public class SystemProperties {
@@ -15,16 +11,26 @@ public class SystemProperties {
      */
     private ModuleControl moduleControl;
 
-    @Getter
-    @Setter
+    public ModuleControl getModuleControl() {
+        return moduleControl;
+    }
+
+    public void setModuleControl(ModuleControl moduleControl) {
+        this.moduleControl = moduleControl;
+    }
+
     public static class ModuleControl {
-        /**
-         * 影响系统中有关paraTranz相关服务的启停
-         */
-        private boolean paraActive;
         /**
          * 影响系统中有关mirai相关服务的启停
          */
-        private boolean miraiActive;
+        private Boolean miraiActive = false;
+
+        public Boolean getMiraiActive() {
+            return miraiActive;
+        }
+
+        public void setMiraiActive(Boolean miraiActive) {
+            this.miraiActive = miraiActive;
+        }
     }
 }
