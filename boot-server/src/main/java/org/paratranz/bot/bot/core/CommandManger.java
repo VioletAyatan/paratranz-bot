@@ -8,7 +8,6 @@ import java.util.HashMap;
  *
  * @author ankol
  */
-@SuppressWarnings("rawtypes")
 public class CommandManger {
 
     private static final HashMap<String, GroupMessageCommandProcessor> PROCESSOR_HASH_MAP = new HashMap<>();

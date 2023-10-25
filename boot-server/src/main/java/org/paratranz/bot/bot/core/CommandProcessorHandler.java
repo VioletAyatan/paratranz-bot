@@ -33,7 +33,6 @@ public class CommandProcessorHandler implements BeanPostProcessor, ApplicationCo
     private ApplicationContext applicationContext;
 
     @Override
-    @SuppressWarnings("rawtypes")
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
         CommandProcessor hasAnnotation = bean.getClass().getAnnotation(CommandProcessor.class);
         if (hasAnnotation != null) {
