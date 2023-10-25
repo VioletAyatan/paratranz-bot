@@ -321,4 +321,65 @@ public class ParaTranzApi extends AbstractApi {
             }
         }
     }
+
+    /**
+     * 成员贡献相关接口
+     *
+     * @author Administrator
+     */
+    public static class Scores extends AbstractApi {
+        //todo 贡献相关接口还需要完善
+        protected Scores(String authorization) {
+            super(authorization);
+        }
+
+        /**
+         * 查看项目所有的贡献
+         *
+         * @param projectId 项目ID
+         * @param page      分页
+         * @param uid       指定用户ID
+         * @param operation 指定类型获取贡献（可用值：translate、edit、review）
+         * @param start     筛选开始时间
+         * @param end       筛选结束时间
+         * @return {@link PageResult<Object>}
+         * @throws HttpException Api调用出错抛出
+         */
+        public PageResult getProjectScores(int projectId, Page page, Integer uid, String operation, String start, String end) throws HttpException {
+            Map<String, Object> param = BeanUtil.beanToMap(page, false, true);
+            Optional.ofNullable(uid).ifPresent(val -> param.put("uid", val));
+            Optional.ofNullable(operation).ifPresent(val -> param.put("operation", val));
+            Optional.ofNullable(start).ifPresent(val -> param.put("start", val));
+            Optional.ofNullable(end).ifPresent(val -> param.put("end", val));
+
+            try (HttpResponse response = super.doGet(PARA_API_URL + "/projects/" + projectId + "/scores")) {
+                return processResponse(response, new TypeToken<>() {
+                });
+            }
+        }
+
+
+        /**
+         * 查看项目所有的贡献
+         *
+         * @param projectId 项目ID
+         * @param page      分页
+         * @return
+         * @throws HttpException Api调用出错抛出
+         */
+        public PageResult getProjectScores(int projectId, Page page) throws HttpException {
+            return this.getProjectScores(projectId, page, null, null, null, null);
+        }
+
+        /**
+         * 查看项目所有的贡献
+         *
+         * @param projectId 项目ID
+         * @return
+         * @throws HttpException Api调用出错抛出
+         */
+        public PageResult getProjectScores(int projectId) throws HttpException {
+            return this.getProjectScores(projectId, Page.of());
+        }
+    }
 }
