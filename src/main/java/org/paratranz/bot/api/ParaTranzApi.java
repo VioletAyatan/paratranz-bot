@@ -56,6 +56,10 @@ public class ParaTranzApi extends AbstractApi {
      * 导出压缩包及下载相关接口
      */
     public final Artifacts artifacts = new Artifacts(authorization);
+    /**
+     * 成员贡献相关接口
+     */
+    public final Scores scores = new Scores(authorization);
 
     /**
      * 项目申请
