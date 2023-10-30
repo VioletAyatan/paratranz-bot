@@ -22,6 +22,12 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <scm>
+        <connection>scm:git:https://github.com/VioletAyatan/paratranz-bot.git</connection>
+        <url>https://github.com/VioletAyatan/paratranz-bot</url>
+        <tag>HEAD</tag>
+    </scm>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
