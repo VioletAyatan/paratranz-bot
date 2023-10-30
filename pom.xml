@@ -12,7 +12,7 @@
 
     <groupId>org.paratranz</groupId>
     <artifactId>bot</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.1-SNAPSHOT</version>
     <name>paratranz-bot</name>
 
     <properties>
