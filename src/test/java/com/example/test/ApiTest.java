@@ -6,6 +6,7 @@ import org.paratranz.bot.api.ParaTranzApi;
 import org.paratranz.bot.api.entity.PageResult;
 import org.paratranz.bot.api.entity.data.Application;
 import org.paratranz.bot.api.entity.data.Audit;
+import org.paratranz.bot.api.entity.data.PrScore;
 import org.paratranz.bot.api.entity.terms.TermConfig;
 import org.paratranz.bot.api.entity.terms.TermConfigRes;
 import org.paratranz.bot.api.entity.terms.TermDetail;
@@ -17,7 +18,7 @@ public class ApiTest {
     private final ParaTranzApi paraTranzApi = new ParaTranzApi("5828fb55756dbf6ebb4f76937c16e530");
 
     @Test
-    public void test1() {
+    public void apply() {
         ParaTranzApi.Apply apply = paraTranzApi.apply;
         PageResult<Application> pageResult = apply.listApply(967);
         System.out.println("pageResult = " + pageResult);
@@ -57,6 +58,7 @@ public class ApiTest {
             e.printStackTrace();
         }
     }
+
     @Test
     public void artifactsTest() {
         int projectId = 5727;
@@ -66,5 +68,11 @@ public class ApiTest {
         long total = artifacts.downloadArtifacts(projectId, "opt/artifacts.zip");
         System.out.println("总下载大小 = " + total + " byte");
 
+    }
+
+    @Test
+    public void score() {
+        PageResult<PrScore> projectScores = paraTranzApi.scores.getProjectScores(967);
+        System.out.println("贡献详情 = " + projectScores);
     }
 }
