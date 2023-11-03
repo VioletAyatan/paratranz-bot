@@ -3,7 +3,7 @@ package org.paratranz.bot.api.entity.terms;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.paratranz.bot.api.entity.UserDto;
+import org.paratranz.bot.api.entity.common.PrUser;
 
 @Getter
 @Setter
@@ -12,7 +12,7 @@ public class TermDetail extends TermConfigRes {
     /**
      * 用户信息
      */
-    private UserDto user;
+    private PrUser user;
     /**
      * 评论数量
      */
