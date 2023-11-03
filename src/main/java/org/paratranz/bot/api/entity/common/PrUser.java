@@ -1,6 +1,5 @@
 package org.paratranz.bot.api.entity.common;
 
-import cn.hutool.core.date.DateTime;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -33,15 +32,15 @@ public class PrUser {
     /**
      * 用户最近访问时间
      */
-    private DateTime lastVisit;
+    private String lastVisit;
     /**
      * 创建时间
      */
-    private DateTime createdAt;
+    private String createdAt;
     /**
      * 更新时间
      */
-    private DateTime updatedAt;
+    private String updatedAt;
     /**
      * 用户简介
      */

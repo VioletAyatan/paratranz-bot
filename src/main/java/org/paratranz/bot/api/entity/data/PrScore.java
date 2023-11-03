@@ -1,6 +1,5 @@
 package org.paratranz.bot.api.entity.data;
 
-import cn.hutool.core.date.DateTime;
 import lombok.Data;
 import org.paratranz.bot.api.entity.common.PrUser;
 
@@ -18,7 +17,7 @@ public class PrScore {
     /**
      * 创建时间
      */
-    private DateTime createdAt;
+    private String createdAt;
     /**
      * 项目ID
      */
