@@ -10,7 +10,6 @@ import org.springframework.core.io.ClassPathResource;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * pre-processing the configuration file.
@@ -32,8 +31,7 @@ public class ConfigInitializer implements ApplicationListener<ApplicationPrepare
             log.warn("Warning! Configuration file not existed! creat it....");
             ClassPathResource classPathResource = new ClassPathResource("template/config.properties");
             try {
-                InputStream inputStream = classPathResource.getInputStream();
-                FileUtil.writeFromStream(inputStream, new File("config" + File.separator + "config.properties"));
+                FileUtil.writeFromStream(classPathResource.getInputStream(), new File("config" + File.separator + "config.properties"));
             } catch (IOException e) {
                 log.error("初始化配置文件出错，原因：" + e.getMessage(), e);
             }
