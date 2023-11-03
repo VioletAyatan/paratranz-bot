@@ -16,6 +16,7 @@ import org.paratranz.bot.api.entity.artifact.TriggerExportRes;
 import org.paratranz.bot.api.entity.data.Application;
 import org.paratranz.bot.api.entity.data.Audit;
 import org.paratranz.bot.api.entity.data.GetStringRes;
+import org.paratranz.bot.api.entity.data.PrScore;
 import org.paratranz.bot.api.entity.terms.TermConfig;
 import org.paratranz.bot.api.entity.terms.TermConfigRes;
 import org.paratranz.bot.api.entity.terms.TermDetail;
@@ -116,7 +117,7 @@ public class ParaTranzApi extends AbstractApi {
      * @author Administrator
      */
     public static class Strings extends AbstractApi {
-
+        //todo...
         protected Strings(String authorization) {
             super(authorization);
         }
@@ -349,7 +350,7 @@ public class ParaTranzApi extends AbstractApi {
          * @return {@link PageResult<Object>}
          * @throws HttpException Api调用出错抛出
          */
-        public PageResult getProjectScores(int projectId, Page page, Integer uid, String operation, String start, String end) throws HttpException {
+        public PageResult<PrScore> getProjectScores(int projectId, Page page, Integer uid, String operation, String start, String end) throws HttpException {
             Map<String, Object> param = BeanUtil.beanToMap(page, false, true);
             Optional.ofNullable(uid).ifPresent(val -> param.put("uid", val));
             Optional.ofNullable(operation).ifPresent(val -> param.put("operation", val));
@@ -371,7 +372,7 @@ public class ParaTranzApi extends AbstractApi {
          * @return
          * @throws HttpException Api调用出错抛出
          */
-        public PageResult getProjectScores(int projectId, Page page) throws HttpException {
+        public PageResult<PrScore> getProjectScores(int projectId, Page page) throws HttpException {
             return this.getProjectScores(projectId, page, null, null, null, null);
         }
 
@@ -379,10 +380,10 @@ public class ParaTranzApi extends AbstractApi {
          * 查看项目所有的贡献
          *
          * @param projectId 项目ID
-         * @return
+         * @return {@link PageResult<PrScore>}
          * @throws HttpException Api调用出错抛出
          */
-        public PageResult getProjectScores(int projectId) throws HttpException {
+        public PageResult<PrScore> getProjectScores(int projectId) throws HttpException {
             return this.getProjectScores(projectId, Page.of());
         }
     }
