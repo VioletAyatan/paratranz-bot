@@ -13,7 +13,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class User {
+public class PrUser {
     /**
      * 用户ID
      */

@@ -2,13 +2,15 @@ package org.paratranz.bot.api.entity.data;
 
 import cn.hutool.core.date.DateTime;
 import lombok.Data;
+import org.paratranz.bot.api.entity.common.PrUser;
 
 /**
  * 贡献
+ *
  * @author Ankol
  */
 @Data
-public class Score {
+public class PrScore {
     /**
      * id
      */
@@ -37,4 +39,12 @@ public class Score {
      * 基准乘以乘数得到的最终值
      */
     private Double value;
+    /**
+     * 操作类型（review、edit、translate）
+     */
+    private String operation;
+    /**
+     * 用户详细信息
+     */
+    private PrUser user;
 }
