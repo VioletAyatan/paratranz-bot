@@ -34,10 +34,10 @@ import java.util.regex.Pattern;
  * @author Administrator
  * @see <a href="https://paratranz.cn/docs">https://paratranz.cn/docs</a>
  */
-public class ParaTranzApi extends AbstractApi {
+public class ParatranzApi extends AbstractApi {
     private static final String PARA_API_URL = "https://paratranz.cn/api";
 
-    public ParaTranzApi(String authorization) {
+    public ParatranzApi(String authorization) {
         super(authorization);
     }
 
