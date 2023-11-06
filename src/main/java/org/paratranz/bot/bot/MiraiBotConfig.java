@@ -23,7 +23,7 @@ import org.springframework.context.annotation.Configuration;
 public class MiraiBotConfig implements ApplicationListener<ApplicationReadyEvent> {
 
     @Bean
-    public ParatranzApi paraTranzClient() {
+    public ParatranzApi paratranzClient() {
         return new ParatranzApi("5828fb55756dbf6ebb4f76937c16e530");
     }
 
