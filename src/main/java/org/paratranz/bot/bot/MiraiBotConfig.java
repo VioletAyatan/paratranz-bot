@@ -6,7 +6,7 @@ import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.BotFactory;
 import net.mamoe.mirai.utils.BotConfiguration;
 import net.mamoe.mirai.utils.LoggerAdapters;
-import org.paratranz.bot.api.ParaTranzApi;
+import org.paratranz.bot.api.ParatranzApi;
 import org.paratranz.bot.bot.core.CommandProcessorHandler;
 import org.paratranz.bot.bot.schedules.ApplicationSchedule;
 import org.paratranz.bot.properties.ExternalProperties;
@@ -23,8 +23,8 @@ import org.springframework.context.annotation.Configuration;
 public class MiraiBotConfig implements ApplicationListener<ApplicationReadyEvent> {
 
     @Bean
-    public ParaTranzApi paraTranzClient() {
-        return new ParaTranzApi("5828fb55756dbf6ebb4f76937c16e530");
+    public ParatranzApi paraTranzClient() {
+        return new ParatranzApi("5828fb55756dbf6ebb4f76937c16e530");
     }
 
     @Bean
@@ -50,7 +50,7 @@ public class MiraiBotConfig implements ApplicationListener<ApplicationReadyEvent
 
     @Bean
     public ApplicationSchedule applicationSchedule(
-            ParaTranzApi paraTranzApi,
+            ParatranzApi paraTranzApi,
             ExternalProperties externalProperties,
             Bot bot
     ) {
