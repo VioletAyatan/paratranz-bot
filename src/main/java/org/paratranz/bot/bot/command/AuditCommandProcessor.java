@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
-import org.paratranz.bot.api.ParaTranzApi;
+import org.paratranz.bot.api.ParatranzApi;
 import org.paratranz.bot.api.entity.Page;
 import org.paratranz.bot.api.entity.PageResult;
 import org.paratranz.bot.api.entity.data.Application;
@@ -28,7 +28,7 @@ import java.util.List;
 @CommandProcessor(key = {"/群审核", "/audit"})
 public class AuditCommandProcessor extends GroupMessageCommandProcessor {
 
-    private final ParaTranzApi paraTranzApi;
+    private final ParatranzApi paraTranzApi;
     private final ExternalProperties properties;
 
     @Override

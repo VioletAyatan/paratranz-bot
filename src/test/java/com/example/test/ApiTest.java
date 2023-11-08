@@ -2,8 +2,9 @@ package com.example.test;
 
 import cn.hutool.http.HttpException;
 import org.junit.jupiter.api.Test;
-import org.paratranz.bot.api.ParaTranzApi;
+import org.paratranz.bot.api.ParatranzApi;
 import org.paratranz.bot.api.entity.PageResult;
+import org.paratranz.bot.api.entity.common.PrUser;
 import org.paratranz.bot.api.entity.data.Application;
 import org.paratranz.bot.api.entity.data.Audit;
 import org.paratranz.bot.api.entity.data.PrScore;
@@ -15,11 +16,11 @@ import java.util.List;
 
 public class ApiTest {
 
-    private final ParaTranzApi paraTranzApi = new ParaTranzApi("5828fb55756dbf6ebb4f76937c16e530");
+    private final ParatranzApi paraTranzApi = new ParatranzApi("5828fb55756dbf6ebb4f76937c16e530");
 
     @Test
     public void apply() {
-        ParaTranzApi.Apply apply = paraTranzApi.apply;
+        ParatranzApi.Apply apply = paraTranzApi.apply;
         PageResult<Application> pageResult = apply.listApply(967);
         System.out.println("pageResult = " + pageResult);
 
@@ -31,7 +32,7 @@ public class ApiTest {
     @Test
     public void termTest() {
         int projectId = 5727;
-        ParaTranzApi.Terms terms = paraTranzApi.terms;
+        ParatranzApi.Terms terms = paraTranzApi.terms;
 
         try {
             TermConfig config = TermConfig.of(TermConfig.PosEnum.ADJ, "prettier", "漂亮", "通常用于形容一个人很漂亮", null);
@@ -63,7 +64,7 @@ public class ApiTest {
     public void artifactsTest() {
         int projectId = 5727;
 
-        ParaTranzApi.Artifacts artifacts = paraTranzApi.artifacts;
+        ParatranzApi.Artifacts artifacts = paraTranzApi.artifacts;
 
         long total = artifacts.downloadArtifacts(projectId, "opt/artifacts.zip");
         System.out.println("总下载大小 = " + total + " byte");
@@ -74,5 +75,10 @@ public class ApiTest {
     public void score() {
         PageResult<PrScore> projectScores = paraTranzApi.scores.getProjectScores(967);
         System.out.println("贡献详情 = " + projectScores);
+    }
+    @Test
+    public void users() {
+        PrUser userDetail = paraTranzApi.users.getUserDetail(16242);
+        System.out.println("userDetail = " + userDetail);
     }
 }

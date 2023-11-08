@@ -10,7 +10,7 @@ import net.mamoe.mirai.contact.MemberPermission;
 import net.mamoe.mirai.message.data.AtAll;
 import net.mamoe.mirai.message.data.MessageChain;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
-import org.paratranz.bot.api.ParaTranzApi;
+import org.paratranz.bot.api.ParatranzApi;
 import org.paratranz.bot.api.entity.PageResult;
 import org.paratranz.bot.api.entity.data.Application;
 import org.paratranz.bot.properties.ExternalProperties;
@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @RequiredArgsConstructor
 public class ApplicationSchedule {
-    private final ParaTranzApi paraTranzApi;
+    private final ParatranzApi paraTranzApi;
     private final ExternalProperties externalProperties;
     private final Bot bot;
     /**
