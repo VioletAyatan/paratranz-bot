@@ -333,7 +333,6 @@ public class ParatranzApi extends AbstractApi {
      * @author Administrator
      */
     public static class Scores extends AbstractApi {
-        //todo 贡献相关接口还需要完善
         protected Scores(String authorization) {
             super(authorization);
         }
