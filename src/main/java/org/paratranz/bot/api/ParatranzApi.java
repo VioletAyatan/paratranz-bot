@@ -59,6 +59,10 @@ public class ParatranzApi extends AbstractApi {
      * 成员贡献相关接口
      */
     public final Scores scores = new Scores(authorization);
+    /**
+     * 用户相关接口
+     */
+    public final Users users = new Users(authorization);
 
     /**
      * 项目申请
