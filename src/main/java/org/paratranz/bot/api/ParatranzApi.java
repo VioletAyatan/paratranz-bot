@@ -13,10 +13,8 @@ import org.paratranz.bot.api.entity.Page;
 import org.paratranz.bot.api.entity.PageResult;
 import org.paratranz.bot.api.entity.artifact.ArtifactResult;
 import org.paratranz.bot.api.entity.artifact.TriggerExportRes;
-import org.paratranz.bot.api.entity.data.Application;
-import org.paratranz.bot.api.entity.data.Audit;
-import org.paratranz.bot.api.entity.data.GetStringRes;
-import org.paratranz.bot.api.entity.data.PrScore;
+import org.paratranz.bot.api.entity.common.PrUser;
+import org.paratranz.bot.api.entity.data.*;
 import org.paratranz.bot.api.entity.terms.TermConfig;
 import org.paratranz.bot.api.entity.terms.TermConfigRes;
 import org.paratranz.bot.api.entity.terms.TermDetail;
@@ -384,6 +382,41 @@ public class ParatranzApi extends AbstractApi {
          */
         public PageResult<PrScore> getProjectScores(int projectId) throws HttpException {
             return this.getProjectScores(projectId, Page.of());
+        }
+    }
+
+    /**
+     * 用户相关接口
+     *
+     * @author Administrator
+     */
+    public static class Users extends AbstractApi {
+
+        protected Users(String authorization) {
+            super(authorization);
+        }
+
+        /**
+         * 获取用户信息
+         *
+         * @param uid 用户id
+         * @return {@link PrUser} 用户信息
+         */
+        public PrUser getUserDetail(int uid) {
+            try (HttpResponse response = this.doGet(PARA_API_URL + "/users/" + uid)) {
+                return processResponse(response, PrUser.class);
+            }
+        }
+
+        /**
+         * 更改用户信息（仅支持修改自己的信息）
+         *
+         * @return {@link PrUser} 用户信息
+         */
+        public PrUser updateUserInfo(int uid, UserConfig config) {
+            try (HttpResponse response = this.doPut(PARA_API_URL + "/users/" + uid, config)) {
+                return processResponse(response, PrUser.class);
+            }
         }
     }
 }
