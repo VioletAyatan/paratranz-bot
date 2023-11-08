@@ -4,6 +4,7 @@ import cn.hutool.http.HttpException;
 import org.junit.jupiter.api.Test;
 import org.paratranz.bot.api.ParatranzApi;
 import org.paratranz.bot.api.entity.PageResult;
+import org.paratranz.bot.api.entity.common.PrUser;
 import org.paratranz.bot.api.entity.data.Application;
 import org.paratranz.bot.api.entity.data.Audit;
 import org.paratranz.bot.api.entity.data.PrScore;
@@ -74,5 +75,10 @@ public class ApiTest {
     public void score() {
         PageResult<PrScore> projectScores = paraTranzApi.scores.getProjectScores(967);
         System.out.println("贡献详情 = " + projectScores);
+    }
+    @Test
+    public void users() {
+        PrUser userDetail = paraTranzApi.users.getUserDetail(16242);
+        System.out.println("userDetail = " + userDetail);
     }
 }
