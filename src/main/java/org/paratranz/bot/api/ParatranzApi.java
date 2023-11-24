@@ -414,7 +414,7 @@ public class ParatranzApi extends AbstractApi {
 
         /**
          * 更改用户信息（仅支持修改自己的信息）
-         *
+         * <b>注意，这里测试这个API的时候，配置参数如果只传某一条条件的话返回会报错，但是实际上数据修改成功了，这是paratranz网站api的bug</b>
          * @return {@link PrUser} 用户信息
          */
         public PrUser updateUserInfo(int uid, UserConfig config) {
