@@ -8,6 +8,7 @@ import org.paratranz.bot.api.entity.common.PrUser;
 import org.paratranz.bot.api.entity.data.Application;
 import org.paratranz.bot.api.entity.data.Audit;
 import org.paratranz.bot.api.entity.data.PrScore;
+import org.paratranz.bot.api.entity.data.UserConfig;
 import org.paratranz.bot.api.entity.terms.TermConfig;
 import org.paratranz.bot.api.entity.terms.TermConfigRes;
 import org.paratranz.bot.api.entity.terms.TermDetail;
@@ -80,5 +81,12 @@ public class ApiTest {
     public void users() {
         PrUser userDetail = paraTranzApi.users.getUserDetail(16242);
         System.out.println("userDetail = " + userDetail);
+        //注意，这里测试这个API的时候，配置参数如果只传某一条条件的话返回会报错，但是实际上数据修改成功了，这是paratranz api的bug
+        PrUser response = paraTranzApi.users.updateUserInfo(userDetail.getId(), new UserConfig()
+                .setBio("随缘翻译者")
+                .setAvatar(userDetail.getAvatar())
+                .setNickname(userDetail.getNickname())
+        );
+        System.out.println("response = " + response);
     }
 }
