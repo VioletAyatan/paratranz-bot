@@ -63,6 +63,48 @@ public class ParatranzApi extends AbstractApi {
      * 用户相关接口
      */
     public final Users users = new Users(authorization);
+    /**
+     * 项目相关接口
+     */
+    public final Projects projects = new Projects(authorization);
+
+    /**
+     * 项目相关接口
+     *
+     * @author Administrator
+     */
+    public static class Projects extends AbstractApi {
+        protected Projects(String authorization) {
+            super(authorization);
+        }
+
+        /**
+         * 获取项目列表
+         *
+         * @param page 分页参数
+         * @return {@link PageResult<Project>}
+         */
+        public PageResult<Project> listProjects(Page page) {
+            if (page == null) {
+                page = Page.of();
+            }
+            Map<String, Object> param = BeanUtil.beanToMap(page, false, false);
+            try (HttpResponse response = this.doGet(PARA_API_URL + "/projects", param)) {
+                return this.processResponse(response, new TypeToken<PageResult<Project>>() {
+                });
+            }
+        }
+
+        /**
+         * 获取项目列表
+         * 默认查询第一页前50条项目
+         *
+         * @return {@link PageResult<Project>}
+         */
+        public PageResult<Project> listProjects() {
+            return this.listProjects(Page.of());
+        }
+    }
 
     /**
      * 项目申请
@@ -415,6 +457,7 @@ public class ParatranzApi extends AbstractApi {
         /**
          * 更改用户信息（仅支持修改自己的信息）
          * <b>注意，这里测试这个API的时候，配置参数如果只传某一条条件的话返回会报错，但是实际上数据修改成功了，这是paratranz网站api的bug</b>
+         *
          * @return {@link PrUser} 用户信息
          */
         public PrUser updateUserInfo(int uid, UserConfig config) {
