@@ -12,7 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 
-public class DrawTest {
+public class DrawMyTestCommandProcessor {
     /**
      * 颜料
      */

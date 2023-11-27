@@ -15,7 +15,7 @@ import org.paratranz.bot.api.entity.terms.TermDetail;
 
 import java.util.List;
 
-public class ApiTest {
+public class ApiMyTestCommandProcessor {
 
     private final ParatranzApi paraTranzApi = new ParatranzApi("5828fb55756dbf6ebb4f76937c16e530");
 
