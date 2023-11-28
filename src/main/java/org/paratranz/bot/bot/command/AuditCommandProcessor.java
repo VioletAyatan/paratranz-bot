@@ -10,10 +10,9 @@ import org.paratranz.bot.api.entity.Page;
 import org.paratranz.bot.api.entity.PageResult;
 import org.paratranz.bot.api.entity.data.Application;
 import org.paratranz.bot.api.entity.data.Audit;
-import org.paratranz.bot.bot.core.CommandProcessor;
 import org.paratranz.bot.bot.core.GroupMessageCommandProcessor;
 import org.paratranz.bot.properties.ExternalProperties;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -24,16 +23,16 @@ import java.util.List;
  * @author Ankol
  */
 @Slf4j
-@CommandProcessor(key = {"/群审核", "/audit"})
+@Component
 public class AuditCommandProcessor extends GroupMessageCommandProcessor {
 
-    @Autowired
-    private ParatranzApi paraTranzApi;
-    @Autowired
-    private ExternalProperties properties;
+    private final ParatranzApi paraTranzApi;
+    private final ExternalProperties properties;
 
-    public AuditCommandProcessor() {
-        super(description, key);
+    public AuditCommandProcessor(ParatranzApi paraTranzApi, ExternalProperties properties) {
+        super("群审核placeholder", new String[]{"/audit", "/群审核"});
+        this.paraTranzApi = paraTranzApi;
+        this.properties = properties;
     }
 
     @Override
