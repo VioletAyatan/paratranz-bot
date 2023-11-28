@@ -102,6 +102,7 @@
                                 <include>config/**</include>
                                 <include>cache/**</include>
                                 <include>log/**</include>
+                                <include>test/**</include>
                             </includes>
                         </fileset>
                     </filesets>

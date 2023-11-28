@@ -1,6 +1,5 @@
 package org.paratranz.bot.bot.core;
 
-import cn.hutool.core.annotation.AnnotationUtil;
 import cn.hutool.core.util.ClassUtil;
 import cn.hutool.core.util.TypeUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +16,8 @@ import java.util.function.BiConsumer;
 import java.util.function.Predicate;
 
 /**
- * 对被{@link CommandProcessor}注解标记的类进行处理并解析。
+ * 对{@link GroupMessageCommandProcessor}进行处理并解析。
+ *
  * @author ankol
  */
 @Slf4j
@@ -34,14 +34,12 @@ public class CommandProcessorHandler implements BeanPostProcessor, ApplicationCo
 
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-        CommandProcessor hasAnnotation = bean.getClass().getAnnotation(CommandProcessor.class);
-        if (hasAnnotation != null) {
-            CommandProcessor annotation = AnnotationUtil.getAnnotation(bean.getClass(), CommandProcessor.class);
+        if (bean instanceof GroupMessageCommandProcessor commandProcessor) {
             try {
                 //检查指令处理器的参数是否正确
                 checkArgument(bean, beanName);
                 //注册指令处理器
-                CommandManger.registerCommandProcessor(annotation.key(), (GroupMessageCommandProcessor) bean);
+                CommandManger.registerCommandProcessor(commandProcessor.getKey(), commandProcessor);
             } catch (RuntimeException e) {
                 log.error(e.getMessage());
                 SpringApplication.exit(applicationContext);

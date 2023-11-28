@@ -5,6 +5,7 @@ import io.github.humbleui.skija.paragraph.*;
 import org.junit.jupiter.api.Test;
 import org.paratranz.bot.art.Colors;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SeekableByteChannel;
@@ -17,6 +18,8 @@ public class DrawTest {
      * 颜料
      */
     private final Paint paint = new Paint();
+
+    private static final String OUT_PUT_PATH = "test";
 
     /**
      * 绘图测试
@@ -34,7 +37,7 @@ public class DrawTest {
         //输出
         Image image = surface.makeImageSnapshot();
 
-        writerToPng("output.png", image);
+        write(OUT_PUT_PATH + File.separator + "output.png", image);
     }
 
     /**
@@ -66,7 +69,7 @@ public class DrawTest {
             canvas.drawString(text, 0, fontSize - 2, font, paint);
             //输出
             Image image = surface.makeImageSnapshot();
-            writerToPng("Text.png", image);
+            write(OUT_PUT_PATH + File.separator + "Text.png", image);
         }
     }
 
@@ -76,7 +79,7 @@ public class DrawTest {
     @Test
     public void drawTextParagraph() {
         // 创建画布
-        Surface surface = Surface.makeRaster(ImageInfo.makeN32Premul( 1024, 1024));
+        Surface surface = Surface.makeRaster(ImageInfo.makeN32Premul(1024, 1024));
         Canvas canvas = surface.getCanvas();
 
         ParagraphStyle paragraphStyle = new ParagraphStyle()
@@ -84,8 +87,7 @@ public class DrawTest {
                         .setColor(Colors.RED)
                         .setFontSize(25)
                         .setTypeface(FontMgr.getDefault().matchFamilyStyle("Arial", FontStyle.NORMAL))
-                )
-                ;
+                );
         // ！这里必须设置这个默认的字体管理器，否则什么也渲染不出来！
         FontCollection fontCollection = new FontCollection()
                 .setDefaultFontManager(FontMgr.getDefault());
@@ -104,19 +106,16 @@ public class DrawTest {
         paragraph.paint(canvas, 0, 0);
 
 
-        writerToPng("textArea.png", surface.makeImageSnapshot());
+        write(OUT_PUT_PATH + File.separator + "textArea.png", surface.makeImageSnapshot());
 
     }
 
-    /**
-     * 输出图像
-     *
-     * @param outPutPath 输出路径
-     * @param image      图片对象
-     */
-    private static void writerToPng(String outPutPath, Image image) {
+    private static void write(String outPutPath, Image image) {
         try {
-            //图像编码为PNG
+            File file = new File(OUT_PUT_PATH);
+            if (!file.exists()) {
+                file.mkdirs();
+            }
             Data encode = EncoderPNG.encode(image);
             ByteBuffer byteBuffer = encode.toByteBuffer();
             SeekableByteChannel byteChannel = Files.newByteChannel(Path.of(outPutPath),

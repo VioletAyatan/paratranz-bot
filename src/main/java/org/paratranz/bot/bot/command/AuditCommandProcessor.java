@@ -2,7 +2,6 @@ package org.paratranz.bot.bot.command;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
@@ -11,9 +10,9 @@ import org.paratranz.bot.api.entity.Page;
 import org.paratranz.bot.api.entity.PageResult;
 import org.paratranz.bot.api.entity.data.Application;
 import org.paratranz.bot.api.entity.data.Audit;
-import org.paratranz.bot.bot.core.CommandProcessor;
 import org.paratranz.bot.bot.core.GroupMessageCommandProcessor;
 import org.paratranz.bot.properties.ExternalProperties;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -24,12 +23,17 @@ import java.util.List;
  * @author Ankol
  */
 @Slf4j
-@RequiredArgsConstructor
-@CommandProcessor(key = {"/群审核", "/audit"})
+@Component
 public class AuditCommandProcessor extends GroupMessageCommandProcessor {
 
     private final ParatranzApi paraTranzApi;
     private final ExternalProperties properties;
+
+    public AuditCommandProcessor(ParatranzApi paraTranzApi, ExternalProperties properties) {
+        super("群审核placeholder", new String[]{"/audit", "/群审核"});
+        this.paraTranzApi = paraTranzApi;
+        this.properties = properties;
+    }
 
     @Override
     protected void onNoArgsEvent(GroupMessageEvent event) {
