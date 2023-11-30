@@ -15,8 +15,8 @@
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>paratranz-bot</name>
+
     <modules>
-        <module>web-client</module>
         <module>server</module>
     </modules>
 
