@@ -13,7 +13,12 @@
     <groupId>org.paratranz</groupId>
     <artifactId>bot</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
     <name>paratranz-bot</name>
+    <modules>
+        <module>web-client</module>
+        <module>server</module>
+    </modules>
 
     <properties>
         <java.version>17</java.version>
