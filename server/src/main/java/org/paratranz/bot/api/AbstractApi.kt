@@ -1,72 +1,66 @@
-package org.paratranz.bot.api;
+package org.paratranz.bot.api
 
-import cn.hutool.http.*;
-import com.google.gson.reflect.TypeToken;
-import org.paratranz.bot.tools.GsonUtil;
+import cn.hutool.http.*
+import com.google.gson.reflect.TypeToken
+import org.paratranz.bot.tools.GsonUtil
 
-import java.util.Map;
-
-public abstract class AbstractApi {
-    protected final String authorization;
-
-    protected AbstractApi(String authorization) {
-        this.authorization = authorization;
-    }
-
-    protected HttpRequest createRequest(String url, Method method) {
+abstract class AbstractApi protected constructor(private val authorization: String) {
+    private fun createRequest(url: String, method: Method): HttpRequest {
         return HttpRequest.of(url)
-                .header(Header.AUTHORIZATION, authorization)
-                .method(method);
+            .header(Header.AUTHORIZATION, authorization)
+            .method(method)
     }
 
-    protected HttpResponse doGet(String url, Map<String, Object> param) {
-        return this.createRequest(url, Method.GET)
-                .form(param)
-                .execute();
+    protected fun doGet(url: String, param: Map<String, Any?>? = null): HttpResponse {
+        return createRequest(url, Method.GET)
+            .form(param)
+            .execute()
     }
 
-    protected HttpResponse doGet(String url) {
-        return this.doGet(url, null);
+    protected fun doGet(url: String): HttpResponse {
+        return this.doGet(url, null)
     }
 
-    protected HttpResponse doPost(String url) {
-        return this.doPost(url, null);
-    }
-
-    protected HttpResponse doPost(String url, Object param) {
-        HttpRequest request = this.createRequest(url, Method.POST);
+    protected fun doPost(url: String, param: Any? = null): HttpResponse {
+        val request = createRequest(url, Method.POST)
         if (param != null) {
-            request.body(GsonUtil.toJson(param));
+            request.body(GsonUtil.toJson(param))
         }
-        return request.execute();
+        return request.execute()
     }
 
-    protected HttpResponse doPut(String url, Object param) {
-        HttpRequest request = this.createRequest(url, Method.PUT);
+    protected fun doPost(url: String): HttpResponse {
+        return this.doPost(url, null)
+    }
+
+    protected fun doPut(url: String, param: Any? = null): HttpResponse {
+        val request = createRequest(url, Method.PUT)
         if (param != null) {
-            request.body(GsonUtil.toJson(param));
+            request.body(GsonUtil.toJson(param))
         }
-        return request.execute();
+        return request.execute()
     }
 
-    protected HttpResponse doDelete(String url) {
-        return this.createRequest(url, Method.DELETE)
-                .execute();
+    protected fun doDelete(url: String): HttpResponse {
+        return createRequest(url, Method.DELETE)
+            .execute()
     }
 
-    protected <T> T processResponse(HttpResponse response, Class<T> target) throws HttpException {
-        if (response.isOk()) {
-            return GsonUtil.fromJson(response.body(), target);
+    @Throws(HttpException::class)
+    protected fun <T> processResponse(response: HttpResponse, target: Class<T>): T {
+        return if (response.isOk) {
+            GsonUtil.fromJson(response.body(), target)
         } else {
-            throw new HttpException(response.body());
+            throw HttpException(response.body())
         }
     }
 
-    protected <T> T processResponse(HttpResponse response, TypeToken<T> typeToken) throws HttpException {
-        if (response.isOk()) {
-            return GsonUtil.fromJson(response.body(), typeToken);
+    @Throws(HttpException::class)
+    protected fun <T> processResponse(response: HttpResponse, typeToken: TypeToken<T>): T {
+        return if (response.isOk) {
+            GsonUtil.fromJson(response.body(), typeToken)
         } else {
-            throw new HttpException(response.body());
+            throw HttpException(response.body())
         }
     }
 }
