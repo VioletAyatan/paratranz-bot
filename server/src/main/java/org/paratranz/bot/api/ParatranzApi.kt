@@ -114,9 +114,10 @@ class ParatranzApi(authorization: String) : AbstractApi(authorization) {
         fun listApply(
             projectId: Int,
             page: Page? = Page.of(),
-            status: ApplyStatus? = ApplyStatus.UN_CONFIRM
+            status: ApplyStatus? = null
         ): PageResult<Application> {
-            val params = mapOf("page" to page, "status" to status)
+            val params = BeanUtil.beanToMap(page, false, true)
+            status?.let { params["status"] = it.code }
             super.doGet("$PARA_API_URL/projects/$projectId/applications", params).use { response ->
                 return processResponse(
                     response,
@@ -347,10 +348,10 @@ class ParatranzApi(authorization: String) : AbstractApi(authorization) {
         fun getProjectScores(
             projectId: Int,
             page: Page? = Page.of(),
-            uid: Int?,
-            operation: String?,
-            start: String?,
-            end: String?
+            uid: Int? = null,
+            operation: String? = null,
+            start: String? = null,
+            end: String? = null
         ): PageResult<PrScore> {
             val param = mutableMapOf<String, Any>()
             page?.let { param["page"] = it }
