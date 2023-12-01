@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.message.data.MessageChainBuilder;
 import org.paratranz.bot.api.ParatranzApi;
+import org.paratranz.bot.api.constant.ApplyStatus;
 import org.paratranz.bot.api.entity.Page;
 import org.paratranz.bot.api.entity.PageResult;
 import org.paratranz.bot.api.entity.data.Application;
@@ -37,7 +38,7 @@ public class AuditCommandProcessor extends GroupMessageCommandProcessor {
 
     @Override
     protected void onNoArgsEvent(GroupMessageEvent event) {
-        PageResult<Application> pageResult = paraTranzApi.apply.listApply(Page.of(), properties.getProjectId(), 0);
+        PageResult<Application> pageResult = paraTranzApi.apply.listApply(properties.getProjectId(), Page.of(), ApplyStatus.UN_CONFIRM);
         if (CollUtil.isNotEmpty(pageResult.getResults())) {
             List<Application> results = pageResult.getResults();
             //有多个待审核人的情况
