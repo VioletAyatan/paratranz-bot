@@ -185,8 +185,7 @@ class ParatranzApi(authorization: String) : AbstractApi(authorization) {
         @JvmOverloads
         @Throws(HttpException::class)
         fun listTerms(projectId: Int, page: Page? = Page.of()): PageResult<TermDetail> {
-            val params = mapOf("page" to page)
-//            val params = BeanUtil.beanToMap(Optional.ofNullable(page).orElse(Page.of()), false, true)
+            val params = BeanUtil.beanToMap(page, false, true)
             super.doGet("$PARA_API_URL/projects/$projectId/terms", params).use { response ->
                 return processResponse(
                     response,
@@ -353,7 +352,7 @@ class ParatranzApi(authorization: String) : AbstractApi(authorization) {
             start: String? = null,
             end: String? = null
         ): PageResult<PrScore> {
-            val param = mutableMapOf<String, Any>()
+            val param = BeanUtil.beanToMap(page, false, true)
             page?.let { param["page"] = it }
             uid?.let { param["uid"] = it }
             operation?.let { param["operation"] = it }
