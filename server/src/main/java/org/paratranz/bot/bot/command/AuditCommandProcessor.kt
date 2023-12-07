@@ -34,8 +34,7 @@ class AuditCommandProcessor :
     @Autowired
     private lateinit var properties: ExternalProperties
     override fun onNoArgsEvent(event: GroupMessageEvent) {
-        val pageResult: PageResult<Application> =
-            paraTranzApi.apply.listApply(properties.projectId, Page.of(), ApplyStatus.UN_CONFIRM)
+        val pageResult: PageResult<Application> = paraTranzApi.apply.listApply(properties.projectId, Page.of(), ApplyStatus.UN_CONFIRM)
         if (!pageResult.results.isNullOrEmpty()) {
             val results = pageResult.results
             //有多个待审核人的情况
@@ -44,7 +43,7 @@ class AuditCommandProcessor :
             } else {
                 val application = results[0]
                 //状态0为待审核.这里做一个申请状态验证.
-                if (application!!.status != 0) {
+                if (application.status != 0) {
                     return
                 }
                 //获取其测试内容
