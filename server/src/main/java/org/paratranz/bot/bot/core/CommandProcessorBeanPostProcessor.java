@@ -21,7 +21,7 @@ import java.util.function.Predicate;
  * @author ankol
  */
 @Slf4j
-public class CommandProcessorHandler implements BeanPostProcessor, ApplicationContextAware {
+public class CommandProcessorBeanPostProcessor implements BeanPostProcessor, ApplicationContextAware {
 
     /**
      * 参数校验器
