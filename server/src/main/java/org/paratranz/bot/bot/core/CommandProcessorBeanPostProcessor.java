@@ -11,6 +11,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Predicate;
@@ -39,13 +41,20 @@ public class CommandProcessorBeanPostProcessor implements BeanPostProcessor, App
                 //检查指令处理器的参数是否正确
                 checkArgument(bean, beanName);
                 //注册指令处理器
-                CommandManger.registerCommandProcessor(commandProcessor.getKey(), commandProcessor);
+                CommandManger.registerCommandProcessor(resolveCommand(commandProcessor), commandProcessor);
             } catch (RuntimeException e) {
                 log.error(e.getMessage());
                 SpringApplication.exit(applicationContext);
             }
         }
         return bean;
+    }
+
+    private List<String> resolveCommand(GroupMessageCommandProcessor commandProcessor) {
+        ArrayList<String> command = new ArrayList<>(commandProcessor.getSubKey().length + 1);
+        command.addAll(Arrays.asList(commandProcessor.getSubKey()));
+        command.add(commandProcessor.getKey());
+        return command;
     }
 
 
