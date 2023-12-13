@@ -8,17 +8,22 @@ import java.util.function.BiConsumer;
 
 public abstract class GroupMessageCommandProcessor implements BiConsumer<GroupMessageEvent, String[]> {
     /**
+     * 触发此指令的关键字
+     */
+    private final String key;
+    /**
+     * 其他次要关键字
+     */
+    private final String[] subKey;
+    /**
      * 插件功能描述
      */
     private final String description;
-    /**
-     * 触发此指令的关键字
-     */
-    private final String[] key;
 
-    protected GroupMessageCommandProcessor(String description, String[] key) {
+    protected GroupMessageCommandProcessor(String description, String key, String[] subKey) {
         this.description = description;
         this.key = key;
+        this.subKey = subKey;
     }
 
     @Override
@@ -53,7 +58,11 @@ public abstract class GroupMessageCommandProcessor implements BiConsumer<GroupMe
         return description;
     }
 
-    public String[] getKey() {
+    public String getKey() {
         return key;
+    }
+
+    public String[] getSubKey() {
+        return subKey;
     }
 }

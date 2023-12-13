@@ -26,7 +26,7 @@ import org.springframework.stereotype.Component
  */
 @Component
 class AuditCommandProcessor :
-    GroupMessageCommandProcessor("群审核placeholder", arrayOf("/audit", "/群审核")) {
+    GroupMessageCommandProcessor("群审核placeholder", "/audit", arrayOf("/群审核")) {
 
     private val log: Logger = LoggerFactory.getLogger(AuditCommandProcessor::class.java)
 

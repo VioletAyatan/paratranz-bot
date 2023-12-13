@@ -31,7 +31,7 @@ public class CommandManger {
      * @param commands         触发此处理器的指令集
      * @param commandProcessor 指令处理器
      */
-    public static void registerCommandProcessor(String[] commands, GroupMessageCommandProcessor commandProcessor) {
+    public static void registerCommandProcessor(List<String> commands, GroupMessageCommandProcessor commandProcessor) {
         for (String command : commands) {
             PROCESSOR_HASH_MAP.put(command, commandProcessor);
         }
