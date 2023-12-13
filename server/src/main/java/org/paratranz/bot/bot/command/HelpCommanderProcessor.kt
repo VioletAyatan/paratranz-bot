@@ -24,6 +24,13 @@ class HelpCommanderProcessor :
      * @param event 事件对象
      */
     override fun onNoArgsEvent(event: GroupMessageEvent) {
-        super.onNoArgsEvent(event)
+        val processors = CommandManger.getCommandProcessors()
+
+        scope.launch {
+            var str = ""
+            for (processor in processors) {
+                str += "${processor.key} —— ${processor.description}"
+            }
+        }
     }
 }
