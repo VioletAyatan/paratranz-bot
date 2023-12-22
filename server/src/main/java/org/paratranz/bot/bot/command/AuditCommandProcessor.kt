@@ -38,8 +38,7 @@ class AuditCommandProcessor :
     @Autowired
     private lateinit var properties: ExternalProperties
     override fun onNoArgsEvent(event: GroupMessageEvent) {
-        val pageResult: PageResult<Application> =
-            paraTranzApi.apply.listApply(properties.projectId, Page.of(), ApplyStatus.UN_CONFIRM)
+        val pageResult: PageResult<Application> = paraTranzApi.apply.listApply(properties.projectId, Page.of(), ApplyStatus.UN_CONFIRM)
         if (!pageResult.results.isNullOrEmpty()) {
             val results = pageResult.results
             //有多个待审核人的情况
@@ -68,7 +67,6 @@ class AuditCommandProcessor :
                 sendMessage(event, content)
             } catch (e: NumberFormatException) {
                 scope.launch { event.group.sendMessage("无法解析参数，确保查询参数为正确的数字用户id。例：/群审核 [用户id]") }
-
             }
         } else {
             scope.launch { event.group.sendMessage("查询的用户id不可为空！例：/群审核 [用户id]") }

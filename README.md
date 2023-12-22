@@ -17,3 +17,9 @@
 - `/audit` 自动将申请项目的新人翻译内容转发到群组中。
 - `/help` 获取指令帮助信息。
 - Work in progress...
+
+## 其他
+
+非常感谢 [Jetbrains](https://www.jetbrains.com/) 提供的帮助，为我开发此项目提供了充足的热情！
+
+![JetBrains Logo (Main) logo](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg)
