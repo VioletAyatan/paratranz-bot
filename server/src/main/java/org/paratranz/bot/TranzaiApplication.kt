@@ -1,19 +1,13 @@
-package org.paratranz.bot;
+package org.paratranz.bot
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.SpringBootVersion;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.runApplication
+import org.springframework.scheduling.annotation.EnableScheduling
 
-@Slf4j
 @EnableScheduling
 @SpringBootApplication
-public class TranzaiApplication {
+open class TranzaiApplication
 
-    public static void main(String[] args) {
-        log.info("Starting Spring-Boot. Version {}", SpringBootVersion.getVersion());
-        SpringApplication.run(TranzaiApplication.class, args);
-    }
-
+fun main(args: Array<String>) {
+    runApplication<TranzaiApplication>(*args)
 }
