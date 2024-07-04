@@ -44,7 +44,7 @@
             <dependency>
                 <groupId>io.github.humbleui</groupId>
                 <artifactId>skija-windows-x64</artifactId>
-                <version>0.116.1</version>
+                <version>0.116.2</version>
             </dependency>
             <dependency>
                 <groupId>org.jetbrains.kotlin</groupId>
