@@ -9,4 +9,9 @@ updates:
     directory: "/server/" # Location of package manifests
     schedule:
       interval: "weekly"
-    open-pull-requests-limit: 20
+    open-pull-requests-limit: 10
+  - package-ecosystem: npm
+    directory: /web-client/
+    schedule:
+      interval: monthly
+    open-pull-requests-limit: 10
