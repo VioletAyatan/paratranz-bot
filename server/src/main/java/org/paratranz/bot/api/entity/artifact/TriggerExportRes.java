@@ -1,12 +1,8 @@
 package org.paratranz.bot.api.entity.artifact;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
-@Getter
-@Setter
-@ToString
+@Data
 public class TriggerExportRes {
     private Integer project;
     private String type;
