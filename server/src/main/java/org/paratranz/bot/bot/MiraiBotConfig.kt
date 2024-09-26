@@ -16,17 +16,17 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 @ConditionalOnProperty(name = ["system.module-control.mirai-active"], havingValue = "true", matchIfMissing = true)
-open class MiraiBotConfig : ApplicationListener<ApplicationReadyEvent> {
+class MiraiBotConfig : ApplicationListener<ApplicationReadyEvent> {
 
     private val log = LoggerFactory.getLogger(this::class.java)
 
     @Bean
-    open fun paraApi(): ParatranzApi {
+    fun paraApi(): ParatranzApi {
         return ParatranzApi("sadddddddd")
     }
 
     @Bean
-    open fun miraiBot(
+    fun miraiBot(
         externalProperties: ExternalProperties
     ): Bot {
         val bot = BotFactory.newBot(externalProperties.qq, externalProperties.password) {
@@ -42,7 +42,7 @@ open class MiraiBotConfig : ApplicationListener<ApplicationReadyEvent> {
     }
 
     @Bean
-    open fun commandProcessorHandler(): CommandProcessorBeanPostProcessor {
+    fun commandProcessorHandler(): CommandProcessorBeanPostProcessor {
         return CommandProcessorBeanPostProcessor()
     }
 
