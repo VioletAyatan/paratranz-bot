@@ -20,12 +20,8 @@ class ConfigInitializer : ApplicationListener<ApplicationPreparedEvent> {
         val file = File("config${File.separator}config.properties")
         if (!file.exists()) {
             log.warn("Warning! Configuration file not existed! creat it....")
-            try {
-                ClassPathResource("template/config.properties").inputStream.use {
-                    FileUtil.writeFromStream(it, file)
-                }
-            } catch (e: Exception) {
-                log.error("初始化配置文件出错，原因：${e.message}", e)
+            ClassPathResource("template/config.properties").inputStream.use {
+                FileUtil.writeFromStream(it, file)
             }
         }
     }
