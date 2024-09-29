@@ -4,6 +4,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import net.mamoe.mirai.event.events.GroupMessageEvent
+import org.slf4j.LoggerFactory
 import java.util.*
 import java.util.function.BiConsumer
 
@@ -23,12 +24,25 @@ abstract class GroupMessageCommandProcessor protected constructor(
 ) : BiConsumer<GroupMessageEvent, Array<String>> {
 
     private val scope = CoroutineScope(Dispatchers.IO)
+    private val log = LoggerFactory.getLogger(GroupMessageCommandProcessor::class.java)
 
     override fun accept(event: GroupMessageEvent, args: Array<String>) {
         if (args.size > 1) {
-            scope.launch { onArgsEvent(event, Arrays.copyOfRange(args, 1, args.size)) }
+            scope.launch {
+                try {
+                    onArgsEvent(event, Arrays.copyOfRange(args, 1, args.size))
+                } catch (e: Exception) {
+                    log.error("Exception occurred while processing command: ${e.message}", e)
+                }
+            }
         } else {
-            scope.launch { onNoArgsEvent(event) }
+            scope.launch {
+                try {
+                    onNoArgsEvent(event)
+                } catch (e: Exception) {
+                    log.error("Exception occurred while processing command: ${e.message}", e)
+                }
+            }
         }
     }
 
