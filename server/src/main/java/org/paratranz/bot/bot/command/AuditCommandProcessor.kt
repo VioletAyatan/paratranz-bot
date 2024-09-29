@@ -1,16 +1,11 @@
 package org.paratranz.bot.bot.command
 
 import cn.hutool.core.util.StrUtil
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import net.mamoe.mirai.event.events.GroupMessageEvent
 import net.mamoe.mirai.message.data.MessageChainBuilder
 import org.paratranz.bot.api.ParatranzApi
 import org.paratranz.bot.api.constant.ApplyStatus
 import org.paratranz.bot.api.entity.Page
-import org.paratranz.bot.api.entity.PageResult
-import org.paratranz.bot.api.entity.data.Application
 import org.paratranz.bot.api.entity.data.Audit
 import org.paratranz.bot.bot.core.GroupMessageCommandProcessor
 import org.paratranz.bot.properties.ExternalProperties
@@ -26,20 +21,24 @@ import org.springframework.stereotype.Component
  */
 @Component
 class AuditCommandProcessor :
-    GroupMessageCommandProcessor("群审核placeholder", "/audit", arrayOf("/群审核")) {
+    GroupMessageCommandProcessor(
+        key = "/audit",
+        subKey = arrayOf("/群审核"),
+        description = "群审核placeholder"
+    ) {
 
     private val log: Logger = LoggerFactory.getLogger(AuditCommandProcessor::class.java)
-
-    private val scope = CoroutineScope(Dispatchers.IO)
 
     @Autowired
     private lateinit var paraTranzApi: ParatranzApi
 
     @Autowired
     private lateinit var properties: ExternalProperties
-    override fun onNoArgsEvent(event: GroupMessageEvent) {
-        val pageResult: PageResult<Application> = paraTranzApi.apply.listApply(properties.projectId, Page.of(), ApplyStatus.UN_CONFIRM)
-        if (!pageResult.results.isNullOrEmpty()) {
+
+
+    override suspend fun onNoArgsEvent(event: GroupMessageEvent) {
+        val pageResult = paraTranzApi.apply.listApply(properties.projectId, Page.of(), ApplyStatus.UN_CONFIRM)
+        if (pageResult.results.isNotEmpty()) {
             val results = pageResult.results
             //有多个待审核人的情况
             if (results.size > 1) {
@@ -55,27 +54,27 @@ class AuditCommandProcessor :
                 sendMessage(event, testContent)
             }
         } else {
-            scope.launch { event.group.sendMessage("抱歉，没找到需要审核人员呢~") }
+            event.group.sendMessage("抱歉，没找到需要审核人员呢~")
         }
     }
 
-    override fun onArgsEvent(event: GroupMessageEvent, args: Array<String>) {
+    override suspend fun onArgsEvent(event: GroupMessageEvent, args: Array<String>) {
         val applicationId = args[0]
         if (StrUtil.isNotEmpty(applicationId)) {
             try {
                 val content = paraTranzApi.apply.getTestContent(applicationId.toInt(), properties.projectId)
                 sendMessage(event, content)
             } catch (e: NumberFormatException) {
-                scope.launch { event.group.sendMessage("无法解析参数，确保查询参数为正确的数字用户id。例：/群审核 [用户id]") }
+                event.group.sendMessage("无法解析参数，确保查询参数为正确的数字用户id。例：/群审核 [用户id]")
             }
         } else {
-            scope.launch { event.group.sendMessage("查询的用户id不可为空！例：/群审核 [用户id]") }
+            event.group.sendMessage("查询的用户id不可为空！例：/群审核 [用户id]")
         }
     }
 
-    private fun sendMessage(event: GroupMessageEvent, testContent: List<Audit>) {
+    private suspend fun sendMessage(event: GroupMessageEvent, testContent: List<Audit>) {
         if (testContent.isEmpty()) {
-            scope.launch { event.group.sendMessage("未找到相关测试内容呢~") }
+            event.group.sendMessage("未找到相关测试内容呢~")
         } else {
             for (audit in testContent) {
                 val builder = MessageChainBuilder()
@@ -90,7 +89,7 @@ class AuditCommandProcessor :
                     .append("申请者翻译：").append("\n")
                     .append(audit.translation)
                 //发送消息
-                scope.launch { event.group.sendMessage(builder.build()) }
+                event.group.sendMessage(builder.build())
             }
         }
     }
