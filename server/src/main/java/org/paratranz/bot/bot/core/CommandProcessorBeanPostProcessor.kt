@@ -1,80 +1,78 @@
-package org.paratranz.bot.bot.core;
+package org.paratranz.bot.bot.core
 
-import cn.hutool.core.util.ClassUtil;
-import cn.hutool.core.util.TypeUtil;
-import lombok.extern.slf4j.Slf4j;
-import net.mamoe.mirai.event.events.MessageEvent;
-import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.config.BeanPostProcessor;
-import org.springframework.boot.SpringApplication;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.function.BiConsumer;
-import java.util.function.Predicate;
+import cn.hutool.core.util.ClassUtil
+import cn.hutool.core.util.TypeUtil
+import net.mamoe.mirai.event.events.MessageEvent
+import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.config.BeanPostProcessor
+import org.springframework.boot.SpringApplication
+import org.springframework.context.ApplicationContext
+import org.springframework.context.ApplicationContextAware
+import java.util.*
+import java.util.function.BiConsumer
+import java.util.function.Predicate
 
 /**
- * 对{@link GroupMessageCommandProcessor}进行处理并解析。
+ * 对[GroupMessageCommandProcessor]进行处理并解析。
  *
  * @author ankol
  */
-@Slf4j
-public class CommandProcessorBeanPostProcessor implements BeanPostProcessor, ApplicationContextAware {
+class CommandProcessorBeanPostProcessor : BeanPostProcessor, ApplicationContextAware {
+    private val log = LoggerFactory.getLogger(CommandProcessorBeanPostProcessor::class.java)
 
-    /**
-     * 参数校验器
-     */
-    private static final List<Predicate<Class<?>>> argumentValidators = List.of(
-            type -> ClassUtil.isAssignable(MessageEvent.class, type),
-            type -> ClassUtil.isAssignable(String[].class, type)
-    );
-    private ApplicationContext applicationContext;
+    private lateinit var applicationContext: ApplicationContext
 
-    @Override
-    public Object postProcessBeforeInitialization(@NotNull Object bean, @NotNull String beanName) throws BeansException {
-        if (bean instanceof GroupMessageCommandProcessor commandProcessor) {
+    override fun setApplicationContext(applicationContext: ApplicationContext) {
+        this.applicationContext = applicationContext
+    }
+
+    override fun postProcessBeforeInitialization(bean: Any, beanName: String): Any {
+        if (bean is GroupMessageCommandProcessor) {
             try {
                 //检查指令处理器的参数是否正确
-                checkArgument(bean, beanName);
+                checkArgument(bean, beanName)
                 //注册指令处理器
-                CommandManger.registerCommandProcessor(resolveCommand(commandProcessor), commandProcessor);
-            } catch (RuntimeException e) {
-                log.error(e.getMessage());
-                SpringApplication.exit(applicationContext);
+                CommandManger.registerCommandProcessor(resolveCommand(bean), bean)
+            } catch (e: RuntimeException) {
+                log.error(e.message)
+                SpringApplication.exit(applicationContext)
             }
         }
-        return bean;
+        return bean
     }
 
-    private List<String> resolveCommand(GroupMessageCommandProcessor commandProcessor) {
-        ArrayList<String> command = new ArrayList<>(commandProcessor.getSubKey().length + 1);
-        command.addAll(Arrays.asList(commandProcessor.getSubKey()));
-        command.add(commandProcessor.getKey());
-        return command;
+    /**
+     * 解析指令
+     */
+    private fun resolveCommand(commandProcessor: GroupMessageCommandProcessor): List<String> {
+        val command = ArrayList<String>(commandProcessor.subKey.size + 1)
+        command.addAll(listOf(*commandProcessor.subKey))
+        command.add(commandProcessor.key)
+        return command
     }
 
-
-    private void checkArgument(Object bean, String beanName) throws RuntimeException {
-        if (ClassUtil.isAssignable(BiConsumer.class, bean.getClass())) {
+    @Throws(RuntimeException::class)
+    private fun checkArgument(bean: Any, beanName: String) {
+        if (ClassUtil.isAssignable(BiConsumer::class.java, bean.javaClass)) {
             //验证指令解析器参数是否正确.
-            Type[] typeArguments = TypeUtil.getTypeArguments(bean.getClass());
-            for (int i = 0; i < typeArguments.length; i++) {
-                if (!argumentValidators.get(i).test((Class<?>) typeArguments[i])) {
-                    log.error("Bean [{}] Illegal TypeArgument [" + typeArguments[i] + "]", beanName);
+            val typeArguments = TypeUtil.getTypeArguments(bean.javaClass)
+            for (i in typeArguments.indices) {
+                if (!argumentValidators[i].test(typeArguments[i] as Class<*>)) {
+                    log.error("Bean [{}] Illegal TypeArgument [" + typeArguments[i] + "]", beanName)
                 }
             }
         } else {
-            log.error("Resolve 'CommandProcessor' bean [{}] error. it must be implement 'BiConsumer' interface.", beanName);
+            log.error("Resolve 'CommandProcessor' bean [${beanName}] error. it must be implement 'BiConsumer' interface.")
         }
     }
 
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
+    companion object {
+        /**
+         * 参数校验器
+         */
+        private val argumentValidators: List<Predicate<Class<*>>> = listOf(
+            Predicate { type: Class<*> -> ClassUtil.isAssignable(MessageEvent::class.java, type) },
+            Predicate { type: Class<*> -> ClassUtil.isAssignable(Array<String>::class.java, type) }
+        )
     }
 }
