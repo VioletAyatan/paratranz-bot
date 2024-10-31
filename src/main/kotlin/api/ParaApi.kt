@@ -41,21 +41,28 @@ object ParaApi {
     /**
      * 获取项目申请列表
      * @param projectId 项目id
+     * @param status 申请状态，不传为所有（0待审核 2已通过 1已拒绝）
      * @param page 页码
      * @param pageSize 页数
      */
-    fun queryProjectApplications(projectId: Int, page: Int = 1, pageSize: Int = 50): PageResult<Application> {
+    fun queryProjectApplications(
+        projectId: Int,
+        status: Int? = null,
+        page: Int = 1,
+        pageSize: Int = 50
+    ): PageResult<Application> {
         val resJson = this.createGet(
             url = "$PARATRANZ_API/projects/$projectId/applications",
             paramMap = mapOf(
                 "page" to page,
-                "pageSize" to pageSize
+                "pageSize" to pageSize,
+                "status" to status
             )
         ).execute().body()
         return JacksonUtil.fromJson(resJson, jacksonTypeRef<PageResult<Application>>())
     }
 
-    private fun createGet(url: String, paramMap: Map<String, Any> = mapOf()): HttpRequest {
+    private fun createGet(url: String, paramMap: Map<String, Any?> = mapOf()): HttpRequest {
         val httpRequest = HttpUtil.createGet(url)
         if (authorizationKey.isNotEmpty()) {
             httpRequest.auth(authorizationKey)
