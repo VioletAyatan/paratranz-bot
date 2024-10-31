@@ -1,10 +1,10 @@
 package com.example
 
-import com.example.api.ParaApi
+import com.example.command.AuditCommandHandler
+import net.mamoe.mirai.console.command.CommandManager
 import net.mamoe.mirai.console.extension.PluginComponentStorage
 import net.mamoe.mirai.console.plugin.jvm.JvmPluginDescription
 import net.mamoe.mirai.console.plugin.jvm.KotlinPlugin
-import net.mamoe.mirai.utils.info
 
 object MiraiPluginPara : KotlinPlugin(
     JvmPluginDescription(
@@ -19,7 +19,10 @@ object MiraiPluginPara : KotlinPlugin(
     private val log = logger
 
     override fun onEnable() {
-        log.info { "Plugin loaded" }
+        log.info("plugin Enable...")
+        log.info("Plugin register in progress...")
+        CommandManager.registerCommand(AuditCommandHandler())
+        log.info("Ok...")
     }
 
     override fun onDisable() {
