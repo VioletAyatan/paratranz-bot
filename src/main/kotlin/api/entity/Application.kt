@@ -9,6 +9,9 @@ data class Application(
     val permission: Int?, // 1
     val project: Int?, // 967
     val reason: String?, // 欢迎加入，请加入汉化维护群。另外请特别仔细地阅读我们的翻译规范，总得来说英文水平大概够，但是中文表述水平有待改进
+    /**
+     * 申请状态（0待审核 2已通过 1已拒绝）
+     */
     val status: Int?, // 2
     val tests: Int?, // 5
     val uid: Int?, // 55978
