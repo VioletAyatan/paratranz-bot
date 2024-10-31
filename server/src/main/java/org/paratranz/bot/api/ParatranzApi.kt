@@ -6,7 +6,7 @@ import cn.hutool.core.lang.Assert
 import cn.hutool.http.HttpException
 import cn.hutool.http.HttpStatus
 import cn.hutool.http.HttpUtil
-import com.google.gson.reflect.TypeToken
+import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import org.paratranz.bot.api.constant.ApplyStatus
 import org.paratranz.bot.api.entity.Page
 import org.paratranz.bot.api.entity.PageResult
@@ -92,7 +92,8 @@ class ParatranzApi(authorization: String) : AbstractApi(authorization) {
             this.doGet("$PARA_API_URL/projects", param).use { response ->
                 return this.processResponse(
                     response,
-                    object : TypeToken<PageResult<Project>>() {})
+                    jacksonTypeRef<PageResult<Project>>()
+                )
             }
         }
     }
@@ -121,7 +122,8 @@ class ParatranzApi(authorization: String) : AbstractApi(authorization) {
             super.doGet("$PARA_API_URL/projects/$projectId/applications", params).use { response ->
                 return processResponse(
                     response,
-                    object : TypeToken<PageResult<Application>>() {})
+                    jacksonTypeRef<PageResult<Application>>()
+                )
             }
         }
 
@@ -136,7 +138,8 @@ class ParatranzApi(authorization: String) : AbstractApi(authorization) {
                 .use { response ->
                     return processResponse(
                         response,
-                        object : TypeToken<List<Audit>>() {})
+                        jacksonTypeRef<List<Audit>>()
+                    )
                 }
         }
     }
@@ -158,7 +161,8 @@ class ParatranzApi(authorization: String) : AbstractApi(authorization) {
             super.doGet("$PARA_API_URL/projects/$projectId/strings").use { response ->
                 return processResponse(
                     response,
-                    object : TypeToken<PageResult<GetStringRes>>() {})
+                    jacksonTypeRef<PageResult<GetStringRes>>()
+                )
             }
         }
 
@@ -189,7 +193,8 @@ class ParatranzApi(authorization: String) : AbstractApi(authorization) {
             super.doGet("$PARA_API_URL/projects/$projectId/terms", params).use { response ->
                 return processResponse(
                     response,
-                    object : TypeToken<PageResult<TermDetail>>() {})
+                    jacksonTypeRef<PageResult<TermDetail>>()
+                )
             }
         }
 
@@ -361,7 +366,8 @@ class ParatranzApi(authorization: String) : AbstractApi(authorization) {
             super.doGet("$PARA_API_URL/projects/$projectId/scores").use { response ->
                 return processResponse(
                     response,
-                    object : TypeToken<PageResult<PrScore>>() {})
+                    jacksonTypeRef<PageResult<PrScore>>()
+                )
             }
         }
     }

@@ -1,13 +1,9 @@
 package org.paratranz.bot.api.entity.terms;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 import org.paratranz.bot.api.entity.common.PrUser;
 
-@Getter
-@Setter
-@ToString
+@Data
 public class TermDetail extends TermConfigRes {
     /**
      * 用户信息

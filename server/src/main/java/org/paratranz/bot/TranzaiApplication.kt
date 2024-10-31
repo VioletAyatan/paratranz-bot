@@ -6,7 +6,7 @@ import org.springframework.scheduling.annotation.EnableScheduling
 
 @EnableScheduling
 @SpringBootApplication
-open class TranzaiApplication
+class TranzaiApplication
 
 fun main(args: Array<String>) {
     runApplication<TranzaiApplication>(*args)

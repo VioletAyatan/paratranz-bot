@@ -1,17 +1,13 @@
 package org.paratranz.bot.api.entity.common;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
 /**
  * 用户信息
  *
  * @author Ankol
  */
-@Getter
-@Setter
-@ToString
+@Data
 public class PrUser {
     /**
      * 用户ID

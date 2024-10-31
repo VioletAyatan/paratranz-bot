@@ -1,12 +1,8 @@
 package org.paratranz.bot.api.entity.terms;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
-@Getter
-@Setter
-@ToString
+@Data
 public class TermConfigRes extends TermConfig {
     /**
      * id

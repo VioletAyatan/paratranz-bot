@@ -9,7 +9,6 @@ import java.util.List;
 
 @NoArgsConstructor
 @Data
-@Accessors(chain = true)
 public class Task {
     private Integer id;
     private String createdAt;
