@@ -2,6 +2,7 @@ package com.example.command
 
 import com.example.MiraiPluginPara
 import com.example.api.ParaApi
+import com.example.api.entity.Application
 import com.example.constant.ParaConstant
 import net.mamoe.mirai.console.command.CommandSender
 import net.mamoe.mirai.console.command.RawCommand
@@ -13,10 +14,10 @@ import net.mamoe.mirai.message.data.MessageChain
  */
 class AuditCommandHandler : RawCommand(
     owner = MiraiPluginPara,
-    primaryName = "审核",
-    secondaryNames = arrayOf(""),
-    usage = "/审核",
-    description = "使用'/审核'或'审核'指令直接发起审核请求，会抓取项目里目前最新一个待审核人员的申请请求。",
+    primaryName = "audit",
+    secondaryNames = arrayOf("审核", "群审核"),
+    usage = "/audit",
+    description = "使用 /audit 或 audit 指令直接发起审核请求，会抓取项目里目前最新一个待审核人员的申请请求。",
     prefixOptional = true
 ) {
     /**
