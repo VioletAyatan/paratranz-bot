@@ -26,5 +26,4 @@ dependencies {
     implementation("com.fasterxml.jackson.core:jackson-core:${jackSonVersion}")
     implementation("com.fasterxml.jackson.core:jackson-databind:${jackSonVersion}")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:${jackSonVersion}")
-
 }
