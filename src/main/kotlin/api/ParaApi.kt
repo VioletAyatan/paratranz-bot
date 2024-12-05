@@ -4,6 +4,7 @@ import cn.hutool.http.HttpRequest
 import cn.hutool.http.HttpUtil
 import com.example.api.entity.PageResult
 import com.example.api.entity.ProjectApplication
+import com.example.api.entity.TestContent
 import com.example.tools.JacksonUtil
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 
@@ -58,22 +59,30 @@ object ParaApi {
             page: Int = 1,
             pageSize: Int = 50
         ): PageResult<ProjectApplication> {
-            val resJson = createGet(
+            val response = createGet(
                 url = "$PARATRANZ_API/projects/$projectId/applications",
                 paramMap = mapOf(
                     "page" to page,
                     "pageSize" to pageSize,
                     "status" to status
                 )
-            ).execute().body()
-            return JacksonUtil.fromJson(resJson, jacksonTypeRef<PageResult<ProjectApplication>>())
+            ).execute()
+            if (response.isOk) {
+                return JacksonUtil.fromJson(response.body(), jacksonTypeRef<PageResult<ProjectApplication>>())
+            }
+            TODO("Todo....")
         }
 
         /**
          * @param
          */
-        fun getTestContent(appId: String) {
-
+        fun getTestContent(projectId: Int, appId: Int): Collection<TestContent> {
+            val response = createGet("$PARATRANZ_API/projects/$projectId/applications/$appId/tests")
+                .execute()
+            if (response.isOk) {
+                return JacksonUtil.fromJson(response.body(), jacksonTypeRef<Collection<TestContent>>())
+            }
+            TODO("Todo....")
         }
     }
 

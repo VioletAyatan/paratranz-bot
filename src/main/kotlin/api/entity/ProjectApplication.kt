@@ -1,10 +1,16 @@
 package com.example.api.entity
 
 data class ProjectApplication(
+    /**
+     * 申请ID
+     */
+    val id: Int, // 25488
     val content: String?, // 试试，因为有个mod没翻译我自己来试试。话说一不小心点到别的内容申请就没啦啊啊啊。
+    /**
+     * 申请时间
+     */
     val createdAt: String?, // 2024-10-16T15:22:36.789Z
     val detail: Detail?,
-    val id: Int?, // 25488
     val `operator`: Operator?,
     val permission: Int?, // 1
     val project: Int?, // 967
