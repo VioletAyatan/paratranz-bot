@@ -15,7 +15,7 @@ data class Application(
     val status: Int?, // 2
     val tests: Int?, // 5
     val uid: Int?, // 55978
-    val user: User?
+    val user: User = User()
 ) {
     data class Detail(
         val english: English?,
@@ -42,10 +42,10 @@ data class Application(
     )
 
     data class User(
-        val avatar: String?, // https://avatars.githubusercontent.com/u/185212544?v=4
-        val id: Int?, // 55978
-        val lastVisit: String?, // 2024-10-25T10:26:39.221Z
-        val nickname: String?, // CLKS
-        val username: String? // SkollClassic
+        val avatar: String = "", // https://avatars.githubusercontent.com/u/185212544?v=4
+        val id: Int = 0, // 55978
+        val lastVisit: String = "", // 2024-10-25T10:26:39.221Z
+        val nickname: String = "", // CLKS
+        val username: String = "" // SkollClassic
     )
 }
