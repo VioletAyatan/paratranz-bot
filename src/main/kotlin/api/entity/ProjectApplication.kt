@@ -1,6 +1,6 @@
 package com.example.api.entity
 
-data class Application(
+data class ProjectApplication(
     val content: String?, // 试试，因为有个mod没翻译我自己来试试。话说一不小心点到别的内容申请就没啦啊啊啊。
     val createdAt: String?, // 2024-10-16T15:22:36.789Z
     val detail: Detail?,
